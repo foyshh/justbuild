@@ -4,9 +4,10 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Just Build La — Architectural Interiors</title>
+<meta name="description" content="Just Build La is a boutique interior design studio crafting quiet, architectural residences across Singapore. Explore our portfolio and start a conversation."/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Marcellus+SC&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
@@ -40,44 +41,69 @@
 
 <main>
 
-  <!-- Hero -->
-  <section style="padding:0; position:relative; height:100vh; min-height:640px; overflow:hidden;">
-    <img src="images/living-01.jpg" alt="Living space with sculptural pendant lighting and spiral stair" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"/>
-    <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(23,24,15,0.65) 0%, rgba(23,24,15,0.05) 45%, rgba(23,24,15,0.2) 100%);"></div>
-    <div class="wrap" style="position:relative; height:100%; display:flex; flex-direction:column; justify-content:flex-end; padding-bottom:100px; color:#fff;">
-      <span class="script" style="font-size:22px; color:#D6DCC7; margin-bottom:18px; display:block;">Architectural Interiors</span>
-      <h1 class="headline split-line" style="color:#fff; margin:0 0 36px;">Spaces that<br>speak in silence.</h1>
-      <a href="portfolio.html" class="quiet-cta" style="color:#fff;">View Portfolio <span>&#8250;</span></a>
-    </div>
-  </section>
-
-  <!-- Philosophy -->
-  <section class="tone-white">
-    <div class="wrap philosophy-grid reveal">
-      <div class="img-block philosophy-img" style="aspect-ratio:5/6;">
-        <img src="images/bath-01.jpg" alt="Dark tiled bath detail with black fixtures"/>
-      </div>
-      <div class="sketch-host" style="position:relative;">
-        <div class="sketch-layer" aria-hidden="true">
-          <svg viewBox="0 0 640 380" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <!-- a single quiet corner bracket, top-left and bottom-right — just enough
-                 geometry to suggest a frame being drawn, nothing to read as furniture -->
-            <path class="sk-p sk-guide sk-1" d="M 4 96 L 4 -44 L 118 -44"/>
-            <path class="sk-p sk-guide sk-5" d="M 636 284 L 636 424 L 522 424"/>
-          </svg>
-        </div>
-        <div style="position:relative; z-index:1; padding-bottom:50px;">
-          <span class="eyebrow" style="display:block; margin-bottom:18px;">The Philosophy</span>
-          <h2 class="headline split-line" style="margin:0 0 24px;">Less said.<br>More felt.</h2>
-          <p class="body-copy" style="margin:0; max-width:400px;">Honest materials. Quiet proportion. Light left to do its work.</p>
-        </div>
+  <!-- Hero — landing screen plus four full-screen project slides. A wheel
+       notch, arrow key, or swipe moves to the next slide within one
+       fixed frame; the page itself doesn't scroll until either end is
+       reached, at which point it hands off to normal scrolling. -->
+  <section class="hero-jack" id="heroJack" aria-label="Introduction and selected projects">
+    <div class="hero-jack-slide is-active" data-slide="0">
+      <img src="images/living-01.jpg" alt="Living space with sculptural pendant lighting and spiral stair"/>
+      <div class="wrap hero-jack-landing">
+        <span class="script" style="font-size:22px; color:#D6DCC7; margin-bottom:18px; display:block;">Architectural Interiors</span>
+        <h1 class="headline split-line" style="color:#fff; margin:0 0 36px;">Spaces that<br>speak in silence.</h1>
+        <a href="portfolio.html" class="quiet-cta" style="color:#fff;">View Portfolio <span>&#8250;</span></a>
       </div>
     </div>
+
+    <div class="hero-jack-slide" data-slide="1">
+      <img src="images/living-02.jpg" alt="The Serene Flat, Tiong Bahru"/>
+      <div class="flip-info">
+        <span class="cc-eyebrow">Urban Living</span>
+        <span class="cc-title">The Serene Flat</span>
+        <p class="flip-desc">A restrained material palette lets soft daylight become the room's true ornament.</p>
+        <a href="portfolio.html" class="text-link">View Project</a>
+      </div>
+    </div>
+
+    <div class="hero-jack-slide" data-slide="2">
+      <img src="images/bath-02.jpg" alt="Sage and Stone, River Valley"/>
+      <div class="flip-info">
+        <span class="cc-eyebrow">Heritage &amp; Scale</span>
+        <span class="cc-title">Sage &amp; Stone</span>
+        <p class="flip-desc">Heritage plasterwork meets travertine — an heirloom re-imagined for a contemporary rhythm.</p>
+        <a href="portfolio.html" class="text-link">View Project</a>
+      </div>
+    </div>
+
+    <div class="hero-jack-slide" data-slide="3">
+      <img src="images/detail-03.jpg" alt="The Monolith, Punggol Northshore"/>
+      <div class="flip-info">
+        <span class="cc-eyebrow">Modern Luxury</span>
+        <span class="cc-title">The Monolith</span>
+        <p class="flip-desc">Cast concrete and glass in quiet conversation, framed by an uninterrupted horizon.</p>
+        <a href="portfolio.html" class="text-link">View Project</a>
+      </div>
+    </div>
+
+    <div class="hero-jack-slide" data-slide="4">
+      <img src="images/bath-03.jpg" alt="The Ritual Space, Bukit Merah"/>
+      <div class="flip-info">
+        <span class="cc-eyebrow">Quiet Luxury</span>
+        <span class="cc-title">The Ritual Space</span>
+        <p class="flip-desc">A bath conceived as sanctuary — dark tile, warm brass, and water made ceremony.</p>
+        <a href="portfolio.html" class="text-link">View Project</a>
+      </div>
+    </div>
+
+    <span class="flip-hint" aria-hidden="true">Scroll</span>
+    <div class="flip-index" aria-hidden="true">
+      <span class="flip-index-current">01</span><span>/</span><span class="flip-index-total">05</span>
+    </div>
+    <div class="hero-jack-dots" role="tablist" aria-label="Jump to slide"></div>
   </section>
 
-
-  <!-- Featured Projects -->
-  <section class="section-tight tone-sage">
+  <!-- Curated Collections -->
+  <section class="section-tight tone-sage hero-collections">
     <div class="wrap">
       <div class="reveal" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; gap:24px; flex-wrap:wrap;">
         <div>
@@ -122,14 +148,6 @@
           </div>
         </a>
         <a href="portfolio.html" class="collection-card img-block" draggable="false">
-          <img src="images/living-01.jpg" alt="Skyline Loft, Marina Bay"/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">City Living</span>
-            <span class="cc-title">Skyline Loft</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
-        </a>
-        <a href="portfolio.html" class="collection-card img-block" draggable="false">
           <img src="images/kitchen-01.jpg" alt="Heritage Reimagined, Joo Chiat"/>
           <div class="cc-cap">
             <span class="cc-eyebrow">The Evolution</span>
@@ -144,62 +162,8 @@
     </div>
   </section>
 
-  <!-- Selected Works — full-screen, scroll-pinned. The section holds its
-       place on screen while the visitor scrolls; each scroll notch glides
-       the next project up into frame rather than navigating to a new page. -->
-  <section class="flip-portfolio" aria-label="Selected Works">
-    <div class="flip-stage">
-      <div class="flip-slide">
-        <img src="images/living-02.jpg" alt="The Serene Flat, Tiong Bahru"/>
-        <div class="flip-cap">
-          <span class="cc-eyebrow">Urban Living</span>
-          <span class="cc-title">The Serene Flat</span>
-        </div>
-      </div>
-      <div class="flip-slide">
-        <img src="images/bath-02.jpg" alt="Sage and Stone, River Valley"/>
-        <div class="flip-cap">
-          <span class="cc-eyebrow">Heritage &amp; Scale</span>
-          <span class="cc-title">Sage &amp; Stone</span>
-        </div>
-      </div>
-      <div class="flip-slide">
-        <img src="images/detail-03.jpg" alt="The Monolith, Punggol Northshore"/>
-        <div class="flip-cap">
-          <span class="cc-eyebrow">Modern Luxury</span>
-          <span class="cc-title">The Monolith</span>
-        </div>
-      </div>
-      <div class="flip-slide">
-        <img src="images/bath-03.jpg" alt="The Ritual Space, Bukit Merah"/>
-        <div class="flip-cap">
-          <span class="cc-eyebrow">Quiet Luxury</span>
-          <span class="cc-title">The Ritual Space</span>
-        </div>
-      </div>
-      <div class="flip-slide">
-        <img src="images/living-01.jpg" alt="Skyline Loft, Marina Bay"/>
-        <div class="flip-cap">
-          <span class="cc-eyebrow">City Living</span>
-          <span class="cc-title">Skyline Loft</span>
-        </div>
-      </div>
-      <div class="flip-slide">
-        <img src="images/kitchen-01.jpg" alt="Heritage Reimagined, Joo Chiat"/>
-        <div class="flip-cap">
-          <span class="cc-eyebrow">The Evolution</span>
-          <span class="cc-title">Heritage Reimagined</span>
-        </div>
-      </div>
-      <span class="flip-hint" aria-hidden="true">Scroll</span>
-      <div class="flip-index" aria-hidden="true">
-        <span class="flip-index-current">01</span><span>/</span><span class="flip-index-total">06</span>
-      </div>
-    </div>
-  </section>
-
   <!-- Testimonial -->
-  <section class="tone-white" style="padding-top:64px;">
+  <section class="tone-white testimonial-gradient" style="padding-top:96px;">
     <div class="wrap philosophy-grid">
       <div class="reveal img-block testimonial-slideshow" style="aspect-ratio:4/5; position:relative;">
         <img class="ts-slide is-active" src="images/detail-02.jpg" alt="Warm arched corridor with backlit shelving"/>
@@ -215,12 +179,13 @@
     </div>
   </section>
 
-  <!-- Final CTA -->
+  <!-- Final CTA — animation deliberately slowed for a more unhurried,
+       premium settle than the rest of the site's reveals. -->
   <section style="padding:0; position:relative; min-height:60vh; overflow:hidden; display:flex; align-items:center;">
     <img src="images/detail-01.jpg" alt="Architectural corridor with slatted wood screens" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"/>
     <div style="position:absolute; inset:0; background:rgba(23,24,15,0.6);"></div>
-    <div class="wrap reveal" style="position:relative; text-align:center; padding:130px 28px; color:#fff;">
-      <h2 class="headline split-line" style="color:#fff; margin:0 0 32px;">Let's define your<br>space's new identity.</h2>
+    <div class="wrap reveal reveal-slow" style="position:relative; text-align:center; padding:130px 28px; color:#fff;">
+      <h2 class="headline split-line split-line-slow" style="color:#fff; margin:0 0 32px;">Let's define your<br>space's new identity.</h2>
       <a href="contact.html" class="quiet-cta" style="color:#fff;">Enquire Now</a>
     </div>
   </section>
@@ -246,10 +211,11 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span>&copy; 2026 Just Build La Interior Design Studio. All rights reserved.</span>
-      <div style="display:flex; gap:24px;">
+      <span>&copy; 2026 All Rights Reserved.</span>
+      <div style="display:flex; gap:24px; align-items:center; flex-wrap:wrap;">
         <a href="#">Privacy Policy</a>
         <a href="#">Terms of Service</a>
+        <span class="foot-credit">Designed by <a href="https://slate.sg" target="_blank" rel="noopener">Slate.sg</a></span>
       </div>
     </div>
   </div>

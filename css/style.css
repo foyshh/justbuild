@@ -14,6 +14,12 @@
   --c-sage-pale:  #AEB89C;
   --c-line:       #E1DED2;
   --nav-h: 96px;
+  /* Marcellus — a quiet, refined display serif, used two ways: full-case
+     for headlines/titles, small-caps (Marcellus SC) for short accent
+     labels and wordmarks. Neither ships an italic or bold face, so
+     nothing below sets font-style or a non-400 weight on these. */
+  --font-display: 'Marcellus', serif;
+  --font-accent: 'Marcellus SC', serif;
 }
 
 * { box-sizing: border-box; }
@@ -31,9 +37,9 @@ body {
 img { display: block; max-width: 100%; }
 
 /* ---------- Type roles ---------- */
-.script     { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; }
-.headline   { font-family: 'Cormorant Garamond', serif; font-style: normal; font-weight: 600; letter-spacing: -0.01em; }
-.eyebrow    { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; font-size: 20px; color: var(--c-sage); }
+.script     { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em; }
+.headline   { font-family: var(--font-display); font-style: normal; font-weight: 400; letter-spacing: -0.005em; }
+.eyebrow    { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.04em; font-size: 18px; color: var(--c-sage); }
 .label      { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
 .body-copy  { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 16px; line-height: 1.85; color: var(--c-ink-soft); }
 
@@ -69,7 +75,7 @@ header.site-nav.scrolled {
 header.site-nav.nav-hidden { transform: translateY(-100%); }
 header.site-nav .wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 .nav-mark { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
-.nav-mark .name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; font-size: 26px; }
+.nav-mark .name { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.02em; font-size: 24px; }
 .nav-mark .sub { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--c-sage); margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 500; text-shadow: 0 1px 10px rgba(0,0,0,0.18); transition: text-shadow 0.5s ease; }
 header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 .nav-links { display: none; align-items: center; gap: 44px; }
@@ -83,8 +89,8 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--c-ink); border-bottom-color: var(--c-sage); }
 .nav-cta {
   display: none;
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500;
-  font-size: 15px; text-decoration: none;
+  font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em;
+  font-size: 14px; text-decoration: none;
   color: var(--c-ink); border-bottom: 1px solid var(--c-line); padding-bottom: 3px;
   transition: border-color 0.35s ease; white-space: nowrap;
 }
@@ -110,7 +116,7 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
   display: none; flex-direction: column; justify-content: center; align-items: center; gap: 36px;
 }
 .mobile-menu.open { display: flex; }
-.mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-style: italic; color: var(--c-ink); text-decoration: none; }
+.mobile-menu a { font-family: var(--font-display); font-size: 32px; font-style: normal; color: var(--c-ink); text-decoration: none; }
 .mobile-menu .close { position: absolute; top: 36px; right: 28px; font-family: 'Inter'; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
 
 /* ---------- Buttons / links ---------- */
@@ -145,8 +151,8 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 /* Quiet CTA — text-only, for a single restrained enquire touchpoint */
 .quiet-cta {
   display: inline-flex; align-items: center; gap: 10px;
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500;
-  font-size: 19px; text-decoration: none; color: inherit;
+  font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em;
+  font-size: 16px; text-decoration: none; color: inherit;
   border-bottom: 1px solid currentColor; padding-bottom: 3px;
   opacity: 0.9; transition: opacity 0.3s ease, gap 0.3s ease;
 }
@@ -154,7 +160,7 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 
 /* Always-visible project metadata (SCDA-style), replaces hover-only captions */
 .proj-meta { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 2px 0; gap: 12px; }
-.proj-meta .pname { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; color: var(--c-ink); }
+.proj-meta .pname { font-family: var(--font-display); font-style: normal; font-size: 18px; color: var(--c-ink); }
 .proj-meta .pmeta { font-family: 'Inter'; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-ink-soft); white-space: nowrap; }
 
 /* ---------- Image treatment: develop from black & white ----------
@@ -170,14 +176,6 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
               transform 2s cubic-bezier(0.22,0.61,0.36,1);
 }
 .img-block.in img { filter: grayscale(0) brightness(1); transform: scale(1); }
-
-/* Philosophy portrait: framed like a mounted print rather than a flush
-   color block, and given a gentler aspect ratio so the source photo sits
-   inside it without an aggressive crop. */
-.philosophy-img {
-  box-shadow: 0 28px 60px -20px rgba(23,24,15,0.22), 0 2px 0 rgba(255,255,255,0.4) inset;
-  outline: 1px solid rgba(255,255,255,0.6); outline-offset: -1px;
-}
 
 /* ---------- Testimonial slideshow ----------
    A small set of images auto-cycles behind the quote — no controls,
@@ -217,7 +215,7 @@ a.plain:hover { color: var(--c-sage-deep); }
 
 /* ---------- Footer ---------- */
 footer { border-top: 1px solid var(--c-line); padding: 96px 0 40px; }
-footer .foot-mark { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 24px; }
+footer .foot-mark { font-family: var(--font-accent); font-style: normal; letter-spacing: 0.02em; font-size: 22px; }
 footer .label { color: var(--c-sage); margin-bottom: 14px; display: block; }
 footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-height: 1.8; color: var(--c-ink-soft); font-style: normal; }
 .foot-bottom { display: flex; flex-direction: column; gap: 16px; justify-content: space-between; align-items: flex-start; padding-top: 40px; margin-top: 64px; border-top: 1px solid var(--c-line); font-size: 11px; color: var(--c-ink-soft); }
@@ -232,43 +230,17 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .lightbox-close { font-family: 'Inter'; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
 .lightbox-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 60px 40px; position: relative; }
 .lightbox-body img { max-height: 78vh; max-width: 100%; object-fit: contain; filter: grayscale(0); }
-.lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); cursor: pointer; font-family: 'Cormorant Garamond'; font-style: italic; font-size: 32px; color: var(--c-ink-soft); padding: 20px; user-select: none; }
+.lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); cursor: pointer; font-family: var(--font-display); font-style: normal; font-size: 32px; color: var(--c-ink-soft); padding: 20px; user-select: none; }
 .lightbox-nav:hover { color: var(--c-ink); }
 .lightbox-prev { left: 0; }
 .lightbox-next { right: 0; }
-.lightbox-caption { text-align: center; padding-bottom: 32px; font-family: 'Cormorant Garamond'; font-style: italic; font-size: 20px; color: var(--c-ink-soft); }
+.lightbox-caption { text-align: center; padding-bottom: 32px; font-family: var(--font-display); font-style: normal; font-size: 20px; color: var(--c-ink-soft); }
 
-/* ---------- Architectural sketch motif ----------
-   A single quiet corner bracket draws itself in around the headline —
-   top-left, then bottom-right — like a frame settling into place. No
-   furniture icons, no dimension marks: just two unhurried lines, slow
-   and understated rather than a flurry of technical detail. */
-.sketch-layer {
-  position: absolute; inset: -60px -70px -40px -70px; overflow: visible; pointer-events: none; z-index: 0;
-}
-.sketch-layer svg { width: 100%; height: 100%; opacity: 0.55; overflow: visible; }
-.sketch-layer path {
-  fill: none; stroke: var(--c-sage-pale); stroke-width: 1.1;
-  stroke-dasharray: 1500; stroke-dashoffset: 1500;
-  transition: stroke-dashoffset 2.8s cubic-bezier(0.16,0.4,0.2,1);
-}
-.sketch-layer.in path.sk-1 { transition-delay: 0.15s; }
-.sketch-layer.in path.sk-5 { transition-delay: 1s; }
-.sketch-layer.in path { stroke-dashoffset: 0; }
-.sketch-host { position: relative; }
-@media (max-width: 899px) {
-  /* The frame relies on bleeding into the desktop side-by-side gutter;
-     on a stacked mobile layout there's no gutter to bleed into, so the
-     decorative frame steps aside rather than crossing into other
-     sections. Text and image are unaffected either way. */
-  .sketch-layer { display: none; }
-}
-
-/* ---------- Methodology: scroll-staged house build ----------
-   Left column steps drive a sticky illustration on the right that
-   assembles a small house — shell, then features, then finishing —
-   as each step scrolls to the center of the viewport. Arrows between
-   steps light up as the visitor progresses. */
+/* ---------- Methodology: four-step image progression ----------
+   Left column steps drive a sticky, contained image frame on the right —
+   one fixed frame whose photo crossfades to the next as each step
+   scrolls to the center of the viewport. Arrows between steps light up
+   as the visitor progresses; scrolling back up reverses it exactly. */
 .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
 .method-step { display: grid; grid-template-columns: 44px 1fr; gap: 20px; padding: 32px 0; border-top: 1px solid var(--c-line); align-items: baseline; }
 .method-step-last { border-bottom: 1px solid var(--c-line); }
@@ -277,27 +249,23 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .rail-arrow.revealed { color: var(--c-sage); transform: translateY(2px); }
 
 .method-visual-wrap { position: sticky; top: 130px; }
-.method-visual { position: relative; aspect-ratio: 6/4.6; }
-.method-visual svg { width: 100%; height: 100%; }
-.method-visual .sk-p {
-  fill: none; stroke: var(--c-ink); stroke-width: 1.75;
-  stroke-dasharray: 900; stroke-dashoffset: 900;
-  transition: stroke-dashoffset 1s cubic-bezier(0.22,0.61,0.36,1);
+/* Contained, never oversized — capped so the frame can't grow past what
+   fits comfortably beneath the fixed nav, even on tall viewports. */
+.method-frame {
+  position: relative; aspect-ratio: 6/4.6; max-height: calc(100vh - 180px); overflow: hidden;
+  box-shadow: 0 28px 60px -20px rgba(23,24,15,0.22), 0 2px 0 rgba(255,255,255,0.4) inset;
+  outline: 1px solid rgba(255,255,255,0.6); outline-offset: -1px;
 }
-.method-visual .sk-p.revealed { stroke-dashoffset: 0; }
-.method-visual .sk-fill { opacity: 0; transition: opacity 0.9s ease; }
-.method-visual .sk-fill.revealed { opacity: 1; }
-/* the optic: present through Discovery + Curation, dissolves across
-   Realization, gone by Unveiling — the reveal has to feel like a lens
-   lifting away, not a hard cut, so it gets its own slower fade. */
-.method-visual .optic-group { transition: opacity 1.3s ease; opacity: 1; }
-.method-visual .optic-group circle,
-.method-visual .optic-group path { stroke: var(--c-sage-deep); }
-.method-visual .optic-group.optic-fade { opacity: 0.22; }
-.method-visual .optic-group.optic-hide { opacity: 0; }
+.mf-img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transform: scale(1.05);
+  transition: opacity 1s cubic-bezier(0.22,0.61,0.36,1), transform 1.2s cubic-bezier(0.22,0.61,0.36,1);
+}
+.mf-img.is-active { opacity: 1; transform: scale(1); z-index: 1; }
 @media (max-width: 900px) {
   .method-grid { grid-template-columns: 1fr; }
   .method-visual-wrap { position: static; margin-top: 24px; }
+  .method-frame { max-height: 70vh; }
 }
 
 
@@ -313,8 +281,11 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
   padding: 26px 24px 20px;
   background: linear-gradient(180deg, transparent 0%, rgba(23,24,15,0.58) 100%);
 }
-.port-item .p-cap .pname { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 21px; color: #fff; display: block; }
+.port-item .p-cap .pname { font-family: var(--font-display); font-style: normal; font-size: 21px; color: #fff; display: block; }
 .port-item .p-cap .pmeta { font-family: 'Inter'; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.78); display: block; margin-top: 4px; }
+.port-item .p-cap .port-view-btn { margin-top: 16px; opacity: 0; transform: translateY(6px); transition: opacity 0.35s ease, transform 0.35s ease; }
+.port-item:hover .p-cap .port-view-btn, .port-item:focus-visible .p-cap .port-view-btn { opacity: 1; transform: translateY(0); }
+@media (hover: none) { .port-item .p-cap .port-view-btn { opacity: 1; transform: none; } }
 .port-6 { grid-column: span 6; aspect-ratio: 21/9; }
 .port-3 { grid-column: span 3; aspect-ratio: 3/4; }
 .port-2 { grid-column: span 2; aspect-ratio: 3/4; }
@@ -354,38 +325,63 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
   padding: 28px 26px 26px;
   background: linear-gradient(180deg, transparent 0%, rgba(23,24,15,0.62) 100%);
 }
-.collection-card .cc-eyebrow { font-family: 'Inter'; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.75); display: block; margin-bottom: 8px; }
-.collection-card .cc-title { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 27px; color: #fff; display: block; margin-bottom: 18px; }
+/* cc-eyebrow / cc-title are shared between the Curated Collections cards
+   and the Hero project slides — base styling here, Curated Collections
+   overrides to Inter further down (see "Curated Collections typography"). */
+.cc-eyebrow { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.75); display: block; margin-bottom: 8px; }
+.cc-title { font-family: var(--font-display); font-style: normal; font-weight: 400; font-size: 27px; color: #fff; display: block; margin-bottom: 18px; }
 @media (max-width: 600px) {
   .collection-card { flex-basis: 260px; width: 260px; }
 }
+/* Curated Collections typography — kept in the clean architectural
+   Inter sans, deliberately distinct from the Optima display type used
+   for the Hero project slides and everywhere else on the page. */
+.hero-collections .eyebrow,
+.hero-collections h2.headline,
+.hero-collections .cc-title {
+  font-family: 'Inter', sans-serif; font-style: normal;
+}
+.hero-collections .eyebrow { letter-spacing: 0.06em; }
+.hero-collections h2.headline { font-weight: 500; letter-spacing: -0.01em; }
 
-/* ---------- Selected Works: full-screen, scroll-pinned showcase ----------
-   A tall section (one viewport per slide) whose inner stage stays pinned
-   while the visitor scrolls through it; motion is driven 1:1 by scroll
-   position rather than a timer, so it never feels rushed — it moves
-   exactly as fast as the visitor scrolls. Each project glides up to
-   replace the last instead of the browser navigating to a new page.
-   Falls back to a plain stacked scroll of full-height photos on narrow
-   screens, where a pinned viewport-height stage would feel cramped. */
-.flip-portfolio { position: relative; background: var(--c-ink); }
-.flip-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-.flip-slide {
-  position: absolute; inset: 0; opacity: 0;
-  will-change: transform, opacity;
+/* ---------- Hero: full-screen, scroll-jacked project showcase ----------
+   Landing slide + four projects, each filling the viewport. One wheel
+   notch, arrow key, or swipe advances exactly one slide — the page
+   itself never scrolls until the visitor reaches either end, at which
+   point control hands back to normal scrolling seamlessly (see
+   js/site.js). Falls back to a plain stacked scroll on narrow screens,
+   where scroll-jacking a full viewport per slide feels heavy-handed. */
+.hero-jack { position: relative; height: 100vh; min-height: 600px; overflow: hidden; background: var(--c-ink); }
+.hero-jack-slide {
+  position: absolute; inset: 0; opacity: 0; transform: translateY(3%);
+  transition: opacity 1s cubic-bezier(0.22,0.61,0.36,1), transform 1.15s cubic-bezier(0.22,0.61,0.36,1);
+  pointer-events: none; z-index: 1;
 }
-.flip-slide:first-child { opacity: 1; }
-.flip-slide img { width: 100%; height: 100%; object-fit: cover; }
-.flip-slide::after {
+.hero-jack-slide.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; z-index: 3; }
+.hero-jack-slide.is-prev { opacity: 0; transform: translateY(-3%); z-index: 2; }
+.hero-jack-slide img { width: 100%; height: 100%; object-fit: cover; }
+.hero-jack-slide::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(23,24,15,0.18) 0%, rgba(23,24,15,0.02) 38%, rgba(23,24,15,0.6) 100%);
+  background: linear-gradient(100deg, rgba(23,24,15,0.06) 0%, rgba(23,24,15,0.08) 40%, rgba(23,24,15,0.72) 100%);
 }
-.flip-cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 0 28px 72px; }
-@media (min-width: 1024px) { .flip-cap { padding: 0 64px 90px; } }
-.flip-cap .cc-eyebrow { font-size: 11px; }
-.flip-cap .cc-title { font-size: clamp(32px, 5vw, 56px); margin-bottom: 0; }
+.hero-jack-slide[data-slide="0"]::after {
+  background: linear-gradient(to top, rgba(23,24,15,0.68) 0%, rgba(23,24,15,0.08) 45%, rgba(23,24,15,0.22) 100%);
+}
+.hero-jack-landing { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 0 28px 76px; color: #fff; }
+@media (min-width: 1024px) { .hero-jack-landing { padding: 0 64px 76px; } }
+
+/* Project info sits as a right-anchored panel over each slide, rather
+   than a bottom-left caption — image stays the hero, copy reads like a
+   quiet label beside it. */
+.flip-info { position: absolute; top: 50%; right: 28px; z-index: 1; max-width: 380px; text-align: right; transform: translateY(-50%); }
+@media (min-width: 1024px) { .flip-info { right: 64px; } }
+.flip-info .cc-eyebrow { font-size: 11px; }
+.flip-info .cc-title { font-size: clamp(28px, 4vw, 46px); margin-bottom: 0; display: block; }
+.flip-desc { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 14px; line-height: 1.85; color: rgba(255,255,255,0.82); margin: 16px 0 24px; }
+.flip-info .text-link { color: #fff; border-color: rgba(255,255,255,0.4); }
+.flip-info .text-link:hover { border-color: #fff; }
 .flip-hint {
-  position: absolute; left: 50%; bottom: 40px; z-index: 2; transform: translateX(-50%);
+  position: absolute; left: 50%; bottom: 40px; z-index: 4; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 12px;
   font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500;
   letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.72);
@@ -395,17 +391,29 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .flip-hint.is-gone { opacity: 0; }
 @keyframes flipHintDrift { 0%, 100% { transform: scaleY(0.35); opacity: 0.4; } 50% { transform: scaleY(1); opacity: 1; } }
 .flip-index {
-  position: absolute; right: 28px; bottom: 40px; z-index: 2;
+  position: absolute; left: 28px; top: 118px; z-index: 4;
   display: flex; align-items: center; gap: 8px;
   font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.18em;
   color: rgba(255,255,255,0.7);
 }
-@media (min-width: 1024px) { .flip-index { right: 64px; } }
+@media (min-width: 1024px) { .flip-index { left: 64px; } }
 .flip-index-current { color: #fff; }
+
+/* Slide dots — quick wayfinding, and a click-to-jump control */
+.hero-jack-dots { position: absolute; right: 28px; top: 50%; transform: translateY(-50%); z-index: 4; display: flex; flex-direction: column; gap: 14px; }
+@media (min-width: 1024px) { .hero-jack-dots { right: 64px; } }
+.hero-jack-dots button {
+  width: 7px; height: 7px; border-radius: 50%; padding: 0; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.55); background: transparent; -webkit-appearance: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.hero-jack-dots button.is-active { background: #fff; transform: scale(1.35); }
+
 @media (max-width: 700px) {
-  .flip-stage { position: static; height: auto; }
-  .flip-slide { position: relative; opacity: 1 !important; transform: none !important; height: 88vh; }
-  .flip-hint, .flip-index { display: none; }
+  .hero-jack { height: auto; }
+  .hero-jack-slide { position: relative; opacity: 1 !important; transform: none !important; pointer-events: auto !important; height: 88vh; }
+  .hero-jack-dots, .flip-index { display: none; }
+  .flip-info { position: absolute; left: 0; right: 0; top: auto; bottom: 56px; transform: none; text-align: left; max-width: none; padding: 0 28px; }
 }
 
 /* ---------- Sage / white checkerboard rhythm ----------
@@ -425,3 +433,57 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
   box-shadow: 0 28px 60px -20px rgba(23,24,15,0.28), 0 2px 0 rgba(255,255,255,0.4) inset;
   outline: 1px solid rgba(255,255,255,0.5); outline-offset: -1px;
 }
+
+.hero-collections { padding-top: 68px; }
+
+/* ---------- Sterling Residence: gradient wash ----------
+   Soft sage gradient bloom behind the testimonial, plus a faint
+   luminous ring around the portrait — quiet richness rather than a
+   flat white field. */
+.testimonial-gradient {
+  position: relative;
+  background:
+    radial-gradient(64% 78% at 12% 8%, rgba(174,184,156,0.38) 0%, rgba(174,184,156,0) 60%),
+    radial-gradient(58% 70% at 92% 96%, rgba(92,107,79,0.22) 0%, rgba(92,107,79,0) 60%),
+    var(--c-bg);
+}
+.testimonial-slideshow { position: relative; }
+.testimonial-slideshow::before {
+  content: ''; position: absolute; inset: -14px; z-index: 0; border-radius: 2px;
+  background: linear-gradient(135deg, var(--c-sage-pale), var(--c-sage) 45%, var(--c-sage-deep));
+  opacity: 0.55; filter: blur(2px);
+}
+
+/* ---------- Slowed reveal (Final CTA) ----------
+   Same fade/rise system as .reveal / .split-line, just stretched out
+   for a more unhurried, premium settle. */
+.reveal.reveal-slow { transition: opacity 2.4s cubic-bezier(0.22,0.61,0.36,1), transform 2.4s cubic-bezier(0.22,0.61,0.36,1); }
+.split-line.split-line-slow .sl-line > span { transition-duration: 1.7s; transition-timing-function: cubic-bezier(0.16,1,0.3,1); }
+
+/* ---------- About: statistics panel ----------
+   Numbers anchor left; the right half is reserved, empty space for a
+   future visual rather than a mirrored/centered stat block. */
+.stats-panel { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
+@media (min-width: 800px) { .stats-panel { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.stats-content { display: flex; gap: 56px; flex-wrap: wrap; }
+.stat-item { text-align: left; }
+.stat-num { font-size: 56px; display: block; color: var(--c-sage-deep); }
+.stats-visual-slot {
+  min-height: 220px; border: 1px dashed var(--c-line); border-radius: 2px;
+  background: rgba(174,184,156,0.07);
+  display: flex; align-items: center; justify-content: center;
+}
+.stats-visual-hint { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--c-ink-soft); opacity: 0.55; }
+@media (max-width: 800px) { .stats-visual-slot { min-height: 140px; } }
+
+/* ---------- Contact: map ----------
+   Compact strip rather than a near-full-screen block — enough to place
+   the studio clearly without dominating the page. */
+.map-frame { position: relative; height: 320px; overflow: hidden; filter: grayscale(0.35) contrast(1.02); outline: 1px solid var(--c-line); }
+.map-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+@media (max-width: 700px) { .map-frame { height: 260px; } }
+
+/* ---------- Footer credit line ---------- */
+.foot-credit { color: var(--c-ink-soft); letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px; }
+.foot-credit a { color: var(--c-sage-deep); text-decoration: none; border-bottom: 1px solid var(--c-line); transition: border-color 0.3s ease, color 0.3s ease; }
+.foot-credit a:hover { color: var(--c-sage-deep); border-color: var(--c-sage-deep); }

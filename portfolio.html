@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Portfolio — Just Build La</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<style>
+  .port-item { cursor: pointer; }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="nav-mark">
+      <span class="name">Just Build La</span>
+      <span class="sub">Architectural Interiors</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="portfolio.html" aria-current="page">Portfolio</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:28px;">
+      <a href="contact.html" class="nav-cta">Enquire</a>
+      <div class="nav-burger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu">
+  <div class="close">Close</div>
+  <a href="index.html">Home</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+  <!-- Intro -->
+  <section class="tone-white" style="padding-top:calc(var(--nav-h) + 72px); padding-bottom:56px;">
+    <div class="wrap">
+      <span class="eyebrow reveal" style="display:block;">Selected Works — Singapore &amp; Beyond, 2020–2026</span>
+    </div>
+  </section>
+
+  <!-- Flush project grid -->
+  <section class="tone-sage" style="padding-top:0;">
+    <div class="wrap reveal" style="padding:0;">
+      <div class="port-grid">
+
+        <a href="#" class="port-item port-4 img-block" data-lightbox-src="images/living-02.jpg" data-lightbox-title="The Serene Flat" data-lightbox-loc="Tiong Bahru, 2023">
+          <img src="images/living-02.jpg" alt="The Serene Flat, Tiong Bahru"/>
+          <div class="p-cap"><span class="pname">The Serene Flat</span><span class="pmeta">Tiong Bahru — 2023</span></div>
+        </a>
+        <a href="#" class="port-item port-2 img-block" data-lightbox-src="images/bath-02.jpg" data-lightbox-title="Sage &amp; Stone" data-lightbox-loc="River Valley, 2022">
+          <img src="images/bath-02.jpg" alt="Sage and Stone, River Valley"/>
+          <div class="p-cap"><span class="pname">Sage &amp; Stone</span><span class="pmeta">River Valley — 2022</span></div>
+        </a>
+
+        <a href="#" class="port-item port-2 img-block" data-lightbox-src="images/detail-03.jpg" data-lightbox-title="The Monolith" data-lightbox-loc="Punggol Northshore, 2023">
+          <img src="images/detail-03.jpg" alt="The Monolith, Punggol Northshore"/>
+          <div class="p-cap"><span class="pname">The Monolith</span><span class="pmeta">Punggol Northshore — 2023</span></div>
+        </a>
+        <a href="#" class="port-item port-2 img-block" data-lightbox-src="images/bath-03.jpg" data-lightbox-title="The Ritual Space" data-lightbox-loc="Bukit Merah, 2023">
+          <img src="images/bath-03.jpg" alt="The Ritual Space, Bukit Merah"/>
+          <div class="p-cap"><span class="pname">The Ritual Space</span><span class="pmeta">Bukit Merah — 2023</span></div>
+        </a>
+        <a href="#" class="port-item port-2 img-block" data-lightbox-src="images/living-01.jpg" data-lightbox-title="Skyline Loft" data-lightbox-loc="Marina Bay, 2021">
+          <img src="images/living-01.jpg" alt="Skyline Loft, Marina Bay"/>
+          <div class="p-cap"><span class="pname">Skyline Loft</span><span class="pmeta">Marina Bay — 2021</span></div>
+        </a>
+
+        <a href="#" class="port-item port-6 img-block" data-lightbox-src="images/kitchen-01.jpg" data-lightbox-title="Heritage Reimagined" data-lightbox-loc="Joo Chiat, 2024">
+          <img src="images/kitchen-01.jpg" alt="Heritage Reimagined, Joo Chiat"/>
+          <div class="p-cap"><span class="pname">Heritage Reimagined</span><span class="pmeta">Joo Chiat — 2024</span></div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Enquiry line -->
+  <section class="tone-white section-tight" style="text-align:center;">
+    <div class="wrap reveal">
+      <p class="script" style="font-size:22px; margin:0 0 20px;">Don't see what you're looking for?</p>
+      <a href="contact.html" class="text-link">Start a Conversation</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- Lightbox -->
+<div class="lightbox">
+  <div class="lightbox-top">
+    <span class="lightbox-count"></span>
+    <span class="lightbox-close">Close</span>
+  </div>
+  <div class="lightbox-body">
+    <span class="lightbox-nav lightbox-prev">&#8249;</span>
+    <img src="" alt=""/>
+    <span class="lightbox-nav lightbox-next">&#8250;</span>
+  </div>
+  <div class="lightbox-caption"></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div style="display:grid; grid-template-columns:1fr; gap:48px; padding-bottom:56px; border-bottom:1px solid var(--c-line);">
+      <div>
+        <span class="foot-mark" style="display:block; margin-bottom:16px;">Just Build La</span>
+        <p class="body-copy" style="max-width:340px; font-size:14px;">A boutique interior design studio. Architectural rigor, domestic soul.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px;">
+        <div>
+          <span class="label">The Studio</span>
+          <address>123 Keppel Road, #04-01<br>Tanjong Pagar, Singapore 089067</address>
+        </div>
+        <div>
+          <span class="label">New Projects</span>
+          <a class="plain" href="mailto:hello@justbuildla.sg">hello@justbuildla.sg</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 Just Build La Interior Design Studio. All rights reserved.</span>
+      <div style="display:flex; gap:24px;">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

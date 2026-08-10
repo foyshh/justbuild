@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact — Just Build La</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<style>
+  .field { margin-bottom: 28px; }
+  .field label { display:block; font-family:'Inter'; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--c-ink-soft); margin-bottom:10px; }
+  .field input, .field select, .field textarea {
+    width:100%; border:none; border-bottom:1px solid var(--c-line); background:transparent;
+    padding:12px 0; font-family:'Inter'; font-weight:300; font-size:16px; color:var(--c-ink);
+    outline:none; transition:border-color 0.3s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color:var(--c-sage); }
+  .field textarea { resize:vertical; min-height:100px; }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="nav-mark">
+      <span class="name">Just Build La</span>
+      <span class="sub">Architectural Interiors</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:28px;">
+      <a href="contact.html" class="nav-cta">Enquire</a>
+      <div class="nav-burger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu">
+  <div class="close">Close</div>
+  <a href="index.html">Home</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+  <!-- Intro + Form -->
+  <section class="tone-white" style="padding-top:calc(var(--nav-h) + 72px);">
+    <div class="wrap philosophy-grid">
+      <div class="reveal">
+        <span class="eyebrow" style="display:block; margin-bottom:20px;">Get in Touch</span>
+        <h1 class="headline split-line" style="margin:0 0 28px;">Let's shape your<br>sanctuary together.</h1>
+        <p class="body-copy" style="max-width:400px; margin-bottom:56px;">Every project begins with a conversation about how you wish to live.</p>
+
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <div>
+            <span class="label" style="color:var(--c-sage); display:block; margin-bottom:8px;">Our Studio</span>
+            <address>123 Keppel Road, #04-01<br>Tanjong Pagar, Singapore 089067</address>
+          </div>
+          <div>
+            <span class="label" style="color:var(--c-sage); display:block; margin-bottom:8px;">Email</span>
+            <a class="plain" href="mailto:hello@justbuildla.sg">hello@justbuildla.sg</a>
+          </div>
+          <div>
+            <span class="label" style="color:var(--c-sage); display:block; margin-bottom:8px;">Connect</span>
+            <a class="plain" href="#" style="display:block;">WhatsApp — Instant chat with our team</a>
+            <a class="plain" href="#" style="display:block;">Instagram — @justbuildla_sg</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <form id="enquiryForm">
+          <div class="field">
+            <label for="fname">Full Name</label>
+            <input id="fname" name="fname" type="text" required/>
+          </div>
+          <div class="field">
+            <label for="femail">Email Address</label>
+            <input id="femail" name="femail" type="email" required/>
+          </div>
+          <div class="field">
+            <label for="ftype">Project Type</label>
+            <select id="ftype" name="ftype">
+              <option>Residential Design</option>
+              <option>Commercial Space</option>
+              <option>Creative Consultation</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="fmsg">Tell us about your project</label>
+            <textarea id="fmsg" name="fmsg" rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn btn-fill" style="width:100%; border:none;">Send Inquiry</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visit -->
+  <section class="tone-sage">
+    <div class="wrap philosophy-grid reveal">
+      <div class="img-block" style="aspect-ratio:4/3;">
+        <img src="images/detail-02.jpg" alt="Just Build La studio interior detail"/>
+      </div>
+      <div>
+        <span class="eyebrow" style="display:block; margin-bottom:18px;">Visit</span>
+        <h2 class="headline split-line" style="margin:0 0 24px;">An open space<br>for collaboration.</h2>
+        <p class="body-copy" style="max-width:420px; margin-bottom:32px;">We recommend booking an appointment for a personalised viewing of our studio atelier.</p>
+        <a href="#" class="text-link">Get Directions</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div style="display:grid; grid-template-columns:1fr; gap:48px; padding-bottom:56px; border-bottom:1px solid var(--c-line);">
+      <div>
+        <span class="foot-mark" style="display:block; margin-bottom:16px;">Just Build La</span>
+        <p class="body-copy" style="max-width:340px; font-size:14px;">A boutique interior design studio. Architectural rigor, domestic soul.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px;">
+        <div>
+          <span class="label">Studio</span>
+          <address>123 Keppel Road, #04-01<br>Tanjong Pagar, Singapore 089067</address>
+        </div>
+        <div>
+          <span class="label">Connect</span>
+          <a class="plain" href="#" style="display:block;">Instagram</a>
+          <a class="plain" href="#" style="display:block;">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 Just Build La. All rights reserved.</span>
+      <div style="display:flex; gap:24px;">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

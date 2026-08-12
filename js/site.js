@@ -142,60 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Testimonial slideshow — auto-cycles every 4.5s, no controls.
-  document.querySelectorAll('.testimonial-slideshow').forEach((wrap) => {
-    const slides = wrap.querySelectorAll('.ts-slide');
-    if (slides.length < 2) return;
-    let i = 0;
-    setInterval(() => {
-      slides[i].classList.remove('is-active');
-      i = (i + 1) % slides.length;
-      slides[i].classList.add('is-active');
-    }, 4500);
-  });
-
-  // Curated Collections carousel — rider-controlled scroll.
-  // Mouse-drag, trackpad, and touch all move the native scroll position;
-  // a slim custom bar mirrors that position since the real scrollbar is hidden.
-  const track = document.querySelector('.collection-track');
-  const thumb = document.querySelector('.collection-scrollbar-thumb');
-  if (track) {
-    let isDown = false, startX = 0, startScroll = 0, moved = false;
-
-    const syncThumb = () => {
-      if (!thumb) return;
-      const max = track.scrollWidth - track.clientWidth;
-      const pct = max > 0 ? track.scrollLeft / max : 0;
-      const thumbWidth = Math.max(12, (track.clientWidth / track.scrollWidth) * 100);
-      thumb.style.width = thumbWidth + '%';
-      thumb.style.left = pct * (100 - thumbWidth) + '%';
-    };
-    syncThumb();
-    track.addEventListener('scroll', syncThumb);
-    window.addEventListener('resize', syncThumb);
-
-    track.addEventListener('mousedown', (e) => {
-      isDown = true; moved = false;
-      startX = e.pageX; startScroll = track.scrollLeft;
-      track.classList.add('dragging');
-      // Prevent the browser's native image/link drag-ghost from hijacking
-      // the gesture partway through — without this, mousemove stops
-      // firing once native drag takes over.
-      e.preventDefault();
-    });
-    window.addEventListener('mouseup', () => { isDown = false; track.classList.remove('dragging'); });
-    window.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      const dx = e.pageX - startX;
-      if (Math.abs(dx) > 4) moved = true;
-      track.scrollLeft = startScroll - dx;
-    });
-    // Suppress the click-through on cards when a drag just happened,
-    // so dragging never accidentally opens a portfolio link.
-    track.querySelectorAll('a.collection-card').forEach((card) => {
-      card.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
-    });
-  }
+  // Curated Collections carousel is a pure-CSS auto-playing marquee now
+  // (see .collection-track / @keyframes collectionDrift in style.css) —
+  // no JS needed for playback, dragging, or pause-on-hover.
 
   // Hero — full-screen, scroll-jacked showcase (landing + four projects).
   // Because the section sits flush at the very top of the page and is

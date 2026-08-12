@@ -262,7 +262,7 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    reads as one organized block rather than scattered photos. Captions
    sit inside the frame as an overlay, not as separate whitespace below. */
 .port-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; }
-.port-item { position: relative; overflow: hidden; display: block; text-decoration: none; color: inherit; }
+.port-item { position: relative; overflow: hidden; display: block; text-decoration: none; color: inherit; max-height: 62vh; }
 .port-item .p-cap {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
   padding: 26px 24px 20px;
@@ -287,29 +287,22 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 }
 
 /* ---------- Curated Collections carousel ----------
-   Auto-playing, continuous loop — two projects drift into view at a
-   time. The track holds the card set twice back-to-back; animating it
-   by exactly -50% of its own width and looping produces a seamless
-   drift with no snap or reset (a classic marquee technique). Pausing
-   is CSS-only (hover / keyboard focus), so it needs no JS at all. Add
-   another project to both copies in the markup to extend the set. */
+   Auto-playing, continuous loop — two-plus projects drift into view,
+   never pausing on hover. The track holds the card set twice
+   back-to-back so it can wrap seamlessly; position is driven by JS
+   (see js/site.js), not a CSS animation, because the visitor's cursor
+   needs to be able to nudge speed/direction in real time. Cards are
+   sized by height first (capped well under a laptop viewport) with
+   width following from the aspect-ratio, so the composition always
+   sits comfortably inside the screen rather than defining it. */
 .collection-carousel { position: relative; overflow: hidden; }
-.collection-track {
-  display: flex; gap: 3px; width: max-content;
-  animation: collectionDrift 80s linear infinite;
-}
-.collection-carousel:hover .collection-track,
-.collection-track:focus-within { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) { .collection-track { animation: none; } }
-@keyframes collectionDrift {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
+.collection-track { display: flex; gap: 3px; width: max-content; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .collection-track { transform: none !important; } }
 .collection-card { position: relative; overflow: hidden; display: block; text-decoration: none; color: inherit;
-  flex: 0 0 46vw; width: 46vw; max-width: 620px; aspect-ratio: 3/3.4; }
+  flex: 0 0 auto; height: clamp(280px, 42vh, 420px); width: auto; aspect-ratio: 3/3.5; }
 .collection-card img { -webkit-user-drag: none; user-select: none; }
 @media (max-width: 700px) {
-  .collection-card { flex-basis: 82vw; width: 82vw; aspect-ratio: 3/3.9; }
+  .collection-card { height: clamp(320px, 56vh, 480px); aspect-ratio: 3/3.9; }
 }
 .collection-card .cc-cap {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
@@ -388,8 +381,11 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .flip-index-current { color: #fff; }
 
 /* Slide dots — quick wayfinding, and a click-to-jump control */
-.hero-jack-dots { position: absolute; right: 28px; top: 50%; transform: translateY(-50%); z-index: 4; display: flex; flex-direction: column; gap: 14px; }
-@media (min-width: 1024px) { .hero-jack-dots { right: 64px; } }
+/* Dots live on the opposite (left) edge from the project info panel —
+   its own dedicated column, never sharing space with the title,
+   description, or button regardless of viewport width. */
+.hero-jack-dots { position: absolute; left: 28px; top: 50%; transform: translateY(-50%); z-index: 4; display: flex; flex-direction: column; gap: 14px; }
+@media (min-width: 1024px) { .hero-jack-dots { left: 64px; } }
 .hero-jack-dots button {
   width: 7px; height: 7px; border-radius: 50%; padding: 0; cursor: pointer;
   border: 1px solid rgba(255,255,255,0.55); background: transparent; -webkit-appearance: none;
@@ -482,7 +478,7 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    photo and words together so it reads as a project experience. */
 .story-duo { display: grid; grid-template-columns: 1fr; gap: 56px; }
 @media (min-width: 800px) { .story-duo { grid-template-columns: 1fr 1fr; gap: 64px; } }
-.story-card-img { aspect-ratio: 4/5; margin-bottom: 24px; }
+.story-card-img { aspect-ratio: 4/3.4; max-height: 48vh; margin-bottom: 24px; }
 .story-quote { font-size: 22px; line-height: 1.55; color: var(--c-ink); margin: 0; max-width: 460px; }
 
 /* ---------- Insights teaser (Home) + full grid (Blog) ----------
@@ -492,10 +488,26 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .insights-grid { display: grid; grid-template-columns: 1fr; gap: 48px; }
 @media (min-width: 700px) { .insights-grid { grid-template-columns: 1fr 1fr; gap: 56px; } }
 .insight-card { display: block; text-decoration: none; color: inherit; }
-.insight-card-img { aspect-ratio: 4/3; margin-bottom: 22px; }
+.insight-card-img { aspect-ratio: 4/3; max-height: 42vh; margin-bottom: 22px; }
 .insight-tag { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-sage); display: block; margin-bottom: 12px; }
 .insight-title { font-size: 22px; line-height: 1.3; margin: 0 0 12px; color: var(--c-ink); transition: color 0.3s ease; }
 .insight-card:hover .insight-title { color: var(--c-sage-deep); }
 .insight-excerpt { font-size: 15px; line-height: 1.7; margin: 0 0 16px; max-width: 44ch; }
 /* Blog page: same card, four rows instead of one */
 .insights-grid-full { row-gap: 64px; }
+
+/* ---------- Article (single Insights piece) ----------
+   Editorial reading layout: contained hero image (never a full-viewport
+   dominator), a centered measure for body copy, serif subheads, and a
+   quiet accent treatment for pull-quotes instead of a boxed blockquote. */
+.article-head { max-width: 700px; margin: 0 auto; }
+.article-meta-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+.article-meta-row .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--c-line); flex: none; }
+.article-hero-img { max-width: 900px; margin: 40px auto 0; aspect-ratio: 16/9; max-height: 50vh; }
+.article-body { max-width: 680px; margin: 0 auto; }
+.article-body > p { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.9; color: var(--c-ink-soft); margin: 0 0 28px; }
+.article-body h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px, 3vw, 32px); color: var(--c-ink); line-height: 1.25; margin: 56px 0 20px; }
+.article-body ul, .article-body ol { margin: 0 0 28px; padding-left: 22px; }
+.article-body li { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.85; color: var(--c-ink-soft); margin-bottom: 10px; }
+.article-pull { font-family: var(--font-accent); font-style: normal; font-size: 25px; line-height: 1.5; color: var(--c-ink);
+  border-left: 2px solid var(--c-sage); padding-left: 26px; margin: 48px 0; max-width: 560px; }

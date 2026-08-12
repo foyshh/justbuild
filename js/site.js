@@ -142,9 +142,69 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Curated Collections carousel is a pure-CSS auto-playing marquee now
-  // (see .collection-track / @keyframes collectionDrift in style.css) —
-  // no JS needed for playback, dragging, or pause-on-hover.
+  // Curated Collections carousel — auto-playing duo marquee that never
+  // stops for a hovering mouse. Position is driven every frame rather
+  // than by a CSS animation so the cursor can steer it: how far the
+  // mouse sits from the carousel's center nudges speed and direction,
+  // eased smoothly rather than snapping, and it settles straight back
+  // to its slow base drift the instant the visitor stops interacting.
+  // The track holds the card set twice (see index.html) so wrapping at
+  // the halfway point loops seamlessly with no reset/snap.
+  const collectionCarousel = document.querySelector('.collection-carousel');
+  const collectionTrack = document.querySelector('.collection-track');
+  if (collectionCarousel && collectionTrack) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const BASE_SPEED = 26;   // px/second — slow, fluid, the resting state
+    const MAX_EXTRA = 90;    // px/second of additional cursor-driven speed
+    const EASE = 2.6;        // higher = snappier response to the cursor
+
+    let setWidth = 0;
+    const measure = () => { setWidth = collectionTrack.scrollWidth / 2; };
+    measure();
+    window.addEventListener('resize', measure);
+
+    let pos = 0;
+    let speed = BASE_SPEED;
+    let targetSpeed = BASE_SPEED;
+    let hovering = false;
+    let keyboardPaused = false;
+
+    collectionCarousel.addEventListener('mouseenter', () => { hovering = true; });
+    collectionCarousel.addEventListener('mouseleave', () => {
+      hovering = false;
+      targetSpeed = BASE_SPEED;
+    });
+    collectionCarousel.addEventListener('mousemove', (e) => {
+      if (!hovering) return;
+      const rect = collectionCarousel.getBoundingClientRect();
+      const rel = rect.width > 0 ? ((e.clientX - rect.left) / rect.width) * 2 - 1 : 0; // -1 (left) .. 1 (right)
+      targetSpeed = BASE_SPEED + rel * MAX_EXTRA;
+    });
+    // Keyboard users tabbing through the cards get a real pause — the
+    // "don't stop on hover" instruction is about the mouse specifically,
+    // and a drifting target is unusable for keyboard/focus navigation.
+    collectionTrack.addEventListener('focusin', () => { keyboardPaused = true; });
+    collectionTrack.addEventListener('focusout', () => { keyboardPaused = false; });
+
+    if (!reduceMotion && setWidth > 0) {
+      let lastTime = null;
+      const tick = (now) => {
+        if (lastTime === null) lastTime = now;
+        const dt = Math.min(0.05, (now - lastTime) / 1000);
+        lastTime = now;
+
+        const effectiveTarget = keyboardPaused ? 0 : targetSpeed;
+        speed += (effectiveTarget - speed) * Math.min(1, dt * EASE);
+        pos -= speed * dt;
+        if (pos <= -setWidth) pos += setWidth;
+        if (pos > 0) pos -= setWidth;
+        collectionTrack.style.transform = 'translateX(' + pos.toFixed(2) + 'px)';
+
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  }
 
   // Hero — full-screen, scroll-jacked showcase (landing + four projects).
   // Because the section sits flush at the very top of the page and is

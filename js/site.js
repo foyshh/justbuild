@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Nav: tinted background once scrolled, and hidden altogether while the
   // visitor is scrolling down through the page. It reappears the moment
   // they scroll back up, rest the cursor near the top of the window, or
-  // are still close to the top of the page — so it never sits fixed over
+  // are still close to the top of the page, so it never sits fixed over
   // the photography the whole time.
   const nav = document.querySelector('.site-nav');
   const mobileMenuEl = document.querySelector('.mobile-menu');
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
   }
 
-  // Scroll reveal — arm the fade only once JS is confirmed running,
+  // Scroll reveal, arm the fade only once JS is confirmed running,
   // so content is never stuck invisible if a script fails to load.
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
-  // Image develop — photos desaturate + zoom out until they scroll
+  // Image develop, photos desaturate + zoom out until they scroll
   // into view, then settle into color and true scale. Fires once.
   const imgObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -76,12 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
   document.querySelectorAll('.img-block').forEach(el => imgObserver.observe(el));
 
-  // Headline stagger — wraps text into per-line spans that rise in
+  // Headline stagger, wraps text into per-line spans that rise in
   // sequentially. Runs before the reveal observer sees the parent so
   // the split markup exists by the time IntersectionObserver fires.
   document.querySelectorAll('.split-line').forEach(el => {
     const lines = el.innerHTML.split(/<br\s*\/?>/i);
-    // .sl-line is already display:block, so it creates its own line break —
+    // .sl-line is already display:block, so it creates its own line break,
     // joining with an extra <br> would double the gap between lines.
     el.innerHTML = lines.map((line, i) =>
       '<span class="sl-line" style="transition-delay:' + (i * 0.11) + 's"><span>' + line.trim() + '</span></span>'
@@ -96,6 +96,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.4 });
   document.querySelectorAll('.split-line').forEach(el => splitObserver.observe(el));
+
+  // Client Stories, each story's photo auto-cycles through a small set
+  // of images via a slow crossfade, rather than sitting on one static
+  // frame. Independent timers per card, gently offset, so both cards
+  // don't necessarily change in lockstep.
+  document.querySelectorAll('.story-card-img').forEach((wrap, wrapIndex) => {
+    const slides = wrap.querySelectorAll('.story-slide');
+    if (slides.length < 2) return;
+    let i = 0;
+    setTimeout(() => {
+      setInterval(() => {
+        slides[i].classList.remove('is-active');
+        i = (i + 1) % slides.length;
+        slides[i].classList.add('is-active');
+      }, 5500);
+    }, wrapIndex * 1200);
+  });
 
   // Portfolio lightbox
   const triggers = document.querySelectorAll('[data-lightbox-src]');
@@ -115,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
       idx = (i + items.length) % items.length;
       img.src = items[idx].src;
       img.alt = items[idx].title;
-      caption.textContent = items[idx].title + (items[idx].loc ? '  —  ' + items[idx].loc : '');
+      caption.textContent = items[idx].title + (items[idx].loc ? ', ' + items[idx].loc : '');
       count.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(items.length).padStart(2, '0');
     };
 
@@ -142,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Curated Collections carousel — auto-playing duo marquee that never
+  // Curated Collections carousel, auto-playing duo marquee that never
   // stops for a hovering mouse. Position is driven every frame rather
   // than by a CSS animation so the cursor can steer it: how far the
   // mouse sits from the carousel's center nudges speed and direction,
@@ -154,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const collectionTrack = document.querySelector('.collection-track');
   if (collectionCarousel && collectionTrack) {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const BASE_SPEED = 26;   // px/second — slow, fluid, the resting state
+    const BASE_SPEED = 26;   // px/second, slow, fluid, the resting state
     const MAX_EXTRA = 90;    // px/second of additional cursor-driven speed
     const EASE = 2.6;        // higher = snappier response to the cursor
 
@@ -180,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const rel = rect.width > 0 ? ((e.clientX - rect.left) / rect.width) * 2 - 1 : 0; // -1 (left) .. 1 (right)
       targetSpeed = BASE_SPEED + rel * MAX_EXTRA;
     });
-    // Keyboard users tabbing through the cards get a real pause — the
+    // Keyboard users tabbing through the cards get a real pause, the
     // "don't stop on hover" instruction is about the mouse specifically,
     // and a drifting target is unusable for keyboard/focus navigation.
     collectionTrack.addEventListener('focusin', () => { keyboardPaused = true; });
@@ -206,11 +223,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Hero — full-screen, scroll-jacked showcase (landing + four projects).
+  // Hero, full-screen, scroll-jacked showcase (landing + four projects).
   // Because the section sits flush at the very top of the page and is
   // exactly one viewport tall, intercepting every wheel/key/touch event
   // while it fills the screen keeps window.scrollY pinned at 0 for the
-  // whole sequence — no tall spacer or position:fixed juggling needed.
+  // whole sequence, no tall spacer or position:fixed juggling needed.
   // Once the visitor pushes past the first or last slide, one event is
   // allowed through un-prevented and normal page scroll takes over.
   const heroJack = document.getElementById('heroJack');
@@ -264,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const goingDown = e.deltaY > 0;
       if (goingDown && index < slides.length - 1) { e.preventDefault(); render(index + 1); }
       else if (!goingDown && index > 0) { e.preventDefault(); render(index - 1); }
-      // else: at a boundary — let the browser scroll normally into/out of the hero
+      // else: at a boundary, let the browser scroll normally into/out of the hero
     }, { passive: false });
 
     window.addEventListener('keydown', (e) => {
@@ -301,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Methodology: four-step image progression (About page). One fixed,
   // contained frame; the photo crossfades to the next as each step
-  // scrolls to the center of the viewport — a continuous function of
+  // scrolls to the center of the viewport, a continuous function of
   // scroll position, so scrolling back up reverses it exactly.
   const methodFrame = document.querySelector('.method-frame');
   const methodList = document.querySelector('.method-list');
@@ -314,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateMethod = () => {
       const rect = methodList.getBoundingClientRect();
       const vh = window.innerHeight;
-      // 0 when the list's top reaches viewport-center, 1 when its bottom does —
+      // 0 when the list's top reaches viewport-center, 1 when its bottom does,
       // scaled across every stage so each step gets an equal scroll range.
       const raw = ((vh / 2) - rect.top) / Math.max(1, rect.height);
       const progress = clamp(raw, 0, 1) * numStages;
@@ -339,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', updateMethod);
   }
 
-  // Animated stat counters (About page) — count up quickly from 0 the
+  // Animated stat counters (About page), count up quickly from 0 the
   // moment the panel enters view, then hold at the final value.
   document.querySelectorAll('.stat-num[data-count-to]').forEach((el) => {
     const target = parseInt(el.dataset.countTo, 10);

@@ -12,6 +12,7 @@
   --c-sage:       #5C6B4F;
   --c-sage-deep:  #3F4A37;
   --c-sage-pale:  #AEB89C;
+  --c-sage-glow:  #CBD6AE; /* brighter, warmer sage, for accent type on dark photography */
   --c-line:       #E1DED2;
   --nav-h: 96px;
   /* Marcellus, a quiet, refined display serif, used two ways: full-case
@@ -69,7 +70,11 @@ header.site-nav {
   height: var(--nav-h);
   display: flex; align-items: center;
   background: transparent;
-  border-bottom: 1px solid transparent;
+  /* A whisper of a line even while transparent over the hero photo,
+     just enough architectural separation to keep the nav reading as
+     its own interface element rather than floating loose on the
+     image; swaps to the solid line colour once scrolled. */
+  border-bottom: 1px solid rgba(255,255,255,0.22);
   transition: background 0.5s ease, border-color 0.5s ease, transform 0.6s cubic-bezier(0.22,0.61,0.36,1);
 }
 header.site-nav.scrolled {
@@ -344,10 +349,36 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
   background: linear-gradient(100deg, rgba(23,24,15,0.06) 0%, rgba(23,24,15,0.08) 40%, rgba(23,24,15,0.72) 100%);
 }
 .hero-jack-slide[data-slide="0"]::after {
-  background: linear-gradient(to top, rgba(23,24,15,0.68) 0%, rgba(23,24,15,0.08) 45%, rgba(23,24,15,0.22) 100%);
+  /* Deeper and taller than the other slides' scrim, purely so the
+     landing copy stays legible against whatever the photo is doing
+     underneath, without resorting to a boxed panel. */
+  background: linear-gradient(to top, rgba(23,24,15,0.8) 0%, rgba(23,24,15,0.14) 55%, rgba(23,24,15,0.26) 100%);
 }
 .hero-jack-landing { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 0 28px 76px; color: #fff; }
 @media (min-width: 1024px) { .hero-jack-landing { padding: 0 64px 76px; } }
+/* A soft shadow rather than a panel, text stays part of the photo
+   instead of sitting on a slab in front of it. */
+.hero-jack-landing .script,
+.hero-jack-landing .hero-title,
+.hero-jack-landing .quiet-cta { text-shadow: 0 2px 24px rgba(0,0,0,0.4); }
+
+/* ---------- Hero title: quiet intro + grand accent ----------
+   "Your Space Beautifully" reveals at the normal split-line pace;
+   "Reimagined" is the focal point, larger, a different (sage) colour,
+   and held back to settle in slowly on its own, well after the first
+   line has finished, so it reads as the deliberate, grander moment. */
+.headline.hero-title { font-size: clamp(34px, 5.2vw, 64px); line-height: 1.16; }
+.hero-title-quiet { display: block; font-size: 0.74em; letter-spacing: 0.01em; opacity: 0.94; }
+.hero-title-accent {
+  display: block; margin-top: 8px; font-size: 1.32em; letter-spacing: -0.01em;
+  color: var(--c-sage-glow);
+  opacity: 0; transform: translateY(28px) scale(0.96);
+  animation: heroAccentIn 2.2s cubic-bezier(0.16,1,0.3,1) 1.05s forwards;
+}
+@keyframes heroAccentIn { to { opacity: 1; transform: translateY(0) scale(1); letter-spacing: 0.005em; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-accent { animation: none; opacity: 1; transform: none; }
+}
 
 /* Project info sits as a right-anchored panel over each slide, rather
    than a bottom-left caption, image stays the hero, copy reads like a
@@ -418,7 +449,10 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    hard cut. Full-bleed photo sections (hero, final CTA) are exempt,
    they carry their own dark overlay and don't need a backdrop. */
 .tone-sage {
-  background: linear-gradient(180deg, transparent 0%, rgba(140,152,120,0.4) 32%, rgba(140,152,120,0.4) 68%, transparent 100%), var(--c-bg);
+  /* Deeper, more saturated hue and higher peak opacity than before,
+     the wide 32%/68% fade zones stay, so it's still a soft, seamless
+     wash, just a genuinely present one rather than a barely-there tint. */
+  background: linear-gradient(180deg, transparent 0%, rgba(120,134,94,0.58) 32%, rgba(120,134,94,0.58) 68%, transparent 100%), var(--c-bg);
   position: relative;
 }
 .tone-white { background: var(--c-bg); position: relative; }
@@ -442,8 +476,8 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
      gradually, so there's no abrupt pop of colour right at the seam
      where this section meets the one above it, just a slow bloom. */
   background:
-    radial-gradient(85% 85% at 22% 22%, rgba(174,184,156,0.26) 0%, rgba(174,184,156,0) 68%),
-    radial-gradient(85% 85% at 82% 88%, rgba(92,107,79,0.15) 0%, rgba(92,107,79,0) 68%),
+    radial-gradient(85% 85% at 22% 22%, rgba(150,163,123,0.38) 0%, rgba(150,163,123,0) 68%),
+    radial-gradient(85% 85% at 82% 88%, rgba(92,107,79,0.24) 0%, rgba(92,107,79,0) 68%),
     var(--c-bg);
 }
 .story-card-img { position: relative; }

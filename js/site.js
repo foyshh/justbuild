@@ -97,139 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.4 });
   document.querySelectorAll('.split-line').forEach(el => splitObserver.observe(el));
 
-  // Client Stories, each story's photo auto-cycles through a small set
-  // of images via a slow crossfade, rather than sitting on one static
-  // frame. Independent timers per card, gently offset, so both cards
-  // don't necessarily change in lockstep.
-  document.querySelectorAll('.story-card-img').forEach((wrap, wrapIndex) => {
-    const slides = wrap.querySelectorAll('.story-slide');
-    if (slides.length < 2) return;
-    let i = 0;
-    setTimeout(() => {
-      setInterval(() => {
-        slides[i].classList.remove('is-active');
-        i = (i + 1) % slides.length;
-        slides[i].classList.add('is-active');
-      }, 5500);
-    }, wrapIndex * 1200);
-  });
-
-  // Portfolio lightbox
-  const triggers = document.querySelectorAll('[data-lightbox-src]');
-  const lightbox = document.querySelector('.lightbox');
-  if (triggers.length && lightbox) {
-    const items = Array.from(triggers).map(t => ({
-      src: t.getAttribute('data-lightbox-src'),
-      title: t.getAttribute('data-lightbox-title') || '',
-      loc: t.getAttribute('data-lightbox-loc') || ''
-    }));
-    const img = lightbox.querySelector('img');
-    const caption = lightbox.querySelector('.lightbox-caption');
-    const count = lightbox.querySelector('.lightbox-count');
-    let idx = 0;
-
-    const show = (i) => {
-      idx = (i + items.length) % items.length;
-      img.src = items[idx].src;
-      img.alt = items[idx].title;
-      caption.textContent = items[idx].title + (items[idx].loc ? ', ' + items[idx].loc : '');
-      count.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(items.length).padStart(2, '0');
-    };
-
-    triggers.forEach((t, i) => {
-      t.addEventListener('click', (e) => {
-        e.preventDefault();
-        show(i);
-        lightbox.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    lightbox.querySelector('.lightbox-close').addEventListener('click', () => {
-      lightbox.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-    lightbox.querySelector('.lightbox-prev').addEventListener('click', () => show(idx - 1));
-    lightbox.querySelector('.lightbox-next').addEventListener('click', () => show(idx + 1));
-    document.addEventListener('keydown', (e) => {
-      if (!lightbox.classList.contains('open')) return;
-      if (e.key === 'Escape') { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
-      if (e.key === 'ArrowLeft') show(idx - 1);
-      if (e.key === 'ArrowRight') show(idx + 1);
-    });
-  }
-
-  // Curated Collections carousel, auto-playing duo marquee that never
-  // stops for a hovering mouse. Position is driven every frame rather
-  // than by a CSS animation so the cursor can steer it: how far the
-  // mouse sits from the carousel's center nudges speed and direction,
-  // eased smoothly rather than snapping, and it settles straight back
-  // to its slow base drift the instant the visitor stops interacting.
-  // The track holds the card set twice (see index.html) so wrapping at
-  // the halfway point loops seamlessly with no reset/snap.
-  const collectionCarousel = document.querySelector('.collection-carousel');
-  const collectionTrack = document.querySelector('.collection-track');
-  if (collectionCarousel && collectionTrack) {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const BASE_SPEED = 26;   // px/second, slow, fluid, the resting state
-    const MAX_EXTRA = 90;    // px/second of additional cursor-driven speed
-    const EASE = 2.6;        // higher = snappier response to the cursor
-
-    let setWidth = 0;
-    const measure = () => { setWidth = collectionTrack.scrollWidth / 2; };
-    measure();
-    window.addEventListener('resize', measure);
-
-    let pos = 0;
-    let speed = BASE_SPEED;
-    let targetSpeed = BASE_SPEED;
-    let hovering = false;
-    let keyboardPaused = false;
-
-    collectionCarousel.addEventListener('mouseenter', () => { hovering = true; });
-    collectionCarousel.addEventListener('mouseleave', () => {
-      hovering = false;
-      targetSpeed = BASE_SPEED;
-    });
-    collectionCarousel.addEventListener('mousemove', (e) => {
-      if (!hovering) return;
-      const rect = collectionCarousel.getBoundingClientRect();
-      const rel = rect.width > 0 ? ((e.clientX - rect.left) / rect.width) * 2 - 1 : 0; // -1 (left) .. 1 (right)
-      targetSpeed = BASE_SPEED + rel * MAX_EXTRA;
-    });
-    // Keyboard users tabbing through the cards get a real pause, the
-    // "don't stop on hover" instruction is about the mouse specifically,
-    // and a drifting target is unusable for keyboard/focus navigation.
-    collectionTrack.addEventListener('focusin', () => { keyboardPaused = true; });
-    collectionTrack.addEventListener('focusout', () => { keyboardPaused = false; });
-
-    if (!reduceMotion && setWidth > 0) {
-      let lastTime = null;
-      const tick = (now) => {
-        if (lastTime === null) lastTime = now;
-        const dt = Math.min(0.05, (now - lastTime) / 1000);
-        lastTime = now;
-
-        const effectiveTarget = keyboardPaused ? 0 : targetSpeed;
-        speed += (effectiveTarget - speed) * Math.min(1, dt * EASE);
-        pos -= speed * dt;
-        if (pos <= -setWidth) pos += setWidth;
-        if (pos > 0) pos -= setWidth;
-        collectionTrack.style.transform = 'translateX(' + pos.toFixed(2) + 'px)';
-
-        requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }
-  }
-
-  // Hero, full-screen, scroll-jacked showcase (landing + four projects).
-  // Because the section sits flush at the very top of the page and is
-  // exactly one viewport tall, intercepting every wheel/key/touch event
-  // while it fills the screen keeps window.scrollY pinned at 0 for the
-  // whole sequence, no tall spacer or position:fixed juggling needed.
-  // Once the visitor pushes past the first or last slide, one event is
-  // allowed through un-prevented and normal page scroll takes over.
+  // Hero, full-screen showcase (landing + four projects), an endless,
+  // slow-blending film rather than a static frame. Two ways a slide
+  // changes:
+  //   - Manual: wheel/keyboard/touch/dots, clamped (won't wrap past the
+  //     first or last slide), so scrolling past the end still releases
+  //     into normal page scroll exactly as before.
+  //   - Automatic: an idle timer that always wraps, so left alone the
+  //     hero keeps cycling through every slide and back to the first,
+  //     endlessly, with no hard restart.
+  // Both paths funnel through the same crossfade, and any manual move
+  // resets the idle timer, so the automatic blend only ever resumes
+  // after a pause in interaction, never on top of it.
   const heroJack = document.getElementById('heroJack');
   if (heroJack) {
     const slides = Array.from(heroJack.querySelectorAll('.hero-jack-slide'));
@@ -249,12 +128,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const mq = window.matchMedia('(min-width: 701px)');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let index = 0;
     let animating = false;
-    const LOCK_MS = 950;
+    const LOCK_MS = 950;          // matches the crossfade duration in CSS
+    const AUTO_ADVANCE_MS = 4500; // how long a slide rests before the next blend begins
 
-    const render = (newIndex) => {
-      newIndex = Math.max(0, Math.min(slides.length - 1, newIndex));
+    let autoTimer = null;
+    const scheduleAuto = () => {
+      if (reduceMotion) return;
+      clearTimeout(autoTimer);
+      autoTimer = setTimeout(() => {
+        goTo((index + 1) % slides.length); // wraps, slide 5 blends back to slide 1
+      }, AUTO_ADVANCE_MS);
+    };
+
+    // The one place a slide actually changes. Manual navigation clamps
+    // first (see render()) so this never needs to know the difference
+    // between a wrap and a clamp, it just moves to whatever index it's given.
+    const goTo = (newIndex) => {
       if (newIndex === index || animating) return;
       animating = true;
       slides.forEach((s, i) => {
@@ -267,7 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (hint) hint.classList.toggle('is-gone', newIndex > 0);
       index = newIndex;
       setTimeout(() => { animating = false; }, LOCK_MS);
+      scheduleAuto();
     };
+
+    // Manual moves, clamped to the ends rather than wrapping, so a
+    // deliberate scroll past the last slide still exits the hero into
+    // the rest of the page instead of looping back on the visitor.
+    const render = (newIndex) => goTo(Math.max(0, Math.min(slides.length - 1, newIndex)));
 
     const isFilling = () => {
       if (!mq.matches) return false;
@@ -301,7 +199,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: false });
 
     dots.forEach((d, i) => d.addEventListener('click', () => render(i)));
+
+    scheduleAuto(); // the hero starts blending on its own from the moment the page loads
   }
+
+  // Project detail pages: split-screen gallery, standardized across
+  // every project. Clicking a thumbnail jumps the large stage image to
+  // it immediately and resets the auto-rotate timer; left alone, the
+  // stage keeps slowly crossfading through every image and loops
+  // endlessly, so manual and automatic browsing share one timeline
+  // instead of running as two separate systems.
+  document.querySelectorAll('.project-gallery').forEach((gallery) => {
+    const thumbs = Array.from(gallery.querySelectorAll('.project-thumb'));
+    const stageImgs = Array.from(gallery.querySelectorAll('.project-stage-img'));
+    if (!thumbs.length || !stageImgs.length) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const AUTO_ADVANCE_MS = 5000;
+    let index = 0;
+    let timer = null;
+
+    const show = (i) => {
+      index = (i + stageImgs.length) % stageImgs.length;
+      stageImgs.forEach((img, n) => img.classList.toggle('is-active', n === index));
+      thumbs.forEach((t, n) => t.classList.toggle('is-active', n === index));
+    };
+
+    const schedule = () => {
+      if (reduceMotion) return;
+      clearTimeout(timer);
+      timer = setTimeout(() => { show(index + 1); schedule(); }, AUTO_ADVANCE_MS);
+    };
+
+    thumbs.forEach((t, i) => {
+      t.addEventListener('click', () => { show(i); schedule(); });
+    });
+
+    show(0);
+    schedule();
+  });
 
   // Contact form (visual feedback only, no backend)
   const form = document.getElementById('enquiryForm');

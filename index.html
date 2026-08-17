@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<header class="site-nav">
+<header class="site-nav site-nav--hero">
   <div class="wrap">
     <a href="index.html" class="nav-mark">
       <span class="name">Just Build La</span>
@@ -21,9 +21,7 @@
     <nav class="nav-links">
       <a href="index.html" aria-current="page">Home</a>
       <a href="portfolio.html">Portfolio</a>
-      <a href="about.html">About</a>
-      <a href="blog.html">Insights</a>
-      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>      <a href="contact.html">Contact</a>
     </nav>
     <div style="display:flex; align-items:center; gap:28px;">
       <a href="contact.html" class="nav-cta">Enquire</a>
@@ -36,9 +34,7 @@
   <div class="close">Close</div>
   <a href="index.html">Home</a>
   <a href="portfolio.html">Portfolio</a>
-  <a href="about.html">About</a>
-  <a href="blog.html">Insights</a>
-  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>  <a href="contact.html">Contact</a>
 </div>
 
 <main>
@@ -51,52 +47,35 @@
     <div class="hero-jack-slide is-active" data-slide="0">
       <img src="images/bath-01.jpg" alt="Dark tiled bath detail with black fixtures"/>
       <div class="wrap hero-jack-landing">
-        <span class="script" style="font-size:22px; color:#D6DCC7; margin-bottom:18px; display:block;">Architectural Interiors</span>
-        <h1 class="headline hero-title" style="color:#fff; margin:0 0 36px;">
-          <span class="split-line hero-title-quiet">Your Space beautifully</span>
-          <span class="hero-title-accent">Reimagined</span>
-        </h1>
         <a href="portfolio.html" class="quiet-cta" style="color:#fff;">View Portfolio <span>&#8250;</span></a>
       </div>
     </div>
 
     <div class="hero-jack-slide" data-slide="1">
       <img src="images/living-02.jpg" alt="The Serene Flat, Tiong Bahru"/>
-      <div class="flip-info">
-        <span class="cc-eyebrow">Urban Living</span>
-        <span class="cc-title">The Serene Flat</span>
-        <p class="flip-desc">A restrained material palette lets soft daylight become the room's true ornament.</p>
-        <a href="portfolio.html" class="text-link">View Project</a>
+      <div class="flip-info flip-info-minimal">
+        <a href="projects/serene-flat.html" class="text-link">View Project</a>
       </div>
     </div>
 
     <div class="hero-jack-slide" data-slide="2">
       <img src="images/bath-02.jpg" alt="Sage and Stone, River Valley"/>
-      <div class="flip-info">
-        <span class="cc-eyebrow">Heritage &amp; Scale</span>
-        <span class="cc-title">Sage &amp; Stone</span>
-        <p class="flip-desc">Heritage plasterwork meets travertine, an heirloom re-imagined for a contemporary rhythm.</p>
-        <a href="portfolio.html" class="text-link">View Project</a>
+      <div class="flip-info flip-info-minimal">
+        <a href="projects/sage-stone.html" class="text-link">View Project</a>
       </div>
     </div>
 
     <div class="hero-jack-slide" data-slide="3">
       <img src="images/detail-03.jpg" alt="The Monolith, Punggol Northshore"/>
-      <div class="flip-info">
-        <span class="cc-eyebrow">Modern Luxury</span>
-        <span class="cc-title">The Monolith</span>
-        <p class="flip-desc">Cast concrete and glass in quiet conversation, framed by an uninterrupted horizon.</p>
-        <a href="portfolio.html" class="text-link">View Project</a>
+      <div class="flip-info flip-info-minimal">
+        <a href="projects/monolith.html" class="text-link">View Project</a>
       </div>
     </div>
 
     <div class="hero-jack-slide" data-slide="4">
       <img src="images/bath-03.jpg" alt="The Ritual Space, Bukit Merah"/>
-      <div class="flip-info">
-        <span class="cc-eyebrow">Quiet Luxury</span>
-        <span class="cc-title">The Ritual Space</span>
-        <p class="flip-desc">A bath conceived as sanctuary: dark tile, warm brass, and water made ceremony.</p>
-        <a href="portfolio.html" class="text-link">View Project</a>
+      <div class="flip-info flip-info-minimal">
+        <a href="projects/ritual-space.html" class="text-link">View Project</a>
       </div>
     </div>
 
@@ -121,129 +100,31 @@
         <a href="portfolio.html" class="text-link">Discover All</a>
       </div>
     </div>
-    <!-- Two projects drift into view at a time, looping continuously and
-         slowly, the track below is the 5 collection cards duplicated
-         once, so the CSS animation can shift exactly one set-width and
-         loop seamlessly. Add another card to BOTH copies to extend it. -->
-    <div class="collection-carousel reveal">
-      <div class="collection-track">
-        <a href="portfolio.html" class="collection-card img-block" draggable="false">
+    <!-- Four static projects, editorial and image-first: no motion until
+         the visitor hovers, and no more copy on the image than the
+         project name, revealed quietly on hover/focus. Each opens the
+         standardized split-gallery project page. -->
+    <div class="wrap reveal">
+      <div class="curated-grid">
+        <a href="projects/serene-flat.html" class="curated-item img-block">
           <img src="images/living-02.jpg" alt="The Serene Flat, Tiong Bahru"/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">Urban Living</span>
-            <span class="cc-title">The Serene Flat</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
+          <span class="curated-name">The Serene Flat</span>
         </a>
-        <a href="portfolio.html" class="collection-card img-block" draggable="false">
+        <a href="projects/sage-stone.html" class="curated-item img-block">
           <img src="images/bath-02.jpg" alt="Sage and Stone, River Valley"/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">Heritage &amp; Scale</span>
-            <span class="cc-title">Sage &amp; Stone</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
+          <span class="curated-name">Sage &amp; Stone</span>
         </a>
-        <a href="portfolio.html" class="collection-card img-block" draggable="false">
+        <a href="projects/monolith.html" class="curated-item img-block">
           <img src="images/detail-03.jpg" alt="The Monolith, Punggol Northshore"/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">Modern Luxury</span>
-            <span class="cc-title">The Monolith</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
+          <span class="curated-name">The Monolith</span>
         </a>
-        <a href="portfolio.html" class="collection-card img-block" draggable="false">
-          <img src="images/bath-03.jpg" alt="The Ritual Space, Bukit Merah"/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">Quiet Luxury</span>
-            <span class="cc-title">The Ritual Space</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
-        </a>
-        <a href="portfolio.html" class="collection-card img-block" draggable="false">
+        <a href="projects/heritage-reimagined.html" class="curated-item img-block">
           <img src="images/kitchen-01.jpg" alt="Heritage Reimagined, Joo Chiat"/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">The Evolution</span>
-            <span class="cc-title">Heritage Reimagined</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
-        </a>
-        <!-- duplicate set, aria-hidden so screen readers only see the projects once -->
-        <a href="portfolio.html" class="collection-card img-block" draggable="false" aria-hidden="true" tabindex="-1">
-          <img src="images/living-02.jpg" alt=""/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">Urban Living</span>
-            <span class="cc-title">The Serene Flat</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
-        </a>
-        <a href="portfolio.html" class="collection-card img-block" draggable="false" aria-hidden="true" tabindex="-1">
-          <img src="images/bath-02.jpg" alt=""/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">Heritage &amp; Scale</span>
-            <span class="cc-title">Sage &amp; Stone</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
-        </a>
-        <a href="portfolio.html" class="collection-card img-block" draggable="false" aria-hidden="true" tabindex="-1">
-          <img src="images/detail-03.jpg" alt=""/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">Modern Luxury</span>
-            <span class="cc-title">The Monolith</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
-        </a>
-        <a href="portfolio.html" class="collection-card img-block" draggable="false" aria-hidden="true" tabindex="-1">
-          <img src="images/bath-03.jpg" alt=""/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">Quiet Luxury</span>
-            <span class="cc-title">The Ritual Space</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
-        </a>
-        <a href="portfolio.html" class="collection-card img-block" draggable="false" aria-hidden="true" tabindex="-1">
-          <img src="images/kitchen-01.jpg" alt=""/>
-          <div class="cc-cap">
-            <span class="cc-eyebrow">The Evolution</span>
-            <span class="cc-title">Heritage Reimagined</span>
-            <span class="btn-glass" style="padding:12px 22px; font-size:10px;">View Project</span>
-          </div>
+          <span class="curated-name">Heritage Reimagined</span>
         </a>
       </div>
-    </div>
-  </section>
-
-  <!-- Client Stories, two project/testimonial pairings side by side,
-       so the quote reads as a project experience rather than a
-       detached review card. -->
-  <section class="tone-white testimonial-gradient section-tight" style="padding-top:96px;">
-    <div class="wrap reveal" style="margin-bottom:56px;">
-      <span class="eyebrow" style="display:block; margin-bottom:14px;">Client Stories</span>
-      <h2 class="headline" style="margin:0;">Spaces, and the lives<br>within them.</h2>
-    </div>
-    <div class="wrap story-duo">
-      <div class="reveal story-card">
-        <div class="img-block story-card-img">
-          <img class="story-slide is-active" src="images/living-01.jpg" alt="Skyline Loft living space, Marina Bay"/>
-          <img class="story-slide" src="images/living-02.jpg" alt="Skyline Loft styling detail, Marina Bay"/>
-          <img class="story-slide" src="images/detail-01.jpg" alt="Skyline Loft corridor detail, Marina Bay"/>
-        </div>
-        <p class="script story-quote">"They didn't just design a house. They curated the feeling that greets us every morning."</p>
-        <div style="height:1px; width:40px; background:var(--c-sage); margin:18px 0 14px;"></div>
-        <span class="label" style="color:var(--c-sage); display:block; margin-bottom:4px;">Skyline Loft, Marina Bay</span>
-        <span class="body-copy" style="font-size:14px; display:block; margin-bottom:10px;">Client since 2022, Singapore</span>
-        <a href="portfolio.html#skyline-loft" class="text-link">View Project</a>
-      </div>
-      <div class="reveal story-card">
-        <div class="img-block story-card-img">
-          <img class="story-slide is-active" src="images/bath-02.jpg" alt="Sage and Stone bath detail, River Valley"/>
-          <img class="story-slide" src="images/bath-03.jpg" alt="The Ritual Space bath detail, River Valley"/>
-          <img class="story-slide" src="images/kitchen-01.jpg" alt="Sage cabinetry kitchen detail, River Valley"/>
-        </div>
-        <p class="script story-quote">"Every material felt considered. Nothing was there by accident. The house simply feels right."</p>
-        <div style="height:1px; width:40px; background:var(--c-sage); margin:18px 0 14px;"></div>
-        <span class="label" style="color:var(--c-sage); display:block; margin-bottom:4px;">Sage &amp; Stone, River Valley</span>
-        <span class="body-copy" style="font-size:14px; display:block; margin-bottom:10px;">Client since 2023, Singapore</span>
-        <a href="portfolio.html#sage-stone" class="text-link">View Project</a>
+      <div class="curated-more">
+        <a href="portfolio.html" class="text-link">View Full Portfolio</a>
       </div>
     </div>
   </section>
@@ -254,39 +135,11 @@
     <img src="images/detail-01.jpg" alt="Architectural corridor with slatted wood screens" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"/>
     <div style="position:absolute; inset:0; background:rgba(23,24,15,0.6);"></div>
     <div class="wrap reveal reveal-slow" style="position:relative; text-align:center; padding:130px 28px; color:#fff;">
-      <h2 class="headline split-line split-line-slow" style="color:#fff; margin:0 0 32px;">Let's define your<br>space's new identity.</h2>
-      <a href="contact.html" class="quiet-cta" style="color:#fff;">Enquire Now</a>
+      <h2 class="headline split-line split-line-slow" style="color:#fff; margin:0 0 32px;">Let's create something<br>that feels like home.</h2>
+      <a href="contact.html" class="quiet-cta" style="color:#fff;">Start a Conversation</a>
     </div>
   </section>
 
-  <!-- Insights, a small, editorial teaser rather than a generic blog
-       grid; two featured pieces, with the rest reachable via the full
-       Insights page. -->
-  <section class="tone-white section-tight">
-    <div class="wrap reveal" style="margin-bottom:44px;">
-      <span class="eyebrow" style="display:block; margin-bottom:14px;">From the Journal</span>
-      <h2 class="headline" style="margin:0; white-space:nowrap; font-size:clamp(24px,4.5vw,48px);">Insights &amp; Ideas</h2>
-    </div>
-    <div class="wrap reveal insights-grid">
-      <a href="blog/timeless-not-trendy.html" class="insight-card">
-        <div class="img-block insight-card-img"><img src="images/detail-01.jpg" alt="Architectural corridor with slatted wood screens"/></div>
-        <span class="insight-tag">Design Philosophy</span>
-        <h3 class="headline insight-title">What Makes a Home Feel Timeless Instead of Trendy?</h3>
-        <p class="body-copy insight-excerpt">The difference between a home that dates in five years and one that only grows more itself.</p>
-        <span class="text-link">Read More</span>
-      </a>
-      <a href="blog/materials-that-last.html" class="insight-card">
-        <div class="img-block insight-card-img"><img src="images/detail-03.jpg" alt="The Monolith, Punggol Northshore"/></div>
-        <span class="insight-tag">Materials &amp; Craft</span>
-        <h3 class="headline insight-title">How to Choose Materials That Will Still Look Good 10 Years From Now</h3>
-        <p class="body-copy insight-excerpt">A working framework for judging finishes beyond how they photograph on day one.</p>
-        <span class="text-link">Read More</span>
-      </a>
-    </div>
-    <div class="wrap reveal" style="text-align:center; margin-top:48px;">
-      <a href="blog.html" class="text-link">View More</a>
-    </div>
-  </section>
 
 </main>
 

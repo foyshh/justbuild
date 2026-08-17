@@ -64,25 +64,52 @@ hr.line { border: none; border-top: 1px solid var(--c-line); margin: 0; }
    Hidden by default once the visitor has scrolled past the hero, it
    only comes back when they scroll upward, rest their cursor at the very
    top of the viewport, or are still near the top of the page. Keeps the
-   photography full-bleed instead of a bar sitting over it permanently. */
+   photography full-bleed instead of a bar sitting over it permanently.
+
+   Always a translucent glass panel, never a solid bar: a soft blur
+   plus a light tint carries just enough separation to read as its own
+   interface element while the imagery underneath stays visible through
+   it. Two readable variants rather than one compromise colour:
+     - base (every interior page, and the homepage once scrolled past
+       the hero): a pale glass over light content, dark text.
+     - .site-nav--hero:not(.scrolled) (homepage, still on the hero
+       photo): a dark glass instead, so light text stays legible over
+       whatever the photograph is doing underneath. */
 header.site-nav {
   position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
   height: var(--nav-h);
   display: flex; align-items: center;
-  background: transparent;
-  /* A whisper of a line even while transparent over the hero photo,
-     just enough architectural separation to keep the nav reading as
-     its own interface element rather than floating loose on the
-     image; swaps to the solid line colour once scrolled. */
-  border-bottom: 1px solid rgba(255,255,255,0.22);
-  transition: background 0.5s ease, border-color 0.5s ease, transform 0.6s cubic-bezier(0.22,0.61,0.36,1);
+  background: rgba(251, 250, 248, 0.58);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid rgba(225,222,210,0.55);
+  transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease, transform 0.6s cubic-bezier(0.22,0.61,0.36,1);
 }
 header.site-nav.scrolled {
-  background: rgba(251, 250, 248, 0.94);
-  border-bottom-color: var(--c-line);
-  backdrop-filter: none;
+  background: rgba(251, 250, 248, 0.66);
+  border-bottom-color: rgba(225,222,210,0.7);
 }
 header.site-nav.nav-hidden { transform: translateY(-100%); }
+
+/* Hero variant, dark glass + light text, active only while still
+   parked on the homepage hero (i.e. before .scrolled is added). */
+header.site-nav.site-nav--hero:not(.scrolled) {
+  background: rgba(23,24,15,0.3);
+  border-bottom-color: rgba(255,255,255,0.16);
+}
+header.site-nav.site-nav--hero:not(.scrolled) .nav-mark,
+header.site-nav.site-nav--hero:not(.scrolled) .nav-links a,
+header.site-nav.site-nav--hero:not(.scrolled) .nav-cta {
+  color: rgba(255,255,255,0.92);
+}
+header.site-nav.site-nav--hero:not(.scrolled) .nav-mark .sub { color: var(--c-sage-glow); }
+header.site-nav.site-nav--hero:not(.scrolled) .nav-links a:hover,
+header.site-nav.site-nav--hero:not(.scrolled) .nav-links a[aria-current="page"] {
+  color: #fff; border-bottom-color: rgba(255,255,255,0.85);
+}
+header.site-nav.site-nav--hero:not(.scrolled) .nav-cta { border-bottom-color: rgba(255,255,255,0.5); }
+header.site-nav.site-nav--hero:not(.scrolled) .nav-cta:hover { border-bottom-color: #fff; }
+header.site-nav.site-nav--hero:not(.scrolled) .nav-burger span { background: #fff; }
 header.site-nav .wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 .nav-mark { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
 .nav-mark .name { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.02em; font-size: 24px; }
@@ -219,20 +246,6 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 @media (min-width: 700px) { .foot-bottom { flex-direction: row; align-items: center; } }
 .foot-bottom a { color: var(--c-ink-soft); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px; }
 
-/* ---------- Lightbox (portfolio) ---------- */
-.lightbox { position: fixed; inset: 0; background: var(--c-bg); z-index: 100; display: none; flex-direction: column; }
-.lightbox.open { display: flex; }
-.lightbox-top { display: flex; align-items: center; justify-content: space-between; padding: 28px 32px; }
-.lightbox-count { font-family: 'Inter'; font-size: 11px; letter-spacing: 0.2em; color: var(--c-ink-soft); }
-.lightbox-close { font-family: 'Inter'; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
-.lightbox-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 60px 40px; position: relative; }
-.lightbox-body img { max-height: 78vh; max-width: 100%; object-fit: contain; filter: grayscale(0); }
-.lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); cursor: pointer; font-family: var(--font-display); font-style: normal; font-size: 32px; color: var(--c-ink-soft); padding: 20px; user-select: none; }
-.lightbox-nav:hover { color: var(--c-ink); }
-.lightbox-prev { left: 0; }
-.lightbox-next { right: 0; }
-.lightbox-caption { text-align: center; padding-bottom: 32px; font-family: var(--font-display); font-style: normal; font-size: 20px; color: var(--c-ink-soft); }
-
 /* ---------- Methodology: four-step image progression ----------
    Left column steps drive a sticky, contained image frame on the right,
    one fixed frame whose photo crossfades to the next as each step
@@ -266,67 +279,51 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 }
 
 
-/* ---------- Flush project grid ----------
-   Built as explicit flex rows rather than a single CSS grid with
-   per-item aspect-ratios: two items sharing a row need to share an
-   identical height, and a grid with mismatched aspect-ratios per row
-   leaves the shorter item floating with dead space beneath it once
-   the row settles to its tallest member's height. Flexbox with a row
-   height set directly and children stretched to 100% removes that
-   gap entirely, regardless of aspect-ratio, while object-fit:cover
-   handles the crop. Row-to-row height stays constant so the irregular
-   width mix (4+2 / 3+3 / 2+4) still reads as clean and deliberate,
-   not just loose and asymmetrical. */
-.port-grid { display: flex; flex-direction: column; gap: 3px; }
-.port-row { display: flex; gap: 3px; height: clamp(320px, 46vh, 560px); }
-.port-item { position: relative; overflow: hidden; display: block; text-decoration: none; color: inherit; height: 100%; flex: 0 0 auto; }
-.port-item .p-cap {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
-  padding: 26px 24px 20px;
-  background: linear-gradient(180deg, transparent 0%, rgba(23,24,15,0.58) 100%);
+/* ---------- Curated Collections: four static images ----------
+   No auto-play, no motion until the visitor interacts. A clean 2x2 /
+   4-across editorial grid. On hover/focus, a translucent frosted-glass
+   panel settles over the image (backdrop-filter does the diffusing, so
+   the photograph itself is never touched by a filter), and the project
+   name appears clearly within that glass, rather than a solid overlay
+   or permanent caption sitting over the image. Shared by the Portfolio
+   page, whose gallery is built from the same markup and classes so
+   both read as one system. */
+.curated-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
+@media (min-width: 900px) { .curated-grid { grid-template-columns: repeat(4, 1fr); } }
+.curated-item { position: relative; display: block; overflow: hidden; text-decoration: none; color: inherit; aspect-ratio: 3/4; }
+.curated-item img { transition: filter 1.6s cubic-bezier(0.22,0.61,0.36,1), transform 2s cubic-bezier(0.22,0.61,0.36,1), transform 0.7s ease; }
+.curated-item:hover img, .curated-item:focus-visible img { transform: scale(1.05); }
+/* The glass itself: a faint tint plus a soft blur of whatever sits
+   behind it (the photograph), never a heavy or opaque wash. */
+.curated-item::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: rgba(23,24,15,0.22);
+  backdrop-filter: blur(0px) saturate(1.05);
+  -webkit-backdrop-filter: blur(0px) saturate(1.05);
+  border: 1px solid rgba(255,255,255,0);
+  opacity: 0;
+  transition: opacity 0.45s ease, backdrop-filter 0.45s ease, -webkit-backdrop-filter 0.45s ease, border-color 0.45s ease;
 }
-.port-item .p-cap .pname { font-family: var(--font-display); font-style: normal; font-size: 21px; color: #fff; display: block; }
-.port-item .p-cap .pmeta { font-family: 'Inter'; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.78); display: block; margin-top: 4px; }
-.port-item .p-cap .port-view-btn { margin-top: 16px; opacity: 0; transform: translateY(6px); transition: opacity 0.35s ease, transform 0.35s ease; }
-.port-item:hover .p-cap .port-view-btn, .port-item:focus-visible .p-cap .port-view-btn { opacity: 1; transform: translateY(0); }
-@media (hover: none) { .port-item .p-cap .port-view-btn { opacity: 1; transform: none; } }
-.port-6 { flex-basis: 100%; }
-.port-4 { flex-basis: calc(66.666% - 2px); }
-.port-3 { flex-basis: calc(50% - 1.5px); }
-.port-2 { flex-basis: calc(33.333% - 2px); }
-@media (max-width: 860px) {
-  .port-row { flex-direction: column; height: auto; gap: 3px; }
-  .port-item { height: clamp(260px, 48vh, 420px); flex-basis: auto !important; width: 100%; }
+.curated-item:hover::after, .curated-item:focus-visible::after {
+  opacity: 1;
+  backdrop-filter: blur(6px) saturate(1.05);
+  -webkit-backdrop-filter: blur(6px) saturate(1.05);
+  border-color: rgba(255,255,255,0.16);
 }
-
-/* ---------- Curated Collections carousel ----------
-   Auto-playing, continuous loop, never pausing on hover. The track
-   holds the card set twice back-to-back so it can wrap seamlessly;
-   position is driven by JS (see js/site.js), not a CSS animation,
-   because the visitor's cursor needs to be able to nudge speed and
-   direction in real time. Cards are sized to width (so exactly two
-   sit in frame on a laptop screen) with a max-height safety cap, so
-   the pair reads as a strong, large, editorial pairing without ever
-   growing taller than the viewport allows. */
-.collection-carousel { position: relative; overflow: hidden; }
-.collection-track { display: flex; gap: 4px; width: max-content; will-change: transform; }
-@media (prefers-reduced-motion: reduce) { .collection-track { transform: none !important; } }
-.collection-card { position: relative; overflow: hidden; display: block; text-decoration: none; color: inherit;
-  flex: 0 0 calc(50vw - 12px); width: calc(50vw - 12px); max-width: 860px; aspect-ratio: 4/3.35; max-height: 66vh; }
-.collection-card img { -webkit-user-drag: none; user-select: none; }
-@media (max-width: 700px) {
-  .collection-card { flex-basis: 88vw; width: 88vw; aspect-ratio: 4/3.9; max-height: 60vh; }
+.curated-name {
+  position: absolute; left: 0; right: 0; top: 50%; z-index: 2; text-align: center; padding: 0 22px;
+  font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em;
+  font-size: 16px; color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,0.3);
+  opacity: 0; transform: translateY(6px) translateY(-50%);
+  transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
 }
-.collection-card .cc-cap {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
-  padding: 28px 26px 26px;
-  background: linear-gradient(180deg, transparent 0%, rgba(23,24,15,0.62) 100%);
+.curated-item:hover .curated-name, .curated-item:focus-visible .curated-name { opacity: 1; transform: translateY(0) translateY(-50%); }
+@media (hover: none) {
+  .curated-item::after { opacity: 1; backdrop-filter: blur(3px) saturate(1.05); -webkit-backdrop-filter: blur(3px) saturate(1.05); border-color: rgba(255,255,255,0.16); }
+  .curated-item .curated-name { opacity: 1; transform: translateY(-50%); }
 }
-/* cc-eyebrow / cc-title are shared between the Curated Collections cards
-   and the Hero project slides. Both now use the site's standard display
-   type (Marcellus / Marcellus SC), same as every other section. */
-.cc-eyebrow { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.75); display: block; margin-bottom: 8px; }
-.cc-title { font-family: var(--font-display); font-style: normal; font-weight: 400; font-size: 27px; color: #fff; display: block; margin-bottom: 18px; }
+@media (max-width: 560px) { .curated-grid { grid-template-columns: 1fr 1fr; } }
+.curated-more { text-align: center; margin-top: 28px; }
 
 /* ---------- Hero: full-screen, scroll-jacked project showcase ----------
    Landing slide + four projects, each filling the viewport. One wheel
@@ -336,14 +333,26 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    js/site.js). Falls back to a plain stacked scroll on narrow screens,
    where scroll-jacking a full viewport per slide feels heavy-handed. */
 .hero-jack { position: relative; height: 100vh; min-height: 600px; overflow: hidden; background: var(--c-ink); }
+/* A pure dissolve rather than a slide or drift, one frame of a
+   continuous film gently giving way to the next, quick enough to feel
+   responsive to a deliberate scroll rather than sluggish. The slow
+   img zoom (Ken Burns) still runs longer than a single slide's rest
+   time, so there's a hint of quiet motion under the crossfade. */
 .hero-jack-slide {
-  position: absolute; inset: 0; opacity: 0; transform: translateY(3%);
-  transition: opacity 1s cubic-bezier(0.22,0.61,0.36,1), transform 1.15s cubic-bezier(0.22,0.61,0.36,1);
+  position: absolute; inset: 0; opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1);
   pointer-events: none; z-index: 1;
 }
-.hero-jack-slide.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; z-index: 3; }
-.hero-jack-slide.is-prev { opacity: 0; transform: translateY(-3%); z-index: 2; }
-.hero-jack-slide img { width: 100%; height: 100%; object-fit: cover; }
+.hero-jack-slide.is-active { opacity: 1; pointer-events: auto; z-index: 3; }
+.hero-jack-slide.is-prev { opacity: 0; z-index: 2; }
+.hero-jack-slide img {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(1); transition: transform 6s linear;
+}
+.hero-jack-slide.is-active img { transform: scale(1.045); }
+@media (prefers-reduced-motion: reduce) {
+  .hero-jack-slide img { transition: none; transform: none; }
+}
 .hero-jack-slide::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(100deg, rgba(23,24,15,0.06) 0%, rgba(23,24,15,0.08) 40%, rgba(23,24,15,0.72) 100%);
@@ -390,6 +399,17 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .flip-desc { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 14px; line-height: 1.85; color: rgba(255,255,255,0.82); margin: 16px 0 24px; }
 .flip-info .text-link { color: #fff; border-color: rgba(255,255,255,0.4); }
 .flip-info .text-link:hover { border-color: #fff; }
+/* Project slides carry only the "View Project" link now, no eyebrow,
+   title, or description, the photograph is the whole point. Moved to
+   the bottom-right corner (a quiet, single control) rather than
+   sitting mid-frame over the image. */
+.flip-info.flip-info-minimal {
+  top: auto; bottom: 30px; right: 92px; transform: none; max-width: none;
+  opacity: 0; transition: opacity 0.5s ease 0.35s;
+}
+.hero-jack-slide.is-active .flip-info.flip-info-minimal { opacity: 1; }
+@media (min-width: 1024px) { .flip-info.flip-info-minimal { right: 128px; } }
+@media (max-width: 700px) { .flip-info.flip-info-minimal { left: auto; right: 28px; bottom: 56px; text-align: right; padding: 0; } }
 .flip-hint {
   position: absolute; left: 50%; bottom: 76px; z-index: 4; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 12px;
@@ -459,33 +479,12 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 
 /* Mounted-print frame: photos on a sage field sit slightly lifted,
    like a print on a mat board, rather than flush color-block. */
-.tone-sage .img-block:not(.port-item):not(.collection-card) {
+.tone-sage .img-block:not(.port-item):not(.collection-card):not(.curated-item) {
   box-shadow: 0 28px 60px -20px rgba(23,24,15,0.28), 0 2px 0 rgba(255,255,255,0.4) inset;
   outline: 1px solid rgba(255,255,255,0.5); outline-offset: -1px;
 }
 
 .hero-collections { padding-top: 68px; }
-
-/* ---------- Sterling Residence: gradient wash ----------
-   Soft sage gradient bloom behind the testimonial, plus a faint
-   luminous ring around the portrait, quiet richness rather than a
-   flat white field. */
-.testimonial-gradient {
-  position: relative;
-  /* Centers sit inward from the edges (not at 0%/100%) and fade out
-     gradually, so there's no abrupt pop of colour right at the seam
-     where this section meets the one above it, just a slow bloom. */
-  background:
-    radial-gradient(85% 85% at 22% 22%, rgba(150,163,123,0.38) 0%, rgba(150,163,123,0) 68%),
-    radial-gradient(85% 85% at 82% 88%, rgba(92,107,79,0.24) 0%, rgba(92,107,79,0) 68%),
-    var(--c-bg);
-}
-.story-card-img { position: relative; }
-.story-card-img::before {
-  content: ''; position: absolute; inset: -14px; z-index: 0; border-radius: 2px;
-  background: linear-gradient(135deg, var(--c-sage-pale), var(--c-sage) 45%, var(--c-sage-deep));
-  opacity: 0.55; filter: blur(2px);
-}
 
 /* ---------- Slowed reveal (Final CTA) ----------
    Same fade/rise system as .reveal / .split-line, just stretched out
@@ -521,74 +520,34 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .foot-credit a { color: var(--c-sage-deep); text-decoration: none; border-bottom: 1px solid var(--c-line); transition: border-color 0.3s ease, color 0.3s ease; }
 .foot-credit a:hover { color: var(--c-sage-deep); border-color: var(--c-sage-deep); }
 
-/* ---------- Client Stories (Home) ----------
-   Two project/testimonial pairings side by side rather than a single
-   quote, or a pair of detached review cards, each block keeping its
-   photo and words together so it reads as a project experience. The
-   photo auto-cycles through a small set of images for that project
-   via a slow crossfade (see .story-slide / js/site.js), rather than
-   sitting on one static frame. */
-/* Capped and centered rather than stretched across the full wrap, so
-   the pair reads as one deliberate, closely-set composition instead
-   of two images pulled apart to the edges of the container. */
-.story-duo { display: grid; grid-template-columns: 1fr; gap: 32px; max-width: 1320px; margin: 0 auto; }
-@media (min-width: 800px) { .story-duo { grid-template-columns: 1fr 1fr; gap: 32px; } }
-/* Height held constant (independent of column width) so widening the
-   columns above makes the photo wider without growing it taller. */
-.story-card-img { position: relative; height: 62vh; min-height: 440px; max-height: 640px; margin-bottom: 28px; }
-/* Specificity note: plain `.story-slide` would tie with `.img-block img`
-   (which also matches these, being img descendants of .img-block) at
-   one class vs one class+element, and lose, silently dropping the
-   opacity transition and making the crossfade an instant cut. Scoping
-   to `.story-card-img .story-slide` (two classes) guarantees it wins. */
-.story-card-img .story-slide { position: absolute; inset: 0; opacity: 0; z-index: 1;
-  transition: filter 1.6s cubic-bezier(0.22,0.61,0.36,1), transform 2s cubic-bezier(0.22,0.61,0.36,1), opacity 1.8s ease; }
-.story-card-img .story-slide.is-active { opacity: 1; z-index: 2; }
-.story-quote { font-size: 22px; line-height: 1.55; color: var(--c-ink); margin: 0; max-width: 460px; }
 
-/* ---------- Insights teaser (Home) + full grid (Blog) ----------
-   Editorial, not a generic card grid: a large, prominent image, a
-   small uppercase tag, a serif headline, one line of excerpt, and a
-   quiet text-link, no boxes, borders, or shadows carrying the layout. */
-.insights-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: start; }
-@media (min-width: 700px) { .insights-grid { grid-template-columns: 1fr 1fr; gap: 56px; } }
-.insight-card { display: block; text-decoration: none; color: inherit; }
-/* Image, tag, title, and excerpt are all plain block children at the
-   card's own left edge and full width, no auto-centering, no implicit
-   offset, so every card in a row starts from the same horizontal line
-   as its neighbour regardless of how long its title or excerpt runs. */
-.insight-card-img { width: 100%; aspect-ratio: 4/3.15; max-height: 62vh; margin: 0 0 24px; }
-.insight-tag { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-sage); display: block; margin-bottom: 12px; }
-/* Clamped to two lines, hard guarantee regardless of title length or
-   card width, rather than hoping font-size and column width line up.
-   Specificity note: these titles are h2/h3 elements also carrying the
-   `.headline` class, so `h2.headline`/`h3.headline` (element+class)
-   was silently outranking a plain `.insight-title` (one class) and
-   winning the font-size battle, this never actually got smaller. Two
-   classes (`.headline.insight-title`) beats element+class regardless
-   of source order. */
-.headline.insight-title {
-  font-size: 17px; line-height: 1.35; margin: 0 0 10px; color: var(--c-ink); transition: color 0.3s ease;
-  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+/* ---------- Project detail: split-screen gallery ----------
+   The standard template for every individual project page. On mobile,
+   a plain flex column with the large image on top (order controlled by
+   flex-direction: column-reverse against DOM order thumbs-then-stage)
+   and a horizontally scrollable thumbnail strip beneath. From ~800px
+   up it becomes a true split screen: thumbnails left, one large stage
+   right. The stage cycles on its own via a slow crossfade (see
+   js/site.js); clicking any thumbnail jumps straight to that image and
+   resets the timer, so manual and automatic browsing share one system
+   rather than fighting each other. */
+.project-gallery { display: flex; flex-direction: column-reverse; gap: 16px; }
+@media (min-width: 800px) { .project-gallery { display: grid; grid-template-columns: 140px 1fr; gap: 28px; align-items: start; } }
+.project-thumbs { display: flex; flex-direction: row; gap: 10px; overflow-x: auto; padding-bottom: 2px; }
+@media (min-width: 800px) { .project-thumbs { flex-direction: column; overflow-x: visible; padding-bottom: 0; } }
+.project-thumb {
+  flex: 0 0 auto; width: 92px; aspect-ratio: 4/3; padding: 0; margin: 0;
+  border: 1px solid transparent; background: none; overflow: hidden; cursor: pointer;
+  opacity: 0.5; transition: opacity 0.35s ease, border-color 0.35s ease;
 }
-.insight-card:hover .insight-title { color: var(--c-sage-deep); }
-.insight-excerpt { font-size: 13.5px; line-height: 1.7; margin: 0 0 14px; max-width: 44ch; }
-/* Blog page: same card, four rows instead of one */
-.insights-grid-full { row-gap: 72px; }
-
-/* ---------- Article (single Insights piece) ----------
-   Editorial reading layout: a large, prominent hero image (contained,
-   never a full-viewport dominator), a centered measure for body copy
-   set at a refined, restrained size, serif subheads, and a quiet
-   accent treatment for pull-quotes instead of a boxed blockquote. */
-.article-head { max-width: 700px; margin: 0 auto; }
-.article-meta-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
-.article-meta-row .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--c-line); flex: none; }
-.article-hero-img { max-width: 1100px; margin: 40px auto 0; aspect-ratio: 16/9; max-height: 64vh; }
-.article-body { max-width: 640px; margin: 0 auto; }
-.article-body > p { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 15px; line-height: 1.85; color: var(--c-ink-soft); margin: 0 0 24px; }
-.article-body h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(20px, 2.2vw, 25px); color: var(--c-ink); line-height: 1.3; margin: 48px 0 16px; }
-.article-body ul, .article-body ol { margin: 0 0 24px; padding-left: 22px; }
-.article-body li { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 15px; line-height: 1.8; color: var(--c-ink-soft); margin-bottom: 8px; }
-.article-pull { font-family: var(--font-accent); font-style: normal; font-size: 21px; line-height: 1.5; color: var(--c-ink);
-  border-left: 2px solid var(--c-sage); padding-left: 24px; margin: 40px 0; max-width: 540px; }
+@media (min-width: 800px) { .project-thumb { width: 100%; } }
+.project-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; filter: none !important; transform: none !important; }
+.project-thumb:hover, .project-thumb:focus-visible { opacity: 0.8; }
+.project-thumb.is-active { opacity: 1; border-color: var(--c-sage); }
+.project-stage { position: relative; aspect-ratio: 4/3.1; max-height: 74vh; overflow: hidden; background: var(--c-bg-alt); }
+.project-stage-img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 1.3s ease;
+}
+.project-stage-img.is-active { opacity: 1; z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .project-stage-img { transition: none; } }

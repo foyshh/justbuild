@@ -9,9 +9,6 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Marcellus+SC&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<style>
-  .port-item { cursor: pointer; }
-</style>
 </head>
 <body>
 
@@ -24,9 +21,7 @@
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="portfolio.html" aria-current="page">Portfolio</a>
-      <a href="about.html">About</a>
-      <a href="blog.html">Insights</a>
-      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>      <a href="contact.html">Contact</a>
     </nav>
     <div style="display:flex; align-items:center; gap:28px;">
       <a href="contact.html" class="nav-cta">Enquire</a>
@@ -39,58 +34,50 @@
   <div class="close">Close</div>
   <a href="index.html">Home</a>
   <a href="portfolio.html">Portfolio</a>
-  <a href="about.html">About</a>
-  <a href="blog.html">Insights</a>
-  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>  <a href="contact.html">Contact</a>
 </div>
 
 <main>
 
-  <!-- Intro -->
-  <section class="tone-white" style="padding-top:calc(var(--nav-h) + 72px); padding-bottom:56px;">
+  <!-- Intro, short and understated, the projects do the talking -->
+  <section class="tone-white" style="padding-top:calc(var(--nav-h) + 64px); padding-bottom:40px;">
     <div class="wrap">
-      <span class="eyebrow reveal" style="display:block;">Selected Works, Singapore &amp; Beyond, 2020–2026</span>
+      <span class="eyebrow reveal" style="display:block; margin-bottom:14px;">Selected Works</span>
+      <h1 class="headline reveal" style="margin:0;">Portfolio</h1>
     </div>
   </section>
 
   <!-- Flush project grid -->
+  <!-- Same grid, proportions, spacing, and glass hover as the Home
+       page's Curated Collection, the Portfolio simply extends it to
+       every project rather than running a separate gallery system. -->
   <section class="tone-sage" style="padding-top:0;">
     <div class="wrap reveal" style="padding:0;">
-      <div class="port-grid">
-
-        <div class="port-row">
-          <a href="#" id="serene-flat" class="port-item port-4 img-block" data-lightbox-src="images/living-02.jpg" data-lightbox-title="The Serene Flat" data-lightbox-loc="Tiong Bahru, 2023">
-            <img src="images/living-02.jpg" alt="The Serene Flat, Tiong Bahru"/>
-            <div class="p-cap"><span class="pname">The Serene Flat</span><span class="pmeta">Tiong Bahru, 2023</span><span class="btn-glass port-view-btn">View Project</span></div>
-          </a>
-          <a href="#" id="sage-stone" class="port-item port-2 img-block" data-lightbox-src="images/bath-02.jpg" data-lightbox-title="Sage &amp; Stone" data-lightbox-loc="River Valley, 2022">
-            <img src="images/bath-02.jpg" alt="Sage and Stone, River Valley"/>
-            <div class="p-cap"><span class="pname">Sage &amp; Stone</span><span class="pmeta">River Valley, 2022</span><span class="btn-glass port-view-btn">View Project</span></div>
-          </a>
-        </div>
-
-        <div class="port-row">
-          <a href="#" id="monolith" class="port-item port-3 img-block" data-lightbox-src="images/detail-03.jpg" data-lightbox-title="The Monolith" data-lightbox-loc="Punggol Northshore, 2023">
-            <img src="images/detail-03.jpg" alt="The Monolith, Punggol Northshore"/>
-            <div class="p-cap"><span class="pname">The Monolith</span><span class="pmeta">Punggol Northshore, 2023</span><span class="btn-glass port-view-btn">View Project</span></div>
-          </a>
-          <a href="#" id="ritual-space" class="port-item port-3 img-block" data-lightbox-src="images/bath-03.jpg" data-lightbox-title="The Ritual Space" data-lightbox-loc="Bukit Merah, 2023">
-            <img src="images/bath-03.jpg" alt="The Ritual Space, Bukit Merah"/>
-            <div class="p-cap"><span class="pname">The Ritual Space</span><span class="pmeta">Bukit Merah, 2023</span><span class="btn-glass port-view-btn">View Project</span></div>
-          </a>
-        </div>
-
-        <div class="port-row">
-          <a href="#" id="skyline-loft" class="port-item port-2 img-block" data-lightbox-src="images/living-01.jpg" data-lightbox-title="Skyline Loft" data-lightbox-loc="Marina Bay, 2021">
-            <img src="images/living-01.jpg" alt="Skyline Loft, Marina Bay"/>
-            <div class="p-cap"><span class="pname">Skyline Loft</span><span class="pmeta">Marina Bay, 2021</span><span class="btn-glass port-view-btn">View Project</span></div>
-          </a>
-          <a href="#" id="heritage-reimagined" class="port-item port-4 img-block" data-lightbox-src="images/kitchen-01.jpg" data-lightbox-title="Heritage Reimagined" data-lightbox-loc="Joo Chiat, 2024">
-            <img src="images/kitchen-01.jpg" alt="Heritage Reimagined, Joo Chiat"/>
-            <div class="p-cap"><span class="pname">Heritage Reimagined</span><span class="pmeta">Joo Chiat, 2024</span><span class="btn-glass port-view-btn">View Project</span></div>
-          </a>
-        </div>
-
+      <div class="curated-grid">
+        <a href="projects/serene-flat.html" class="curated-item img-block">
+          <img src="images/living-02.jpg" alt="The Serene Flat, Tiong Bahru"/>
+          <span class="curated-name">The Serene Flat</span>
+        </a>
+        <a href="projects/sage-stone.html" class="curated-item img-block">
+          <img src="images/bath-02.jpg" alt="Sage and Stone, River Valley"/>
+          <span class="curated-name">Sage &amp; Stone</span>
+        </a>
+        <a href="projects/monolith.html" class="curated-item img-block">
+          <img src="images/detail-03.jpg" alt="The Monolith, Punggol Northshore"/>
+          <span class="curated-name">The Monolith</span>
+        </a>
+        <a href="projects/ritual-space.html" class="curated-item img-block">
+          <img src="images/bath-03.jpg" alt="The Ritual Space, Bukit Merah"/>
+          <span class="curated-name">The Ritual Space</span>
+        </a>
+        <a href="projects/skyline-loft.html" class="curated-item img-block">
+          <img src="images/living-01.jpg" alt="Skyline Loft, Marina Bay"/>
+          <span class="curated-name">Skyline Loft</span>
+        </a>
+        <a href="projects/heritage-reimagined.html" class="curated-item img-block">
+          <img src="images/kitchen-01.jpg" alt="Heritage Reimagined, Joo Chiat"/>
+          <span class="curated-name">Heritage Reimagined</span>
+        </a>
       </div>
     </div>
   </section>
@@ -104,20 +91,6 @@
   </section>
 
 </main>
-
-<!-- Lightbox -->
-<div class="lightbox">
-  <div class="lightbox-top">
-    <span class="lightbox-count"></span>
-    <span class="lightbox-close">Close</span>
-  </div>
-  <div class="lightbox-body">
-    <span class="lightbox-nav lightbox-prev">&#8249;</span>
-    <img src="" alt=""/>
-    <span class="lightbox-nav lightbox-next">&#8250;</span>
-  </div>
-  <div class="lightbox-caption"></div>
-</div>
 
 <footer>
   <div class="wrap">

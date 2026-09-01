@@ -21,10 +21,10 @@
     <nav class="nav-links">
       <a href="../index.html">Home</a>
       <a href="../portfolio.html" aria-current="page">Portfolio</a>
-      <a href="../about.html">About</a>      <a href="../contact.html">Contact</a>
+      <a href="../about.html">About</a>
+      <a href="../contact.html">Contact</a>
     </nav>
     <div style="display:flex; align-items:center; gap:28px;">
-      <a href="../contact.html" class="nav-cta">Enquire</a>
       <div class="nav-burger"><span></span><span></span><span></span></div>
     </div>
   </div>
@@ -34,31 +34,37 @@
   <div class="close">Close</div>
   <a href="../index.html">Home</a>
   <a href="../portfolio.html">Portfolio</a>
-  <a href="../about.html">About</a>  <a href="../contact.html">Contact</a>
+  <a href="../about.html">About</a>
+  <a href="../contact.html">Contact</a>
 </div>
 
 <main>
 
-  <!-- Intro -->
-  <section class="tone-white" style="padding-top:calc(var(--nav-h) + 64px); padding-bottom:0;">
-    <div class="wrap" style="max-width:760px;">
-      <a href="../portfolio.html" class="text-link reveal" style="display:inline-block; margin-bottom:28px;">&#8249; All Projects</a>
-      <span class="eyebrow reveal" style="display:block; margin-bottom:14px;">Marina Bay, 2021</span>
-      <h1 class="headline reveal split-line" style="margin:0 0 20px;">Skyline Loft</h1>
-      <p class="body-copy reveal" style="max-width:520px;">A high-floor loft reworked around light, view, and quiet materials for effortless city living.</p>
+  <!-- Header: All Projects / location, year / name / description, its
+       own section in normal flow above the gallery, clearly separated
+       from it by a rule so the two never compete for the same space. -->
+  <section class="tone-white" style="padding-top:calc(var(--nav-h) + 24px); padding-bottom:16px;">
+    <div class="wrap reveal project-header">
+      <a href="../portfolio.html" class="text-link" style="display:inline-block; margin-bottom:18px;">&#8249; All Projects</a>
+      <span class="eyebrow" style="display:block; margin-bottom:10px;">Marina Bay, 2021</span>
+      <h1 class="headline split-line" style="margin:0 0 14px;">Skyline Loft</h1>
+      <p class="body-copy" style="max-width:480px; margin:0;">A high-floor loft reworked around light, view, and quiet materials for effortless city living.</p>
     </div>
   </section>
 
-  <!-- Split-screen gallery, the standard project template -->
-  <section class="tone-white section-tight" style="padding-top:44px;">
+  <!-- Gallery: rectangular thumbnails left, one wide, dominant stage
+       image right, height-matched so the whole block reads as one
+       clean unit with nothing overlapping or floating on top of it. -->
+  <section class="tone-white" style="padding-top:16px; padding-bottom:28px; border-top:1px solid var(--c-line);">
     <div class="wrap reveal">
       <div class="project-gallery">
         <div class="project-thumbs" role="tablist" aria-label="Skyline Loft, image thumbnails">
-          <button type="button" class="project-thumb is-active" aria-label="Image 1 of 5"><img src="../images/living-01.jpg" alt=""/></button>
-          <button type="button" class="project-thumb" aria-label="Image 2 of 5"><img src="../images/detail-01.jpg" alt=""/></button>
-          <button type="button" class="project-thumb" aria-label="Image 3 of 5"><img src="../images/bath-02.jpg" alt=""/></button>
-          <button type="button" class="project-thumb" aria-label="Image 4 of 5"><img src="../images/kitchen-01.jpg" alt=""/></button>
-          <button type="button" class="project-thumb" aria-label="Image 5 of 5"><img src="../images/detail-03.jpg" alt=""/></button>
+          <button type="button" class="project-thumb is-active" aria-label="Image 1 of 6"><img src="../images/living-01.jpg" alt=""/></button>
+          <button type="button" class="project-thumb" aria-label="Image 2 of 6"><img src="../images/detail-01.jpg" alt=""/></button>
+          <button type="button" class="project-thumb" aria-label="Image 3 of 6"><img src="../images/bath-02.jpg" alt=""/></button>
+          <button type="button" class="project-thumb" aria-label="Image 4 of 6"><img src="../images/kitchen-01.jpg" alt=""/></button>
+          <button type="button" class="project-thumb" aria-label="Image 5 of 6"><img src="../images/detail-03.jpg" alt=""/></button>
+          <button type="button" class="project-thumb" aria-label="Image 6 of 6"><img src="../images/bath-01.jpg" alt=""/></button>
         </div>
         <div class="project-stage">
           <img class="project-stage-img is-active" src="../images/living-01.jpg" alt="Skyline Loft, living space"/>
@@ -66,15 +72,17 @@
           <img class="project-stage-img" src="../images/bath-02.jpg" alt="Skyline Loft, bath detail"/>
           <img class="project-stage-img" src="../images/kitchen-01.jpg" alt="Skyline Loft, kitchen detail"/>
           <img class="project-stage-img" src="../images/detail-03.jpg" alt="Skyline Loft, material detail"/>
+          <img class="project-stage-img" src="../images/bath-01.jpg" alt="Skyline Loft, bath detail"/>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Enquiry line -->
-  <section class="tone-sage section-tight" style="text-align:center;">
+  <!-- CTA: its own section, well clear of the gallery above, compact
+       and centered rather than a large overlay. -->
+  <section class="project-cta" style="text-align:center; padding:56px 0; margin-top:8px;">
     <div class="wrap reveal">
-      <p class="script" style="font-size:22px; margin:0 0 20px;">Imagining something similar for your own space?</p>
+      <p class="script" style="font-size:20px; margin:0 0 18px;">Imagining something similar for your own space?</p>
       <a href="../contact.html" class="text-link">Start a Conversation</a>
     </div>
   </section>

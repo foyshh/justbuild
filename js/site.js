@@ -64,6 +64,18 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
+  // Growing divider, starts short and widens to fill its container
+  // once scrolled into view. Fires once, like the other reveals.
+  const dividerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        dividerObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.divider-grow').forEach(el => dividerObserver.observe(el));
+
   // Image develop, photos desaturate + zoom out until they scroll
   // into view, then settle into color and true scale. Fires once.
   const imgObserver = new IntersectionObserver((entries) => {
@@ -97,18 +109,81 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.4 });
   document.querySelectorAll('.split-line').forEach(el => splitObserver.observe(el));
 
+  // Curated Collection carousel, static until the visitor clicks an
+  // arrow, exactly one project per click, looping endlessly in either
+  // direction rather than stopping at an end. The track holds the real
+  // set three times over (see index.html); starting in the middle copy
+  // leaves a full set of genuine items to scroll into on either side,
+  // however many times the visitor clicks. The instant a move carries
+  // the visible window into a duplicate copy, the track snaps back
+  // into the middle copy with its transition switched off for that one
+  // frame, invisible since the copies are pixel-identical. The step
+  // distance is read live off the rendered item width rather than
+  // hardcoded to match the CSS breakpoints, so the two can never
+  // quietly drift out of sync.
+  document.querySelectorAll('.curated-carousel-wrap').forEach((wrapEl) => {
+    const track = wrapEl.querySelector('.curated-track');
+    const items = track ? Array.from(track.children) : [];
+    const prevBtn = wrapEl.querySelector('.curated-arrow-prev');
+    const nextBtn = wrapEl.querySelector('.curated-arrow-next');
+    if (!track || !items.length || !prevBtn || !nextBtn) return;
+
+    const setCount = items.length / 3; // the real set, repeated three times over
+    let index = setCount; // start in the middle copy
+
+    const step = () => {
+      const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
+      return items[0].getBoundingClientRect().width + gap;
+    };
+
+    const applyTransform = () => {
+      track.style.transform = 'translateX(-' + (index * step()) + 'px)';
+    };
+
+    track.addEventListener('transitionend', (e) => {
+      if (e.propertyName !== 'transform') return;
+      if (index <= 0 || index >= setCount * 2) {
+        index = ((index % setCount) + setCount) % setCount + setCount;
+        track.style.transition = 'none';
+        applyTransform();
+        track.getBoundingClientRect(); // force reflow before restoring the transition
+        track.style.transition = '';
+      }
+    });
+
+    prevBtn.addEventListener('click', () => { index -= 1; applyTransform(); });
+    nextBtn.addEventListener('click', () => { index += 1; applyTransform(); });
+    window.addEventListener('resize', applyTransform);
+
+    applyTransform();
+  });
+
+  // Home Final CTA, background auto-cycles through a small set of
+  // images via a slow crossfade rather than sitting on one static
+  // frame. The dark overlay is a separate, constant layer above it
+  // (see index.html/style.css), so it applies identically regardless
+  // of which image is currently active.
+  document.querySelectorAll('.home-cta-bg').forEach((wrap) => {
+    const imgs = wrap.querySelectorAll('.home-cta-bg-img');
+    if (imgs.length < 2) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let i = 0;
+    setInterval(() => {
+      imgs[i].classList.remove('is-active');
+      i = (i + 1) % imgs.length;
+      imgs[i].classList.add('is-active');
+    }, 6000);
+  });
+
   // Hero, full-screen showcase (landing + four projects), an endless,
-  // slow-blending film rather than a static frame. Two ways a slide
-  // changes:
-  //   - Manual: wheel/keyboard/touch/dots, clamped (won't wrap past the
-  //     first or last slide), so scrolling past the end still releases
-  //     into normal page scroll exactly as before.
-  //   - Automatic: an idle timer that always wraps, so left alone the
-  //     hero keeps cycling through every slide and back to the first,
-  //     endlessly, with no hard restart.
-  // Both paths funnel through the same crossfade, and any manual move
-  // resets the idle timer, so the automatic blend only ever resumes
-  // after a pause in interaction, never on top of it.
+  // slow-blending film that runs entirely on its own timer, completely
+  // independent of scrolling. The hero is a normal ~100vh block in the
+  // page's flow: scrolling down moves straight past it into Curated
+  // Collection, scrolling back up returns to it, exactly like any
+  // other section, no wheel/keyboard/touch interception. The only
+  // manual control left is the dots, which jump straight to a slide
+  // and reset the idle timer so the automatic blend resumes only
+  // after a pause rather than fighting a click.
   const heroJack = document.getElementById('heroJack');
   if (heroJack) {
     const slides = Array.from(heroJack.querySelectorAll('.hero-jack-slide'));
@@ -127,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return b;
     });
 
-    const mq = window.matchMedia('(min-width: 701px)');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let index = 0;
     let animating = false;
@@ -143,9 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }, AUTO_ADVANCE_MS);
     };
 
-    // The one place a slide actually changes. Manual navigation clamps
-    // first (see render()) so this never needs to know the difference
-    // between a wrap and a clamp, it just moves to whatever index it's given.
+    // The one place a slide actually changes, used by both the auto
+    // timer and the dots. Always wraps (there's no "end" to clamp to
+    // anymore, since scrolling is no longer part of this system).
     const goTo = (newIndex) => {
       if (newIndex === index || animating) return;
       animating = true;
@@ -162,43 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scheduleAuto();
     };
 
-    // Manual moves, clamped to the ends rather than wrapping, so a
-    // deliberate scroll past the last slide still exits the hero into
-    // the rest of the page instead of looping back on the visitor.
-    const render = (newIndex) => goTo(Math.max(0, Math.min(slides.length - 1, newIndex)));
-
-    const isFilling = () => {
-      if (!mq.matches) return false;
-      const r = heroJack.getBoundingClientRect();
-      return Math.abs(r.top) < 1 && r.height >= window.innerHeight - 1;
-    };
-
-    window.addEventListener('wheel', (e) => {
-      if (!isFilling()) return;
-      if (animating) { e.preventDefault(); return; }
-      const goingDown = e.deltaY > 0;
-      if (goingDown && index < slides.length - 1) { e.preventDefault(); render(index + 1); }
-      else if (!goingDown && index > 0) { e.preventDefault(); render(index - 1); }
-      // else: at a boundary, let the browser scroll normally into/out of the hero
-    }, { passive: false });
-
-    window.addEventListener('keydown', (e) => {
-      if (!isFilling() || animating) return;
-      if ((e.key === 'ArrowDown' || e.key === 'PageDown') && index < slides.length - 1) { e.preventDefault(); render(index + 1); }
-      else if ((e.key === 'ArrowUp' || e.key === 'PageUp') && index > 0) { e.preventDefault(); render(index - 1); }
-    });
-
-    let touchStartY = null;
-    heroJack.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
-    heroJack.addEventListener('touchmove', (e) => {
-      if (!isFilling() || touchStartY === null || animating) return;
-      const dy = touchStartY - e.touches[0].clientY;
-      if (Math.abs(dy) < 40) return;
-      if (dy > 0 && index < slides.length - 1) { e.preventDefault(); render(index + 1); touchStartY = e.touches[0].clientY; }
-      else if (dy < 0 && index > 0) { e.preventDefault(); render(index - 1); touchStartY = e.touches[0].clientY; }
-    }, { passive: false });
-
-    dots.forEach((d, i) => d.addEventListener('click', () => render(i)));
+    dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
 
     scheduleAuto(); // the hero starts blending on its own from the moment the page loads
   }

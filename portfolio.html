@@ -21,10 +21,10 @@
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="portfolio.html" aria-current="page">Portfolio</a>
-      <a href="about.html">About</a>      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </nav>
     <div style="display:flex; align-items:center; gap:28px;">
-      <a href="contact.html" class="nav-cta">Enquire</a>
       <div class="nav-burger"><span></span><span></span><span></span></div>
     </div>
   </div>
@@ -34,7 +34,8 @@
   <div class="close">Close</div>
   <a href="index.html">Home</a>
   <a href="portfolio.html">Portfolio</a>
-  <a href="about.html">About</a>  <a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
 </div>
 
 <main>
@@ -44,16 +45,18 @@
     <div class="wrap">
       <span class="eyebrow reveal" style="display:block; margin-bottom:14px;">Selected Works</span>
       <h1 class="headline reveal" style="margin:0;">Portfolio</h1>
+      <div class="divider-grow is-prominent" style="margin-top:26px; max-width:760px;"></div>
     </div>
   </section>
 
-  <!-- Flush project grid -->
-  <!-- Same grid, proportions, spacing, and glass hover as the Home
-       page's Curated Collection, the Portfolio simply extends it to
-       every project rather than running a separate gallery system. -->
-  <section class="tone-sage" style="padding-top:0;">
-    <div class="wrap reveal" style="padding:0;">
-      <div class="curated-grid">
+  <!-- Clean, uniform 4-column grid, exactly four images per row with
+       generous, consistent spacing between both rows and columns, no
+       masonry or irregular sizing. Same frosted-glass hover as the
+       Home page's Curated Collection, just a structured grid instead
+       of a free-form arrangement. -->
+  <section class="tone-sage" style="padding:80px 0 96px;">
+    <div class="wrap reveal">
+      <div class="port-grid-4">
         <a href="projects/serene-flat.html" class="curated-item img-block">
           <img src="images/living-02.jpg" alt="The Serene Flat, Tiong Bahru"/>
           <span class="curated-name">The Serene Flat</span>
@@ -77,6 +80,14 @@
         <a href="projects/heritage-reimagined.html" class="curated-item img-block">
           <img src="images/kitchen-01.jpg" alt="Heritage Reimagined, Joo Chiat"/>
           <span class="curated-name">Heritage Reimagined</span>
+        </a>
+        <a href="projects/linen-house.html" class="curated-item img-block">
+          <img src="images/living-01.jpg" alt="The Linen House, Holland Village"/>
+          <span class="curated-name">The Linen House</span>
+        </a>
+        <a href="projects/north-bridge-loft.html" class="curated-item img-block">
+          <img src="images/detail-03.jpg" alt="North Bridge Loft"/>
+          <span class="curated-name">North Bridge Loft</span>
         </a>
       </div>
     </div>

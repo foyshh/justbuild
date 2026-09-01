@@ -98,8 +98,7 @@ header.site-nav.site-nav--hero:not(.scrolled) {
   border-bottom-color: rgba(255,255,255,0.16);
 }
 header.site-nav.site-nav--hero:not(.scrolled) .nav-mark,
-header.site-nav.site-nav--hero:not(.scrolled) .nav-links a,
-header.site-nav.site-nav--hero:not(.scrolled) .nav-cta {
+header.site-nav.site-nav--hero:not(.scrolled) .nav-links a {
   color: rgba(255,255,255,0.92);
 }
 header.site-nav.site-nav--hero:not(.scrolled) .nav-mark .sub { color: var(--c-sage-glow); }
@@ -107,15 +106,18 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-links a:hover,
 header.site-nav.site-nav--hero:not(.scrolled) .nav-links a[aria-current="page"] {
   color: #fff; border-bottom-color: rgba(255,255,255,0.85);
 }
-header.site-nav.site-nav--hero:not(.scrolled) .nav-cta { border-bottom-color: rgba(255,255,255,0.5); }
-header.site-nav.site-nav--hero:not(.scrolled) .nav-cta:hover { border-bottom-color: #fff; }
 header.site-nav.site-nav--hero:not(.scrolled) .nav-burger span { background: #fff; }
 header.site-nav .wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 .nav-mark { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
 .nav-mark .name { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.02em; font-size: 24px; }
 .nav-mark .sub { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--c-sage); margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 500; text-shadow: 0 1px 10px rgba(0,0,0,0.18); transition: text-shadow 0.5s ease; }
 header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
-.nav-links { display: none; align-items: center; gap: 44px; }
+/* Grouped toward the right, close to the mobile-menu burger, rather
+   than floating in the middle of the bar: the auto margin absorbs the
+   free space that header.site-nav .wrap's justify-content:space-between
+   would otherwise spread evenly, so the wordmark stays flush left
+   while the links settle over toward the right edge. */
+.nav-links { display: none; align-items: center; gap: 40px; margin-left: auto; margin-right: 40px; }
 @media (min-width: 900px) { .nav-links { display: flex; } }
 .nav-links a {
   font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
@@ -124,15 +126,6 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
   padding-bottom: 4px; border-bottom: 1px solid transparent;
 }
 .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--c-ink); border-bottom-color: var(--c-sage); }
-.nav-cta {
-  display: none;
-  font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em;
-  font-size: 14px; text-decoration: none;
-  color: var(--c-ink); border-bottom: 1px solid var(--c-line); padding-bottom: 3px;
-  transition: border-color 0.35s ease; white-space: nowrap;
-}
-@media (min-width: 900px) { .nav-cta { display: inline-block; } }
-.nav-cta:hover { border-color: var(--c-ink); }
 
 /* Philosophy split section */
 .philosophy-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; }
@@ -288,8 +281,6 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    or permanent caption sitting over the image. Shared by the Portfolio
    page, whose gallery is built from the same markup and classes so
    both read as one system. */
-.curated-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
-@media (min-width: 900px) { .curated-grid { grid-template-columns: repeat(4, 1fr); } }
 .curated-item { position: relative; display: block; overflow: hidden; text-decoration: none; color: inherit; aspect-ratio: 3/4; }
 .curated-item img { transition: filter 1.6s cubic-bezier(0.22,0.61,0.36,1), transform 2s cubic-bezier(0.22,0.61,0.36,1), transform 0.7s ease; }
 .curated-item:hover img, .curated-item:focus-visible img { transform: scale(1.05); }
@@ -318,12 +309,73 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
   transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
 }
 .curated-item:hover .curated-name, .curated-item:focus-visible .curated-name { opacity: 1; transform: translateY(0) translateY(-50%); }
-@media (hover: none) {
-  .curated-item::after { opacity: 1; backdrop-filter: blur(3px) saturate(1.05); -webkit-backdrop-filter: blur(3px) saturate(1.05); border-color: rgba(255,255,255,0.16); }
-  .curated-item .curated-name { opacity: 1; transform: translateY(-50%); }
-}
-@media (max-width: 560px) { .curated-grid { grid-template-columns: 1fr 1fr; } }
+/* Strictly hover/focus-only: no permanently-on fallback for touch or
+   hybrid devices. Default state is always fully clear and sharp, with
+   the glass and name appearing only while actually hovered or
+   focused, and clearing the moment the pointer leaves. */
 .curated-more { text-align: center; margin-top: 28px; }
+
+/* ---------- Curated Collection carousel ----------
+   Static by default, no auto-play: the track only ever moves when the
+   visitor clicks an arrow, one project at a time. 4 items visible per
+   view on desktop (matching the old 4-across grid), 2 on tablet/mobile,
+   with the track width and visible-count read live off the rendered
+   DOM (see js/site.js) rather than duplicating these breakpoints in
+   JS, so the two can never drift out of sync. */
+.curated-carousel-wrap { position: relative; }
+.curated-carousel { overflow: hidden; }
+.curated-track { display: flex; gap: 4px; transition: transform 0.7s cubic-bezier(0.22,0.61,0.36,1); will-change: transform; }
+.curated-track .curated-item { flex: 0 0 calc(25% - 3px); }
+@media (max-width: 900px) { .curated-track .curated-item { flex: 0 0 calc(50% - 2px); } }
+@media (prefers-reduced-motion: reduce) { .curated-track { transition: none; } }
+/* No circle, no background, no shadow: a plain small grey icon, just
+   large enough to read clearly as clickable. */
+.curated-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+  width: 30px; height: 30px; padding: 0; margin: 0;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; cursor: pointer;
+  color: var(--c-ink-soft); opacity: 0.85;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+.curated-arrow svg { width: 24px; height: 24px; display: block; }
+.curated-arrow:hover { color: var(--c-ink); opacity: 1; }
+.curated-arrow-prev { left: 4px; }
+.curated-arrow-next { right: 4px; }
+@media (min-width: 1024px) {
+  .curated-arrow-prev { left: -28px; }
+  .curated-arrow-next { right: -28px; }
+}
+
+/* ---------- Growing divider ----------
+   A plain line that starts short and smoothly widens to fill its
+   container once scrolled into view (see js/site.js), rather than
+   appearing at full width immediately. Used under "View Full
+   Portfolio" on the Home page and under the "Portfolio" heading on
+   the Portfolio page. Slow and minimal, a single quiet flourish. */
+/* A transform, not a width animation: the box is always its full
+   final width, just scaled to nothing from the left edge, so growth
+   genuinely reads as sweeping left-to-right rather than expanding
+   outward from the center (which a centered width-based grow would
+   do, since centering pushes both edges outward equally). */
+.divider-grow { height: 1px; background: var(--c-line); width: 100%; transform-origin: left center; transform: scaleX(0); transition: transform 2s cubic-bezier(0.22,0.61,0.36,1); }
+.divider-grow.in { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) { .divider-grow { transition: none; transform: scaleX(1); } }
+/* A more noticeable variant for the Portfolio page: a real colour
+   instead of the faint line-grey (sage rather than a neutral hairline)
+   and a longer travel distance, but kept thin, still just the one
+   quiet flourish rather than anything loud. */
+.divider-grow.is-prominent { height: 1px; background: var(--c-sage); }
+
+/* ---------- Portfolio gallery: clean 4-column grid ----------
+   Exactly four images per row (fewer only on the final, partial row),
+   uniform sizing and alignment, generous gaps both between rows and
+   between columns, structured rather than masonry. Hover treatment
+   (frosted glass + name) is shared with .curated-item. */
+.port-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 56px 32px; }
+.port-grid-4 .curated-item { aspect-ratio: 3/4; }
+@media (max-width: 900px) { .port-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 44px 24px; } }
+@media (max-width: 560px) { .port-grid-4 { grid-template-columns: 1fr; gap: 40px; } }
 
 /* ---------- Hero: full-screen, scroll-jacked project showcase ----------
    Landing slide + four projects, each filling the viewport. One wheel
@@ -377,9 +429,13 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    and held back to settle in slowly on its own, well after the first
    line has finished, so it reads as the deliberate, grander moment. */
 .headline.hero-title { font-size: clamp(34px, 5.2vw, 64px); line-height: 1.16; }
-.hero-title-quiet { display: block; font-size: 0.74em; letter-spacing: 0.01em; opacity: 0.94; }
+/* "One Stone" reads as a quiet lead-in, sized up a little from the old
+   subline treatment; "Thanos" is the dominant element, noticeably
+   larger again and given the site's sage accent colour so the two
+   lines read as a deliberate hierarchy rather than one flat title. */
+.hero-title-quiet { display: block; font-size: 0.9em; letter-spacing: 0.01em; opacity: 0.94; }
 .hero-title-accent {
-  display: block; margin-top: 8px; font-size: 1.32em; letter-spacing: -0.01em;
+  display: block; margin-top: 10px; font-size: 1.55em; letter-spacing: -0.01em;
   color: var(--c-sage-glow);
   opacity: 0; transform: translateY(28px) scale(0.96);
   animation: heroAccentIn 2.2s cubic-bezier(0.16,1,0.3,1) 1.05s forwards;
@@ -457,9 +513,6 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .hero-jack-skip svg { width: 16px; height: 16px; display: block; }
 
 @media (max-width: 700px) {
-  .hero-jack { height: auto; }
-  .hero-jack-slide { position: relative; opacity: 1 !important; transform: none !important; pointer-events: auto !important; height: 88vh; }
-  .hero-jack-dots, .flip-index, .hero-jack-skip { display: none; }
   .flip-info { position: absolute; left: 0; right: 0; top: auto; bottom: 56px; transform: none; text-align: left; max-width: none; padding: 0 28px; }
 }
 
@@ -469,13 +522,48 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    hard cut. Full-bleed photo sections (hero, final CTA) are exempt,
    they carry their own dark overlay and don't need a backdrop. */
 .tone-sage {
-  /* Deeper, more saturated hue and higher peak opacity than before,
-     the wide 32%/68% fade zones stay, so it's still a soft, seamless
-     wash, just a genuinely present one rather than a barely-there tint. */
-  background: linear-gradient(180deg, transparent 0%, rgba(120,134,94,0.58) 32%, rgba(120,134,94,0.58) 68%, transparent 100%), var(--c-bg);
+  /* A true raised-cosine curve (a Hann window: opacity = peak *
+     0.5*(1-cos(2*pi*t))), sampled at 12 equal steps rather than the
+     handful of stops used before. A straight ramp meeting a flat
+     middle, or even a modest handful of linear stops, still changes
+     slope abruptly enough at a couple of points for the eye to read
+     faint seams across a large field of colour (a Mach-band effect).
+     The extra stops approximate a genuinely smooth curve closely
+     enough that no slope-break is visible anywhere, entering and
+     leaving at 0 so it still blends seamlessly with whatever sits
+     above and below. Peak nudged up slightly for a touch more
+     presence throughout, still restrained. */
+  background: linear-gradient(180deg,
+    rgba(120,134,94,0) 0%,
+    rgba(120,134,94,0.04) 8%,
+    rgba(120,134,94,0.17) 17%,
+    rgba(120,134,94,0.33) 25%,
+    rgba(120,134,94,0.49) 33%,
+    rgba(120,134,94,0.61) 42%,
+    rgba(120,134,94,0.66) 50%,
+    rgba(120,134,94,0.61) 58%,
+    rgba(120,134,94,0.49) 67%,
+    rgba(120,134,94,0.33) 75%,
+    rgba(120,134,94,0.17) 83%,
+    rgba(120,134,94,0.04) 92%,
+    rgba(120,134,94,0) 100%
+  ), var(--c-bg);
   position: relative;
 }
 .tone-white { background: var(--c-bg); position: relative; }
+
+/* ---------- Project CTA: soft blended tint ----------
+   Used for the "Imagining something similar" section on individual
+   project pages instead of .tone-sage: that class's fixed 32%/68%
+   fade band is tuned for tall sections, so in a compact CTA it reads
+   as a flat, fairly present green block rather than a blend. A quiet
+   radial wash centered behind the text, fading out on every side
+   instead, so it feels like a soft tint bleeding into the page rather
+   than a banner sitting on it. */
+.project-cta {
+  position: relative;
+  background: radial-gradient(70% 170% at 50% 50%, rgba(120,134,94,0.16) 0%, rgba(120,134,94,0) 72%), var(--c-bg);
+}
 
 /* Mounted-print frame: photos on a sage field sit slightly lifted,
    like a print on a mat board, rather than flush color-block. */
@@ -485,6 +573,20 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 }
 
 .hero-collections { padding-top: 68px; }
+
+/* ---------- Home Final CTA: auto-rotating background ----------
+   A slow crossfade between a small set of images rather than one
+   static frame (see js/site.js). The dark overlay is a separate
+   sibling layer sitting above all of them, so it darkens whichever
+   photo happens to be active identically, rather than needing to be
+   reapplied per image. */
+.home-cta-bg { position: absolute; inset: 0; }
+.home-cta-bg-img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 2.2s ease;
+}
+.home-cta-bg-img.is-active { opacity: 1; z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .home-cta-bg-img { transition: none; } }
 
 /* ---------- Slowed reveal (Final CTA) ----------
    Same fade/rise system as .reveal / .split-line, just stretched out
@@ -521,30 +623,66 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .foot-credit a:hover { color: var(--c-sage-deep); border-color: var(--c-sage-deep); }
 
 
-/* ---------- Project detail: split-screen gallery ----------
-   The standard template for every individual project page. On mobile,
-   a plain flex column with the large image on top (order controlled by
-   flex-direction: column-reverse against DOM order thumbs-then-stage)
-   and a horizontally scrollable thumbnail strip beneath. From ~800px
-   up it becomes a true split screen: thumbnails left, one large stage
-   right. The stage cycles on its own via a slow crossfade (see
-   js/site.js); clicking any thumbnail jumps straight to that image and
-   resets the timer, so manual and automatic browsing share one system
-   rather than fighting each other. */
-.project-gallery { display: flex; flex-direction: column-reverse; gap: 16px; }
-@media (min-width: 800px) { .project-gallery { display: grid; grid-template-columns: 140px 1fr; gap: 28px; align-items: start; } }
-.project-thumbs { display: flex; flex-direction: row; gap: 10px; overflow-x: auto; padding-bottom: 2px; }
-@media (min-width: 800px) { .project-thumbs { flex-direction: column; overflow-x: visible; padding-bottom: 0; } }
+/* ---------- Project detail: header + gallery ----------
+   The standard template for every individual project page.
+
+   Header (.project-header): All Projects / location, year / name /
+   description, sits in its own section above the gallery in normal
+   document flow, no fixed height, so however many lines the copy
+   wraps to, it simply takes the space it needs, nothing else on the
+   page can be pushed under or behind it. A rule + generous padding
+   separates it clearly from the gallery below.
+
+   Gallery (.project-gallery): 6 rectangular thumbnails (wide, not
+   square) in a 2x3 block on the left, one wide, dominant stage image
+   on the right, cycling through the same 6 photos. The whole block is
+   given a fixed pixel height (deliberately NOT a viewport-height unit,
+   which was the root of the earlier overlap bug: vh is only reliable
+   once you know the actual viewport height, and percentage-height
+   children chained under it are fragile). A flat px height plus
+   overflow:hidden on the container itself makes the thumbnail block
+   and the stage image's heights identical and guaranteed to never
+   spill into whatever comes after, regardless of viewport size. Below
+   ~960px it drops to a simple stacked flow instead. The stage cycles
+   on its own via a slow crossfade (see js/site.js); clicking a
+   thumbnail jumps straight to that image and resets the timer. */
+.project-header { max-width: 620px; margin-left: 0; }
+/* Project name sits well below the site's default h1 size (tuned for
+   full-bleed hero headlines, not a compact detail-page title), both so
+   short names like "Sage & Stone" never wrap onto a second line, and
+   so the header takes up noticeably less vertical space overall. */
+.project-header h1.headline { font-size: clamp(24px, 2.6vw, 34px); line-height: 1.2; white-space: nowrap; }
+.project-gallery { display: flex; flex-direction: column; gap: 14px; }
+@media (min-width: 960px) {
+  .project-gallery {
+    display: grid;
+    grid-template-columns: minmax(380px, 460px) 1fr;
+    /* An explicit single-row track (rather than leaving grid-template-rows
+       on its default 'auto') is what actually makes the height below
+       definite for the children's height:100% to resolve against; auto
+       plus align-items:stretch was letting the row grow to fit the
+       thumbnails' own aspect-ratio content instead of the reverse. */
+    grid-template-rows: 460px;
+    gap: 16px; align-items: stretch;
+    max-width: 1100px;
+    height: 460px;
+    overflow: hidden;
+  }
+}
+.project-thumbs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 960px) { .project-thumbs { grid-template-rows: repeat(3, 1fr); height: 100%; } }
 .project-thumb {
-  flex: 0 0 auto; width: 92px; aspect-ratio: 4/3; padding: 0; margin: 0;
+  position: relative; width: 100%; height: 100%; min-height: 0; padding: 0; margin: 0;
   border: 1px solid transparent; background: none; overflow: hidden; cursor: pointer;
+  aspect-ratio: 16/9;
   opacity: 0.5; transition: opacity 0.35s ease, border-color 0.35s ease;
 }
-@media (min-width: 800px) { .project-thumb { width: 100%; } }
+@media (min-width: 960px) { .project-thumb { aspect-ratio: auto; } }
 .project-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; filter: none !important; transform: none !important; }
 .project-thumb:hover, .project-thumb:focus-visible { opacity: 0.8; }
 .project-thumb.is-active { opacity: 1; border-color: var(--c-sage); }
-.project-stage { position: relative; aspect-ratio: 4/3.1; max-height: 74vh; overflow: hidden; background: var(--c-bg-alt); }
+.project-stage { position: relative; overflow: hidden; background: var(--c-bg-alt); aspect-ratio: 16/9; }
+@media (min-width: 960px) { .project-stage { height: 100%; aspect-ratio: auto; } }
 .project-stage-img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   opacity: 0; transition: opacity 1.3s ease;

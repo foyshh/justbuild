@@ -4,11 +4,32 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>About | Just Build La</title>
-<meta name="description" content="Meet Just Build La, a boutique interior design studio led by Steve Goh, orchestrating quiet, architectural residences from concept to handover."/>
+<meta name="description" content="Meet Just Build La, an independent interior design studio led by Steve Goh, orchestrating quiet, architectural residences from concept to handover."/>
+<link rel="canonical" href="https://justbuild.com.sg/about.html"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png"/>
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
+<meta name="theme-color" content="#17180F"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Just Build La"/>
+<meta property="og:title" content="About | Just Build La"/>
+<meta property="og:description" content="Meet Just Build La, an independent interior design studio led by Steve Goh, orchestrating quiet, architectural residences from concept to handover."/>
+<meta property="og:url" content="https://justbuild.com.sg/about.html"/>
+<meta property="og:image" content="https://justbuild.com.sg/images/living-02.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="800"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="About | Just Build La"/>
+<meta name="twitter:description" content="Meet Just Build La, an independent interior design studio led by Steve Goh, orchestrating quiet, architectural residences from concept to handover."/>
+<meta name="twitter:image" content="https://justbuild.com.sg/images/living-02.jpg"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LocalBusiness", "@id": "https://justbuild.com.sg/#business", "name": "Just Build La", "image": "https://justbuild.com.sg/images/living-02.jpg", "url": "https://justbuild.com.sg/", "telephone": "+65 9695 0765", "email": "steve@justbuildla.sg", "priceRange": "$$$", "address": {"@type": "PostalAddress", "streetAddress": "35B Seah St", "addressLocality": "Singapore", "postalCode": "188391", "addressCountry": "SG"}, "sameAs": ["https://www.instagram.com/justbuildla_sg/"]}</script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Marcellus+SC&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://justbuild.com.sg/"}, {"@type": "ListItem", "position": 2, "name": "About", "item": "https://justbuild.com.sg/about.html"}]}</script>
 </head>
 <body>
 
@@ -25,6 +46,7 @@
       <a href="contact.html">Contact</a>
     </nav>
     <div style="display:flex; align-items:center; gap:28px;">
+      <a href="login.html" class="nav-login">Log In</a>
       <div class="nav-burger"><span></span><span></span><span></span></div>
     </div>
   </div>
@@ -36,99 +58,165 @@
   <a href="portfolio.html">Portfolio</a>
   <a href="about.html">About</a>
   <a href="contact.html">Contact</a>
+  <a href="login.html" class="mobile-menu-login">Log In</a>
 </div>
 
 <main>
 
-  <!-- Intro -->
+  <!-- Intro: kept left-anchored (margin-left:0 overrides .wrap's own
+       auto-centering) rather than sitting as a centered column, so it
+       reads as the start of a page rather than a poster. Quote sits
+       underneath as a second, quieter beat. -->
   <section class="tone-white" style="padding-top:calc(var(--nav-h) + 72px);">
-    <div class="wrap" style="max-width:760px;">
+    <div class="wrap" style="max-width:640px; margin-left:0;">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span class="crumb-sep">/</span><span class="crumb-current" aria-current="page">About</span></nav>
       <span class="eyebrow reveal" style="display:block; margin-bottom:20px;">Founder &amp; Creative Lead</span>
       <h1 class="headline reveal split-line" style="margin:0 0 32px;">Steve Goh</h1>
-      <p class="script reveal" style="font-size:26px; line-height:1.5; color:var(--c-ink); margin:0;">"We don't design spaces to be admired. We design them to be lived in."</p>
+      <p class="script reveal" style="font-size:24px; line-height:1.5; color:var(--c-ink); margin:0;">"We make simple things look good."</p>
     </div>
   </section>
 
   <!-- Our Philosophy -->
   <section class="section-tight tone-sage" style="padding-top:0;">
     <div class="wrap philosophy-grid reveal">
-      <div class="img-block" style="aspect-ratio:4/5; order:2;">
+      <div class="img-block" style="aspect-ratio:4/4.2; order:2;">
         <img src="images/living-02.jpg" alt="Dining space with wishbone chairs and plaster walls"/>
       </div>
       <div style="order:1;">
         <span class="eyebrow" style="display:block; margin-bottom:18px;">Our Philosophy</span>
-        <h2 class="headline split-line" style="margin:0 0 32px;">Good design starts<br>with listening.</h2>
+        <h2 class="headline split-line" style="margin:0 0 32px;">We turn ideas<br>into reality.</h2>
         <p class="body-copy" style="max-width:440px;">Every home is different, and so is everyone who lives in one. Before we draw anything, we take the time to understand your lifestyle, your habits, and the way you actually want to live, because that's where the right space really comes from.</p>
+        <div class="stats-content" style="margin-top:40px;">
+          <div class="stat-item">
+            <span class="headline stat-num" data-count-to="15" data-suffix="+">0</span>
+            <span class="label">Years of Craft</span>
+          </div>
+          <div class="stat-item">
+            <span class="headline stat-num" data-count-to="50" data-prefix="~" data-suffix="">0</span>
+            <span class="label">Projects a Year</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Stats, replacing the old Design Philosophy quote in this slot:
-       the numbers do the talking, animated up from 0 the moment the
-       panel comes into view (see js/site.js), with the right half kept
-       open and reserved for a future image or video rather than a
-       mirrored/centered stat block. -->
+  <!-- Our Studio: widened to roughly two thirds of the viewport and
+       centered (both the box and its text), rather than sitting as a
+       narrow left-aligned column, so it reads as more of a statement
+       than a standard paragraph block. The quote lived here before but
+       has since moved up to the Founder intro, so this is copy only. -->
+  <section class="tone-white section-tight">
+    <div class="wrap reveal studio-wrap" style="text-align:center;">
+      <span class="eyebrow" style="display:block; margin-bottom:18px;">Our Studio</span>
+      <p class="body-copy">Just Build La is an independent interior design studio based in Singapore, built around a simple idea: a good space shouldn't need explaining. We strip away whatever a room doesn't need, so what's left feels effortless, even though getting there rarely is. That's what we mean when we say we make simple things look good, it isn't a slogan, it's how every project with us actually starts.</p>
+    </div>
+  </section>
+
+  <!-- Our Design Ethos + Our Client Experience Journey: one section,
+       two columns, rather than two separate stacked blocks, so the
+       "how we think" and "how we work" halves of the story sit side
+       by side. Journey steps run top-to-bottom as a simple numbered
+       list on the right instead of a four-across grid. Stacks to a
+       single column (ethos, then journey) below 860px. -->
+  <section class="tone-sage section-tight">
+    <div class="wrap reveal ethos-journey">
+      <div class="ethos-copy">
+        <span class="eyebrow" style="display:block; margin-bottom:18px;">Our Design Ethos</span>
+        <h2 class="headline split-line" style="margin:0 0 28px;">Good design is felt<br>before it's seen.</h2>
+        <p class="body-copy">Great design is about more than what meets the eye. It's in how a space flows, how light moves through a room, and how it holds up to everyday life. Guided by restraint and intention, we shape homes that are timeless, personal, and made to be lived in, not just looked at.</p>
+      </div>
+      <div class="journey-col">
+        <span class="eyebrow" style="display:block; margin-bottom:28px;">Our Client Experience Journey</span>
+        <div class="journey-list">
+          <div class="journey-row">
+            <span class="journey-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/></svg></span>
+            <div class="journey-text">
+              <span class="journey-num">01</span>
+              <span class="journey-title">First Point of Contact</span>
+              <span class="journey-desc">You reach out, and we get a first sense of your space and your goals.</span>
+            </div>
+          </div>
+          <div class="journey-row">
+            <span class="journey-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6"/><line x1="15.2" y1="15.2" x2="20" y2="20"/></svg></span>
+            <div class="journey-text">
+              <span class="journey-num">02</span>
+              <span class="journey-title">Discovery &amp; Consultation</span>
+              <span class="journey-desc">We visit the site and talk through how you actually want to live in it.</span>
+            </div>
+          </div>
+          <div class="journey-row">
+            <span class="journey-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5V20h3.5L18.5 9 15 5.5 4 16.5z"/><path d="M13 7.5 16.5 11"/></svg></span>
+            <div class="journey-text">
+              <span class="journey-num">03</span>
+              <span class="journey-title">Design Development</span>
+              <span class="journey-desc">Concepts, materials, and layouts come together into a plan you can see.</span>
+            </div>
+          </div>
+          <div class="journey-row">
+            <span class="journey-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="3.5"/><path d="M10.5 12.5 19 4"/><path d="M16 7l2 2"/><path d="M13.5 9.5l2 2"/></svg></span>
+            <div class="journey-text">
+              <span class="journey-num">04</span>
+              <span class="journey-title">Project Execution to Handover</span>
+              <span class="journey-desc">We build it, manage every trade, and hand you the finished space.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Press, an auto-scrolling, infinitely looping carousel rather than
+       a static row. Every card links straight OUT to the real source
+       (an external article, or the actual PDF), no in-site detail page
+       in between. The track is duplicated once in the markup so the
+       loop has no visible seam; hovering pauses it.
+       - Home & Decor / SquareRooms: link straight to the two live
+         article URLs supplied.
+       - Singapore Institute of Architects: links straight to the real
+         SIA circular PDF (press/assets/sia-why-architect-forum-2020.pdf,
+         copied in as-is), which opens/downloads in the browser rather
+         than a page about it.
+       The Straits Times clipping is left out of this carousel for now:
+       there's no live URL for it (just a physical clipping) and no
+       image file of it saved anywhere I can read yet, so "click
+       through to the real thing" isn't possible for it yet. Send the
+       actual clipping image and it can go straight into a card the
+       same way. -->
   <section class="section-tight tone-white">
-    <div class="wrap reveal stats-panel">
-      <div class="stats-content">
-        <div class="stat-item">
-          <span class="headline stat-num" data-count-to="15" data-suffix="+">0</span>
-          <span class="label">Years of Craft</span>
-        </div>
-        <div class="stat-item">
-          <span class="headline stat-num" data-count-to="200" data-suffix="+">0</span>
-          <span class="label">Global Commissions</span>
-        </div>
-      </div>
-      <div class="stats-visual-slot" aria-hidden="true">
-        <span class="stats-visual-hint">Space reserved for visual</span>
-      </div>
+    <div class="wrap reveal" style="text-align:center; margin-bottom:36px;">
+      <span class="eyebrow" style="display:block;">As Featured In</span>
     </div>
-  </section>
-
-  <!-- Our Process -->
-  <section class="tone-sage">
-    <div class="wrap">
-      <div class="reveal" style="max-width:640px; margin-bottom:72px;">
-        <span class="eyebrow" style="display:block; margin-bottom:18px;">Our Process</span>
-        <h2 class="headline split-line" style="margin:0;">A curated journey,<br>beginning to completion.</h2>
-      </div>
-      <div class="reveal method-grid">
-        <div class="method-list">
-          <div class="method-step" data-stage="1">
-            <span class="script" style="font-size:22px; color:var(--c-sage-pale);">01</span>
-            <div><h3 class="headline" style="margin:0 0 10px;">Discovery</h3><p class="body-copy" style="margin:0; max-width:480px;">Understanding you (your needs, lifestyle, and ambitions) alongside the space itself, to establish the creative direction and project brief.</p></div>
-          </div>
-          <div class="rail-arrow-row"><span class="rail-arrow" data-arrow="1">↓</span></div>
-
-          <div class="method-step" data-stage="2">
-            <span class="script" style="font-size:22px; color:var(--c-sage-pale);">02</span>
-            <div><h3 class="headline" style="margin:0 0 10px;">Curation</h3><p class="body-copy" style="margin:0; max-width:480px;">Developing the concept (spatial direction, materials, textures, colours, and visual language) refined until the design has a clear identity.</p></div>
-          </div>
-          <div class="rail-arrow-row"><span class="rail-arrow" data-arrow="2">↓</span></div>
-
-          <div class="method-step" data-stage="3">
-            <span class="script" style="font-size:22px; color:var(--c-sage-pale);">03</span>
-            <div><h3 class="headline" style="margin:0 0 10px;">Realisation</h3><p class="body-copy" style="margin:0; max-width:480px;">Translating the concept into detailed design, drawings, and visualisation, and bringing the creative idea into something tangible and buildable.</p></div>
-          </div>
-          <div class="rail-arrow-row"><span class="rail-arrow" data-arrow="3">↓</span></div>
-
-          <div class="method-step method-step-last" data-stage="4">
-            <span class="script" style="font-size:22px; color:var(--c-sage-pale);">04</span>
-            <div><h3 class="headline" style="margin:0 0 10px;">Unveiling</h3><p class="body-copy" style="margin:0; max-width:480px;">The final transformation: the moment the concept becomes a finished space, and you experience the result for the first time.</p></div>
-          </div>
+    <div class="press-carousel">
+      <div class="press-track">
+        <div class="press-card">
+          <a href="https://www.homeanddecor.com.sg/interior-design/landed/house-tour-a-cluster-house-in-bukit-timah-with-lush-views-and-soothing-shades" class="press-card-frame" tabindex="-1" aria-hidden="true" target="_blank" rel="noopener"><span>Home &amp; Decor</span></a>
+          <span class="press-card-name">Home &amp; Decor</span>
+          <a href="https://www.homeanddecor.com.sg/interior-design/landed/house-tour-a-cluster-house-in-bukit-timah-with-lush-views-and-soothing-shades" class="press-link" target="_blank" rel="noopener">Click Here to View the Page &#8594;</a>
         </div>
-
-        <div class="method-visual-wrap">
-          <!-- One fixed, contained frame, the photo underneath changes as
-               each step scrolls to center, rather than the visitor moving
-               through four separate image sections. -->
-          <div class="method-frame" aria-hidden="true">
-            <img class="mf-img is-active" data-stage="1" src="images/living-01.jpg" alt=""/>
-            <img class="mf-img" data-stage="2" src="images/bath-01.jpg" alt=""/>
-            <img class="mf-img" data-stage="3" src="images/kitchen-01.jpg" alt=""/>
-            <img class="mf-img" data-stage="4" src="images/detail-01.jpg" alt=""/>
-          </div>
+        <div class="press-card">
+          <a href="https://squarerooms.com.sg/inspirations/a-stylish-blue-toned-apartment-built-with-functionality-in-mind/" class="press-card-frame" tabindex="-1" aria-hidden="true" target="_blank" rel="noopener"><span>SquareRooms</span></a>
+          <span class="press-card-name">SquareRooms</span>
+          <a href="https://squarerooms.com.sg/inspirations/a-stylish-blue-toned-apartment-built-with-functionality-in-mind/" class="press-link" target="_blank" rel="noopener">Click Here to View the Page &#8594;</a>
+        </div>
+        <div class="press-card">
+          <a href="press/assets/sia-why-architect-forum-2020.pdf" class="press-card-frame" tabindex="-1" aria-hidden="true" target="_blank" rel="noopener"><span>Singapore Institute of Architects</span></a>
+          <span class="press-card-name">Singapore Institute of Architects</span>
+          <a href="press/assets/sia-why-architect-forum-2020.pdf" class="press-link" target="_blank" rel="noopener">Click Here to View the Page &#8594;</a>
+        </div>
+        <div class="press-card" aria-hidden="true">
+          <a href="https://www.homeanddecor.com.sg/interior-design/landed/house-tour-a-cluster-house-in-bukit-timah-with-lush-views-and-soothing-shades" class="press-card-frame" tabindex="-1" target="_blank" rel="noopener"><span>Home &amp; Decor</span></a>
+          <span class="press-card-name">Home &amp; Decor</span>
+          <a href="https://www.homeanddecor.com.sg/interior-design/landed/house-tour-a-cluster-house-in-bukit-timah-with-lush-views-and-soothing-shades" class="press-link" tabindex="-1" target="_blank" rel="noopener">Click Here to View the Page &#8594;</a>
+        </div>
+        <div class="press-card" aria-hidden="true">
+          <a href="https://squarerooms.com.sg/inspirations/a-stylish-blue-toned-apartment-built-with-functionality-in-mind/" class="press-card-frame" tabindex="-1" target="_blank" rel="noopener"><span>SquareRooms</span></a>
+          <span class="press-card-name">SquareRooms</span>
+          <a href="https://squarerooms.com.sg/inspirations/a-stylish-blue-toned-apartment-built-with-functionality-in-mind/" class="press-link" tabindex="-1" target="_blank" rel="noopener">Click Here to View the Page &#8594;</a>
+        </div>
+        <div class="press-card" aria-hidden="true">
+          <a href="press/assets/sia-why-architect-forum-2020.pdf" class="press-card-frame" tabindex="-1" target="_blank" rel="noopener"><span>Singapore Institute of Architects</span></a>
+          <span class="press-card-name">Singapore Institute of Architects</span>
+          <a href="press/assets/sia-why-architect-forum-2020.pdf" class="press-link" tabindex="-1" target="_blank" rel="noopener">Click Here to View the Page &#8594;</a>
         </div>
       </div>
     </div>
@@ -152,19 +240,26 @@
 
 <footer>
   <div class="wrap">
-    <div style="display:grid; grid-template-columns:1fr; gap:48px; padding-bottom:56px; border-bottom:1px solid var(--c-line);">
+    <div style="display:grid; grid-template-columns:1fr; gap:48px; padding-bottom:56px;">
       <div>
         <span class="foot-mark" style="display:block; margin-bottom:16px;">Just Build La</span>
-        <p class="body-copy" style="max-width:340px; font-size:14px;">A boutique interior design studio. Architectural rigor, domestic soul.</p>
+        <p class="body-copy" style="max-width:340px; font-size:14px;">An independent interior design studio. Architectural rigor, domestic soul.</p>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px;">
+      <div class="foot-links-grid" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:32px;">
         <div>
           <span class="label">Studio</span>
-          <address>123 Keppel Road, #04-01<br>Tanjong Pagar, Singapore 089067</address>
+          <address>35B Seah St<br>Singapore 188391</address>
         </div>
         <div>
           <span class="label">Enquiries</span>
-          <a class="plain" href="mailto:hello@justbuildla.sg">hello@justbuildla.sg</a>
+          <a class="plain" href="mailto:steve@justbuildla.sg">steve@justbuildla.sg</a>
+        </div>
+        <div>
+          <span class="label">Quick Links</span>
+          <a class="plain" href="index.html" style="display:block;">Home</a>
+          <a class="plain" href="portfolio.html" style="display:block;">Portfolio</a>
+          <a class="plain" href="about.html" style="display:block;">About</a>
+          <a class="plain" href="contact.html" style="display:block;">Contact</a>
         </div>
       </div>
     </div>

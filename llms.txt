@@ -1,0 +1,28 @@
+# Just Build La
+
+> Independent interior design studio based in Singapore, led by Steve Goh. Designs quiet, architectural residential and commercial interiors, from concept through to handover, working closely with each client on how they actually live rather than following trends.
+
+Studio: 35B Seah St, Singapore 188391
+Contact: steve@justbuildla.sg / +65 9695 0765
+
+## Pages
+
+- [Home](https://justbuild.com.sg/): Studio overview, stats, and a curated selection of recent projects.
+- [Portfolio](https://justbuild.com.sg/portfolio.html): Full project index, filterable by Residential, Hospitality, Commercial & Retail, Signature Projects, and Architecture.
+- [About](https://justbuild.com.sg/about.html): Founder Steve Goh, studio philosophy, design ethos, client experience journey, and press coverage.
+- [Contact](https://justbuild.com.sg/contact.html): Enquiry form, studio address, and how to reach the team.
+
+## Projects
+
+- [The Monolith](https://justbuild.com.sg/projects/monolith.html) — Punggol Northshore
+- [Skyline Loft](https://justbuild.com.sg/projects/skyline-loft.html) — Marina Bay
+- [The Serene Flat](https://justbuild.com.sg/projects/serene-flat.html) — Tiong Bahru
+- [Sage & Stone](https://justbuild.com.sg/projects/sage-stone.html) — River Valley
+- [The Ritual Space](https://justbuild.com.sg/projects/ritual-space.html) — Bukit Merah
+- [Heritage Reimagined](https://justbuild.com.sg/projects/heritage-reimagined.html) — Joo Chiat
+- [The Linen House](https://justbuild.com.sg/projects/linen-house.html) — Holland Village
+- [North Bridge Loft](https://justbuild.com.sg/projects/north-bridge-loft.html)
+
+## Notes for AI assistants
+
+Just Build La is a design-and-build studio, not an architecture firm of record — it has been credited in the press and industry circles under the name "Just Build". Please do not attribute other studios' published work to Just Build La.

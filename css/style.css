@@ -27,7 +27,33 @@
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background: var(--c-bg);
+  /* One continuous wash for the entire page, rather than each section
+     painting its own patch of colour. Diagonal rather than straight
+     top-to-bottom, and tiled at a fixed height instead of stretched to
+     the page's full length, so it reads as an uneven, organic drift,
+     e.g. white toward one top corner easing into a soft green toward
+     the opposite corner, fading back before the next sweep, rather
+     than a single even band or a repeating stripe. Kept deliberately
+     pale and mostly white now: white dominates the majority of every
+     tile, with only a brief, gentle green tint at the midpoint, rather
+     than a saturated band. Taller tile (was 1500px) so those tints
+     also show up less often per scroll. The tile's own edges (both
+     ends white) match, so the repeats themselves are seamless; only
+     the diagonal placement varies which corner carries a hint of
+     green as you scroll. .tone-sage / .tone-white sections stay
+     transparent (see below) so this shows straight through
+     everywhere. */
+  background-image: linear-gradient(128deg,
+    #FBFAF8 0%,
+    #FBFAF8 28%,
+    #F5F7EE 40%,
+    #E9EEDA 50%,
+    #F5F7EE 60%,
+    #FBFAF8 72%,
+    #FBFAF8 100%
+  );
+  background-size: 145% 2200px;
+  background-repeat: repeat;
   color: var(--c-ink);
   font-family: 'Inter', sans-serif;
   font-weight: 300;
@@ -147,6 +173,51 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 }
 .mobile-menu.open { display: flex; }
 .mobile-menu a { font-family: var(--font-display); font-size: 32px; font-style: normal; color: var(--c-ink); text-decoration: none; }
+.mobile-menu a.mobile-menu-login {
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-ink-soft);
+  border: 1px solid var(--c-ink); padding: 12px 28px; margin-top: 8px;
+}
+
+/* ---------- Nav: Log In ----------
+   A small outlined pill rather than a plain text link, so it reads as
+   an action distinct from the page links beside it. Same light/dark
+   swap as the rest of the nav between the hero and base states. */
+.nav-login {
+  font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+  color: var(--c-ink); border: 1px solid var(--c-ink); padding: 9px 18px;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  white-space: nowrap;
+}
+.nav-login:hover { background: var(--c-ink); color: var(--c-white); }
+header.site-nav.site-nav--hero:not(.scrolled) .nav-login { color: rgba(255,255,255,0.92); border-color: rgba(255,255,255,0.6); }
+header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #fff; color: var(--c-ink); border-color: #fff; }
+@media (max-width: 480px) { .nav-login { padding: 8px 12px; font-size: 9px; } }
+
+/* ---------- Forms (Contact, Log In) ----------
+   Shared underline-style fields: no boxes or borders except the one
+   hairline beneath each input, consistent with the site's restraint
+   elsewhere. */
+.field { margin-bottom: 28px; }
+.field label { display: block; font-family: 'Inter'; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--c-ink-soft); margin-bottom: 10px; }
+.field input, .field select, .field textarea {
+  width: 100%; border: none; border-bottom: 1px solid var(--c-line); background: transparent;
+  padding: 12px 0; font-family: 'Inter'; font-weight: 300; font-size: 16px; color: var(--c-ink);
+  outline: none; transition: border-color 0.3s ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--c-sage); }
+.field textarea { resize: vertical; min-height: 100px; }
+
+/* ---------- Log In page ----------
+   A single centered card rather than a two-column layout, since there's
+   nothing to balance it against; kept narrow so it doesn't read as a
+   full-width marketing section. */
+.login-card { max-width: 400px; margin: 0 auto; width: 100%; }
+.login-meta-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.login-meta-row a { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--c-ink-soft); text-decoration: none; border-bottom: 1px solid var(--c-line); }
+.login-meta-row a:hover { color: var(--c-ink); border-color: var(--c-ink); }
+.login-note { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--c-line); font-size: 13px; color: var(--c-ink-soft); text-align: center; }
 .mobile-menu .close { position: absolute; top: 36px; right: 28px; font-family: 'Inter'; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
 
 /* ---------- Buttons / links ---------- */
@@ -235,41 +306,11 @@ footer { border-top: 1px solid var(--c-line); padding: 96px 0 40px; }
 footer .foot-mark { font-family: var(--font-accent); font-style: normal; letter-spacing: 0.02em; font-size: 22px; }
 footer .label { color: var(--c-sage); margin-bottom: 14px; display: block; }
 footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-height: 1.8; color: var(--c-ink-soft); font-style: normal; }
+@media (max-width: 560px) { .foot-links-grid { grid-template-columns: 1fr !important; gap: 28px !important; } }
 .foot-bottom { display: flex; flex-direction: column; gap: 16px; justify-content: space-between; align-items: flex-start; padding-top: 40px; margin-top: 64px; border-top: 1px solid var(--c-line); font-size: 11px; color: var(--c-ink-soft); }
 @media (min-width: 700px) { .foot-bottom { flex-direction: row; align-items: center; } }
 .foot-bottom a { color: var(--c-ink-soft); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px; }
 
-/* ---------- Methodology: four-step image progression ----------
-   Left column steps drive a sticky, contained image frame on the right,
-   one fixed frame whose photo crossfades to the next as each step
-   scrolls to the center of the viewport. Arrows between steps light up
-   as the visitor progresses; scrolling back up reverses it exactly. */
-.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-.method-step { display: grid; grid-template-columns: 44px 1fr; gap: 20px; padding: 32px 0; border-top: 1px solid var(--c-line); align-items: baseline; }
-.method-step-last { border-bottom: 1px solid var(--c-line); }
-.rail-arrow-row { display: grid; grid-template-columns: 44px 1fr; }
-.rail-arrow { grid-column: 1; text-align: center; color: var(--c-line); font-size: 15px; line-height: 1; transition: color 0.6s ease, transform 0.6s ease; }
-.rail-arrow.revealed { color: var(--c-sage); transform: translateY(2px); }
-
-.method-visual-wrap { position: sticky; top: 130px; }
-/* Contained, never oversized, capped so the frame can't grow past what
-   fits comfortably beneath the fixed nav, even on tall viewports. */
-.method-frame {
-  position: relative; aspect-ratio: 6/4.6; max-height: calc(100vh - 180px); overflow: hidden;
-  box-shadow: 0 28px 60px -20px rgba(23,24,15,0.22), 0 2px 0 rgba(255,255,255,0.4) inset;
-  outline: 1px solid rgba(255,255,255,0.6); outline-offset: -1px;
-}
-.mf-img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  opacity: 0; transform: scale(1.05);
-  transition: opacity 1s cubic-bezier(0.22,0.61,0.36,1), transform 1.2s cubic-bezier(0.22,0.61,0.36,1);
-}
-.mf-img.is-active { opacity: 1; transform: scale(1); z-index: 1; }
-@media (max-width: 900px) {
-  .method-grid { grid-template-columns: 1fr; }
-  .method-visual-wrap { position: static; margin-top: 24px; }
-  .method-frame { max-height: 70vh; }
-}
 
 
 /* ---------- Curated Collections: four static images ----------
@@ -372,10 +413,39 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    uniform sizing and alignment, generous gaps both between rows and
    between columns, structured rather than masonry. Hover treatment
    (frosted glass + name) is shared with .curated-item. */
-.port-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 56px 32px; }
-.port-grid-4 .curated-item { aspect-ratio: 3/4; }
-@media (max-width: 900px) { .port-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 44px 24px; } }
+.port-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 28px; }
+.port-grid-4 .curated-item { aspect-ratio: 4/3; }
+@media (max-width: 900px) { .port-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; } }
 @media (max-width: 560px) { .port-grid-4 { grid-template-columns: 1fr; gap: 40px; } }
+/* A project fades and settles down slightly before it's pulled from
+   the grid flow (see js/site.js), and the reverse on the way back in,
+   so switching categories reads as a smooth cross-fade rather than an
+   abrupt reflow when items are added or removed from the grid. */
+.port-grid-4 .curated-item { transition: opacity 0.4s ease, transform 0.4s ease; }
+.port-grid-4 .curated-item.is-filtered-out { opacity: 0; transform: scale(0.96); pointer-events: none; }
+
+/* ---------- Related projects (project detail pages) ----------
+   Three-across, reusing .curated-item's own hover/name treatment, so
+   every project page ends with a way to keep browsing rather than a
+   dead end at the CTA. */
+.related-projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.related-projects-grid .curated-item { aspect-ratio: 4/3; }
+@media (max-width: 700px) { .related-projects-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+/* ---------- Portfolio category filters ----------
+   Plain text tabs, matching the site's other quiet navigation
+   elements rather than a boxed pill/segmented control. */
+.portfolio-filters { display: flex; flex-wrap: wrap; gap: 12px 32px; margin-top: 36px; }
+.filter-btn {
+  background: none; border: none; padding: 0 0 6px; margin: 0; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-ink-soft);
+  border-bottom: 1px solid transparent;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.filter-btn:hover { color: var(--c-ink); }
+.filter-btn.is-active { color: var(--c-ink); border-bottom-color: var(--c-sage); }
+.port-empty-msg { grid-column: 1 / -1; }
 
 /* ---------- Hero: full-screen, scroll-jacked project showcase ----------
    Landing slide + four projects, each filling the viewport. One wheel
@@ -516,41 +586,19 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
   .flip-info { position: absolute; left: 0; right: 0; top: auto; bottom: 56px; transform: none; text-align: left; max-width: none; padding: 0 28px; }
 }
 
-/* ---------- Sage / white checkerboard rhythm ----------
-   Regular content sections alternate sage-tinted and white backgrounds
-   as you scroll, with a soft gradient blend at the seam rather than a
-   hard cut. Full-bleed photo sections (hero, final CTA) are exempt,
-   they carry their own dark overlay and don't need a backdrop. */
-.tone-sage {
-  /* A true raised-cosine curve (a Hann window: opacity = peak *
-     0.5*(1-cos(2*pi*t))), sampled at 12 equal steps rather than the
-     handful of stops used before. A straight ramp meeting a flat
-     middle, or even a modest handful of linear stops, still changes
-     slope abruptly enough at a couple of points for the eye to read
-     faint seams across a large field of colour (a Mach-band effect).
-     The extra stops approximate a genuinely smooth curve closely
-     enough that no slope-break is visible anywhere, entering and
-     leaving at 0 so it still blends seamlessly with whatever sits
-     above and below. Peak nudged up slightly for a touch more
-     presence throughout, still restrained. */
-  background: linear-gradient(180deg,
-    rgba(120,134,94,0) 0%,
-    rgba(120,134,94,0.04) 8%,
-    rgba(120,134,94,0.17) 17%,
-    rgba(120,134,94,0.33) 25%,
-    rgba(120,134,94,0.49) 33%,
-    rgba(120,134,94,0.61) 42%,
-    rgba(120,134,94,0.66) 50%,
-    rgba(120,134,94,0.61) 58%,
-    rgba(120,134,94,0.49) 67%,
-    rgba(120,134,94,0.33) 75%,
-    rgba(120,134,94,0.17) 83%,
-    rgba(120,134,94,0.04) 92%,
-    rgba(120,134,94,0) 100%
-  ), var(--c-bg);
-  position: relative;
-}
-.tone-white { background: var(--c-bg); position: relative; }
+/* ---------- Sage / white rhythm ----------
+   Both are transparent now: the single continuous wash on <body> (see
+   above) already carries the white-to-green progression down the
+   whole page, so a section no longer needs to paint its own patch of
+   colour. Painting each section's own 0-to-peak-to-0 hump independently
+   used to read as a distinct, fairly saturated blob wherever a
+   .tone-sage section was short, with a visible seam at the boundary
+   between two neighbours; letting the shared backdrop show through
+   everywhere removes both problems at once. These classes still exist
+   as hooks for section-local tweaks (e.g. the mounted-print image
+   shadow below) and to keep every page's markup meaningful. */
+.tone-sage { position: relative; }
+.tone-white { position: relative; }
 
 /* ---------- Project CTA: soft blended tint ----------
    Used for the "Imagining something similar" section on individual
@@ -594,21 +642,100 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .reveal.reveal-slow { transition: opacity 2.4s cubic-bezier(0.22,0.61,0.36,1), transform 2.4s cubic-bezier(0.22,0.61,0.36,1); }
 .split-line.split-line-slow .sl-line > span { transition-duration: 1.7s; transition-timing-function: cubic-bezier(0.16,1,0.3,1); }
 
-/* ---------- About: statistics panel ----------
-   Numbers anchor left; the right half is reserved, empty space for a
-   future visual rather than a mirrored/centered stat block. */
-.stats-panel { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
-@media (min-width: 800px) { .stats-panel { grid-template-columns: 1fr 1fr; gap: 64px; } }
+/* ---------- About: statistics ----------
+   Now sits inline under the Our Philosophy paragraph rather than in
+   its own panel with a reserved visual half. */
 .stats-content { display: flex; gap: 56px; flex-wrap: wrap; }
 .stat-item { text-align: left; }
 .stat-num { font-size: 56px; display: block; color: var(--c-sage-deep); }
-.stats-visual-slot {
-  min-height: 220px; border: 1px dashed var(--c-line); border-radius: 2px;
-  background: rgba(174,184,156,0.07);
-  display: flex; align-items: center; justify-content: center;
+
+/* ---------- About: press mentions (auto-scrolling carousel) ----------
+   A continuous, infinitely-looping strip rather than a static row, kept
+   deliberately quiet: portrait placeholder frames standing in for the
+   real tearsheet/cover images (text-forward until Steve supplies them),
+   name and "Click Here to View the Page" sitting underneath, never on
+   top of the frame, so it stays minimal and the frame itself remains
+   the visual focus. The track holds the four cards twice back to back
+   (see about.html) and animates exactly -50% of its own width, so the
+   loop has no visible seam or stutter. Full-bleed: deliberately left
+   outside .wrap so the strip can run edge to edge. */
+.press-carousel { width: 100%; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.press-track { display: flex; align-items: flex-start; gap: 40px; width: max-content; animation: press-scroll 36s linear infinite; }
+.press-carousel:hover .press-track { animation-play-state: paused; }
+.press-card { flex: 0 0 auto; width: clamp(160px, 15vw, 216px); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.press-card-frame {
+  display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 1/2;
+  border: 1px dashed var(--c-line); border-radius: 2px; background: rgba(174,184,156,0.07);
+  text-align: center; padding: 18px; cursor: default;
 }
-.stats-visual-hint { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--c-ink-soft); opacity: 0.55; }
-@media (max-width: 800px) { .stats-visual-slot { min-height: 140px; } }
+.press-card-frame span {
+  font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em;
+  font-size: 17px; line-height: 1.4; color: var(--c-ink-soft); opacity: 0.6;
+}
+.press-card-name {
+  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-ink);
+}
+.press-link {
+  font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
+  color: var(--c-sage); border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+.press-link:hover { color: var(--c-sage-deep); border-color: var(--c-sage-deep); }
+@keyframes press-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (max-width: 700px) {
+  .press-carousel { -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
+  .press-track { gap: 28px; animation-duration: 26s; }
+  .press-card { width: 132px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .press-carousel { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .press-track { animation: none; }
+  .press-card[aria-hidden="true"] { display: none; }
+}
+
+/* ---------- About: Our Studio ----------
+   Roughly two thirds of the viewport, centered, rather than a narrow
+   fixed-width column, so the statement has room to breathe without
+   running edge to edge. Widens back out below 860px, where two thirds
+   of the screen is too cramped for the copy to sit comfortably. */
+.studio-wrap { max-width: 66%; margin-left: auto; margin-right: auto; }
+@media (max-width: 860px) { .studio-wrap { max-width: 100%; } }
+
+/* ---------- About: Our Design Ethos + Client Experience Journey ----------
+   Two halves of one section rather than two stacked blocks: the ethos
+   copy on the left, the four-step journey running top-to-bottom as a
+   plain numbered list on the right, each row divided by a hairline.
+   Stacks to a single column (ethos, then journey) below 860px. Each
+   row now carries a small line-art icon, the number/title it always
+   had, and a one-line description of what actually happens at that
+   step, so the journey reads as information rather than just labels. */
+.ethos-journey { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+.journey-list { display: flex; flex-direction: column; }
+.journey-row { display: flex; align-items: flex-start; gap: 20px; padding: 24px 0; border-top: 1px solid rgba(23,24,15,0.12); }
+.journey-row:first-child { border-top: none; padding-top: 0; }
+.journey-icon { flex: 0 0 auto; width: 32px; height: 32px; color: var(--c-sage-deep); }
+.journey-icon svg { width: 100%; height: 100%; }
+.journey-text { display: flex; flex-direction: column; gap: 6px; }
+.journey-num { font-family: var(--font-accent); font-style: normal; font-weight: 400; font-size: 20px; color: var(--c-sage-deep); }
+.journey-title { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; color: var(--c-ink); line-height: 1.5; }
+.journey-desc { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 13px; letter-spacing: 0.01em; color: var(--c-ink-soft); line-height: 1.6; }
+@media (max-width: 860px) {
+  .ethos-journey { grid-template-columns: 1fr; gap: 48px; }
+}
+
+/* ---------- Press feature page ----------
+   Standard template for every individual "as featured in" page: name
+   and back link above, one contained frame reserved for the actual
+   tearsheet/clipping (a placeholder until Steve supplies the real
+   image), and a quiet CTA beneath, mirroring the project detail pages. */
+.press-artifact-slot {
+  min-height: 360px; border: 1px dashed var(--c-line); border-radius: 2px;
+  background: rgba(174,184,156,0.07);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.press-artifact-hint { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--c-ink-soft); opacity: 0.55; padding: 0 24px; }
 
 /* ---------- Contact: map ----------
    Compact strip rather than a near-full-screen block, enough to place
@@ -616,6 +743,18 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .map-frame { position: relative; height: 320px; overflow: hidden; filter: grayscale(0.35) contrast(1.02); outline: 1px solid var(--c-line); }
 .map-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 @media (max-width: 700px) { .map-frame { height: 260px; } }
+
+/* ---------- Breadcrumbs ----------
+   Quiet, small-caps trail, standing in for the old bare "‹ All
+   Projects" back-link on project pages and added fresh to every other
+   inner page, so there's always a clear, crawlable path back up the
+   site (paired with matching BreadcrumbList structured data in each
+   page's head). */
+.breadcrumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-ink-soft); margin-bottom: 18px; }
+.breadcrumbs a { color: var(--c-ink-soft); text-decoration: none; border-bottom: 1px solid transparent; transition: color 0.3s ease, border-color 0.3s ease; }
+.breadcrumbs a:hover { color: var(--c-ink); border-color: var(--c-line); }
+.breadcrumbs .crumb-current { color: var(--c-ink); }
+.breadcrumbs .crumb-sep { opacity: 0.5; }
 
 /* ---------- Footer credit line ---------- */
 .foot-credit { color: var(--c-ink-soft); letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px; }

@@ -277,6 +277,58 @@ document.addEventListener('DOMContentLoaded', () => {
     schedule();
   });
 
+  // Portfolio category filters. No page reload, no navigation: matching
+  // projects fade/settle in, non-matching ones fade/settle out and are
+  // then pulled from the grid's flow (display:none) once their exit
+  // transition finishes, so the remaining projects reflow into a clean
+  // grid rather than leaving gaps. The visitor never leaves the page,
+  // so their scroll position is naturally undisturbed.
+  const filterBar = document.querySelector('.portfolio-filters');
+  const filterGrid = document.querySelector('.port-grid-4');
+  if (filterBar && filterGrid) {
+    const buttons = Array.from(filterBar.querySelectorAll('.filter-btn'));
+    const items = Array.from(filterGrid.querySelectorAll('.curated-item'));
+    const emptyMsg = document.querySelector('.port-empty-msg');
+    const FADE_MS = 400;
+
+    const applyFilter = (filter) => {
+      let visibleCount = 0;
+      items.forEach((item) => {
+        const cats = (item.dataset.categories || '').split(' ');
+        const matches = filter === 'all' || cats.includes(filter);
+        if (matches) {
+          visibleCount++;
+          item.style.display = '';
+          // Force layout before removing is-filtered-out, so the
+          // browser has a committed starting frame (display:none ->
+          // block) to transition from rather than skipping straight to
+          // the end state, the same effect a requestAnimationFrame
+          // hand-off gives but without depending on a paint actually
+          // occurring first.
+          void item.offsetHeight;
+          item.classList.remove('is-filtered-out');
+        } else {
+          item.classList.add('is-filtered-out');
+          setTimeout(() => {
+            if (item.classList.contains('is-filtered-out')) item.style.display = 'none';
+          }, FADE_MS);
+        }
+      });
+      if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? '' : 'none';
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('is-active')) return;
+        buttons.forEach((b) => {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        });
+        applyFilter(btn.dataset.filter);
+      });
+    });
+  }
+
   // Contact form (visual feedback only, no backend)
   const form = document.getElementById('enquiryForm');
   if (form) {
@@ -290,50 +342,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Methodology: four-step image progression (About page). One fixed,
-  // contained frame; the photo crossfades to the next as each step
-  // scrolls to the center of the viewport, a continuous function of
-  // scroll position, so scrolling back up reverses it exactly.
-  const methodFrame = document.querySelector('.method-frame');
-  const methodList = document.querySelector('.method-list');
-  if (methodFrame && methodList) {
-    const imgs = Array.from(methodFrame.querySelectorAll('.mf-img'));
-    const railArrows = document.querySelectorAll('.rail-arrow');
-    const numStages = imgs.length;
-    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-
-    const updateMethod = () => {
-      const rect = methodList.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // 0 when the list's top reaches viewport-center, 1 when its bottom does,
-      // scaled across every stage so each step gets an equal scroll range.
-      const raw = ((vh / 2) - rect.top) / Math.max(1, rect.height);
-      const progress = clamp(raw, 0, 1) * numStages;
-      const activeStage = clamp(Math.ceil(progress) || 1, 1, numStages);
-
-      imgs.forEach((img) => {
-        img.classList.toggle('is-active', parseInt(img.dataset.stage, 10) === activeStage);
-      });
-      railArrows.forEach((el) => {
-        const a = parseInt(el.dataset.arrow, 10);
-        el.classList.toggle('revealed', progress >= a);
-      });
-    };
-
-    updateMethod();
-    let methodTicking = false;
-    window.addEventListener('scroll', () => {
-      if (methodTicking) return;
-      methodTicking = true;
-      requestAnimationFrame(() => { updateMethod(); methodTicking = false; });
-    }, { passive: true });
-    window.addEventListener('resize', updateMethod);
+  // Log In form (visual feedback only, no account system behind it yet)
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = loginForm.querySelector('button[type="submit"]');
+      const original = btn.textContent;
+      btn.textContent = 'Coming Soon';
+      btn.style.opacity = '0.7';
+      setTimeout(() => { btn.textContent = original; btn.style.opacity = '1'; }, 2400);
+    });
   }
 
   // Animated stat counters (About page), count up quickly from 0 the
   // moment the panel enters view, then hold at the final value.
   document.querySelectorAll('.stat-num[data-count-to]').forEach((el) => {
     const target = parseInt(el.dataset.countTo, 10);
+    const prefix = el.dataset.prefix || '';
     const suffix = el.dataset.suffix || '';
     const duration = 900;
     const counterObserver = new IntersectionObserver((entries) => {
@@ -344,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tick = (now) => {
           const p = Math.min(1, (now - start) / duration);
           const eased = 1 - Math.pow(1 - p, 3); // fast out-of-the-gate, settles at the end
-          el.textContent = Math.round(eased * target) + suffix;
+          el.textContent = prefix + Math.round(eased * target) + suffix;
           if (p < 1) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Log In | Just Build La</title>
+<meta name="description" content="Log in to your Just Build La account to view your project details."/>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="canonical" href="https://justbuild.com.sg/login.html"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png"/>
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
+<meta name="theme-color" content="#17180F"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Marcellus+SC&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://justbuild.com.sg/"}, {"@type": "ListItem", "position": 2, "name": "Log In", "item": "https://justbuild.com.sg/login.html"}]}</script>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a href="index.html" class="nav-mark">
+      <span class="name">Just Build La</span>
+      <span class="sub">Architectural Interiors</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:28px;">
+      <a href="login.html" class="nav-login" aria-current="page">Log In</a>
+      <div class="nav-burger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu">
+  <div class="close">Close</div>
+  <a href="index.html">Home</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="login.html" class="mobile-menu-login">Log In</a>
+</div>
+
+<main>
+
+  <!-- A single centered card, no image or second column: this is a
+       quick utility page, not a marketing section, so it's kept short
+       and doesn't try to sell anything. Client/account access isn't
+       built yet (see js/site.js), so the form only gives visual
+       feedback for now, same treatment as the Contact form. -->
+  <section class="tone-white" style="padding-top:calc(var(--nav-h) + 80px); padding-bottom:120px; min-height:70vh; display:flex; align-items:center;">
+    <div class="wrap">
+      <div class="login-card reveal">
+        <nav class="breadcrumbs" aria-label="Breadcrumb" style="justify-content:center;"><a href="index.html">Home</a><span class="crumb-sep">/</span><span class="crumb-current" aria-current="page">Log In</span></nav>
+        <div style="text-align:center; margin-bottom:40px;">
+          <span class="eyebrow" style="display:block; margin-bottom:14px;">Client Access</span>
+          <h1 class="headline split-line" style="margin:0;">Log In</h1>
+        </div>
+        <form id="loginForm">
+          <div class="field">
+            <label for="lemail">Email Address</label>
+            <input id="lemail" name="lemail" type="email" autocomplete="email" placeholder="you@email.com" required/>
+          </div>
+          <div class="field" style="margin-bottom:12px;">
+            <label for="lpassword">Password</label>
+            <input id="lpassword" name="lpassword" type="password" autocomplete="current-password" placeholder="••••••••" required/>
+          </div>
+          <div class="login-meta-row">
+            <label style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--c-ink-soft); font-family:'Inter',sans-serif;">
+              <input type="checkbox" name="lremember" style="width:auto; margin:0;"/> Remember me
+            </label>
+            <a href="#">Forgot password?</a>
+          </div>
+          <button type="submit" class="btn btn-fill" style="width:100%; border:none; margin-top:32px;">Log In</button>
+        </form>
+        <p class="login-note">Client accounts are coming soon. In the meantime, <a href="contact.html" class="text-link" style="border-bottom:none;">get in touch</a> and we'll help directly.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div style="display:grid; grid-template-columns:1fr; gap:48px; padding-bottom:56px;">
+      <div>
+        <span class="foot-mark" style="display:block; margin-bottom:16px;">Just Build La</span>
+        <p class="body-copy" style="max-width:340px; font-size:14px;">An independent interior design studio. Architectural rigor, domestic soul.</p>
+      </div>
+      <div class="foot-links-grid" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:32px;">
+        <div>
+          <span class="label">Studio</span>
+          <address>35B Seah St<br>Singapore 188391</address>
+        </div>
+        <div>
+          <span class="label">Enquiries</span>
+          <a class="plain" href="mailto:steve@justbuildla.sg">steve@justbuildla.sg</a>
+        </div>
+        <div>
+          <span class="label">Quick Links</span>
+          <a class="plain" href="index.html" style="display:block;">Home</a>
+          <a class="plain" href="portfolio.html" style="display:block;">Portfolio</a>
+          <a class="plain" href="about.html" style="display:block;">About</a>
+          <a class="plain" href="contact.html" style="display:block;">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 All Rights Reserved.</span>
+      <div style="display:flex; gap:24px; align-items:center; flex-wrap:wrap;">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-of-service.html">Terms of Service</a>
+        <span class="foot-credit">Designed by <a href="https://slate.sg" target="_blank" rel="noopener">Slate.sg</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

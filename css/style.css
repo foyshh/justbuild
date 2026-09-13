@@ -658,14 +658,20 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 
 /* ---------- About: press mentions (auto-scrolling carousel) ----------
    A continuous, infinitely-looping strip rather than a static row, kept
-   deliberately quiet: portrait placeholder frames standing in for the
-   real tearsheet/cover images (text-forward until Steve supplies them),
-   name and "Click Here to View the Page" sitting underneath, never on
-   top of the frame, so it stays minimal and the frame itself remains
-   the visual focus. The track holds the four cards twice back to back
-   (see about.html) and animates exactly -50% of its own width, so the
-   loop has no visible seam or stutter. Full-bleed: deliberately left
-   outside .wrap so the strip can run edge to edge. */
+   deliberately quiet: real tearsheet/cover screenshots sit inside a
+   fixed, uniform frame, name and "Click Here to View the Page" sitting
+   underneath, never on top of the frame, so it stays minimal and the
+   frame itself remains the visual focus. The track holds the six cards
+   twice back to back (see about.html) and animates exactly -50% of its
+   own width, so the loop has no visible seam or stutter. Full-bleed:
+   deliberately left outside .wrap so the strip can run edge to edge.
+
+   Every card frame is the same fixed aspect ratio regardless of the
+   source image's own shape (a magazine scan, a mobile screenshot, a
+   photo of an award — all different proportions): the image uses
+   object-fit:contain against the frame's own soft background fill, so
+   it's scaled down to fit whole rather than cropped, with the fill
+   showing as quiet letterboxing on whichever axis doesn't match. */
 .press-carousel { width: 100%; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .press-track { display: flex; align-items: flex-start; gap: 40px; width: max-content; animation: press-scroll 36s linear infinite; }
 /* Runs continuously, deliberately never pausing on hover (or for any
@@ -673,10 +679,11 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    strip that just keeps moving. */
 .press-card { flex: 0 0 auto; width: clamp(160px, 15vw, 216px); display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .press-card-frame {
-  display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 1/2;
-  border: 1px dashed var(--c-line); border-radius: 2px; background: rgba(174,184,156,0.07);
-  text-align: center; padding: 18px; cursor: default;
+  display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 3/4;
+  border: 1px solid var(--c-line); border-radius: 2px; background: rgba(174,184,156,0.07);
+  text-align: center; padding: 0; overflow: hidden; cursor: default;
 }
+.press-card-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .press-card-frame span {
   font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em;
   font-size: 17px; line-height: 1.4; color: var(--c-ink-soft); opacity: 0.6;

@@ -814,7 +814,16 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    full-bleed crop was cutting off the edges of the room on anything
    that wasn't already a 16:9 shot, so the frame instead always shows
    the complete, uncropped photograph (letterboxed on whichever axis
-   doesn't match) against the stage's own background fill. */
+   doesn't match) against the stage's own background fill.
+
+   Below ~960px the two panes stack, and the stage is reordered ahead
+   of the thumbnails (order:-1) so the large image always reads first
+   without touching the HTML — thumbnails follow underneath as a
+   horizontally-scrolling, 2-row strip (grid-auto-flow:column) rather
+   than the desktop's vertically-scrolling 2-column grid: swiping
+   moves through the project photos left-to-right, two at a time per
+   swipe distance, which reads as a compact editorial filmstrip instead
+   of a long vertical list a thumb has to stack for. */
 .project-header { max-width: 620px; margin-left: 0; }
 /* Project name sits well below the site's default h1 size (tuned for
    full-bleed hero headlines, not a compact detail-page title), both so
@@ -858,8 +867,22 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .project-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; filter: none !important; transform: none !important; }
 .project-thumb:hover, .project-thumb:focus-visible { opacity: 0.8; }
 .project-thumb.is-active { opacity: 1; border-color: var(--c-sage); }
-.project-stage { position: relative; overflow: hidden; background: var(--c-bg-alt); aspect-ratio: 16/9; }
+.project-stage { position: relative; overflow: hidden; background: var(--c-bg-alt); aspect-ratio: 4/3; }
 @media (min-width: 960px) { .project-stage { height: 100%; aspect-ratio: auto; } }
+@media (max-width: 959.98px) {
+  /* Main image first, thumbnails follow — pure visual reorder, the
+     thumbnails still come first in the HTML/DOM (so the gallery's own
+     tab order and screen-reader order are unaffected). */
+  .project-stage { order: -1; }
+  .project-thumbs { overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; }
+  .project-thumbs-grid {
+    grid-auto-flow: column; grid-template-columns: none;
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-columns: 132px;
+    height: 204px;
+  }
+  .project-thumb { aspect-ratio: auto; }
+}
 .project-stage-img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
   opacity: 0; transition: opacity 1.3s ease;

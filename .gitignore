@@ -1,0 +1,8 @@
+# Raw source photos (unedited WhatsApp exports) — not part of the deployed site.
+# The curated, renamed copies actually used by the site live in images/projects/.
+Proj Images/
+
+# Local tooling
+.claude/
+.DS_Store
+Thumbs.db

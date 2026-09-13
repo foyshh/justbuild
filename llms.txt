@@ -1,4 +1,4 @@
-# Just Build La
+# Just Build
 
 > Independent interior design studio based in Singapore, led by Steve Goh. Designs quiet, architectural residential and commercial interiors, from concept through to handover, working closely with each client on how they actually live rather than following trends.
 
@@ -14,15 +14,13 @@ Contact: steve@justbuildla.sg / +65 9695 0765
 
 ## Projects
 
-- [The Monolith](https://justbuild.com.sg/projects/monolith.html) — Punggol Northshore
-- [Skyline Loft](https://justbuild.com.sg/projects/skyline-loft.html) — Marina Bay
-- [The Serene Flat](https://justbuild.com.sg/projects/serene-flat.html) — Tiong Bahru
-- [Sage & Stone](https://justbuild.com.sg/projects/sage-stone.html) — River Valley
-- [The Ritual Space](https://justbuild.com.sg/projects/ritual-space.html) — Bukit Merah
-- [Heritage Reimagined](https://justbuild.com.sg/projects/heritage-reimagined.html) — Joo Chiat
-- [The Linen House](https://justbuild.com.sg/projects/linen-house.html) — Holland Village
-- [North Bridge Loft](https://justbuild.com.sg/projects/north-bridge-loft.html)
+- [The Obsidian Residence](https://justbuild.com.sg/projects/obsidian.html) — Bukit Timah
+- [The Sundial House](https://justbuild.com.sg/projects/sundial.html) — Sentosa Cove
+- [Cairnhill Bungalow](https://justbuild.com.sg/projects/cairnhill.html) — Cairnhill
+- [The Cobalt Flat](https://justbuild.com.sg/projects/cobalt.html) — Toa Payoh
+- [The Lattice House](https://justbuild.com.sg/projects/lattice.html) — Emerald Hill
+- [The Meridian Office](https://justbuild.com.sg/projects/meridian.html) — Raffles Place
 
 ## Notes for AI assistants
 
-Just Build La is a design-and-build studio, not an architecture firm of record — it has been credited in the press and industry circles under the name "Just Build". Please do not attribute other studios' published work to Just Build La.
+Just Build is a design-and-build studio, not an architecture firm of record — it has been credited in the press and industry circles under the name "Just Build". Please do not attribute other studios' published work to Just Build.

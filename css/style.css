@@ -1,5 +1,5 @@
 /* ========================================================
-   Just Build La, Architectural Interiors
+   Just Build, Architectural Interiors
    Design system: quiet luxury, photography-led, minimal type
    ======================================================== */
 
@@ -27,32 +27,37 @@
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  /* One continuous wash for the entire page, rather than each section
-     painting its own patch of colour. Diagonal rather than straight
-     top-to-bottom, and tiled at a fixed height instead of stretched to
-     the page's full length, so it reads as an uneven, organic drift,
-     e.g. white toward one top corner easing into a soft green toward
-     the opposite corner, fading back before the next sweep, rather
-     than a single even band or a repeating stripe. Kept deliberately
-     pale and mostly white now: white dominates the majority of every
-     tile, with only a brief, gentle green tint at the midpoint, rather
-     than a saturated band. Taller tile (was 1500px) so those tints
-     also show up less often per scroll. The tile's own edges (both
-     ends white) match, so the repeats themselves are seamless; only
-     the diagonal placement varies which corner carries a hint of
-     green as you scroll. .tone-sage / .tone-white sections stay
-     transparent (see below) so this shows straight through
-     everywhere. */
-  background-image: linear-gradient(128deg,
-    #FBFAF8 0%,
-    #FBFAF8 28%,
-    #F5F7EE 40%,
-    #E9EEDA 50%,
-    #F5F7EE 60%,
-    #FBFAF8 72%,
-    #FBFAF8 100%
+  /* A continuous, gently-moving wash for the whole page rather than
+     each section painting its own flat patch. Green dominates, white
+     passes through briefly at the midpoint of each cycle. A true
+     raised-cosine (Hann window) curve, sampled at 13 points, so the
+     slope is continuous everywhere (no Mach-band seam from an abrupt
+     change of slope). Straight vertical (180deg) rather than diagonal
+     now, and sized 100% wide (not a percentage over 100%): a diagonal
+     gradient re-renders fresh, from its own 0% to its own 100%, inside
+     every tile background-size repeats, so unless the tile's width is
+     an exact multiple of the diagonal's horizontal period, tiles don't
+     line up sideways and a seam shows on any viewport wide enough to
+     repeat horizontally, which is exactly what kept happening. A
+     vertical gradient has no horizontal component at all, so there's
+     nothing to misalign no matter how wide the screen is. js/site.js
+     drives this wash's own continuous vertical position drift. */
+  background-image: linear-gradient(180deg,
+    #A9B397 0%,
+    #AEB79D 8%,
+    #BEC5B0 17%,
+    #D2D7C8 25%,
+    #E6E8DF 33%,
+    #F6F6F2 42%,
+    #FBFAF8 50%,
+    #F6F6F2 58%,
+    #E6E8DF 67%,
+    #D2D7C8 75%,
+    #BEC5B0 83%,
+    #AEB79D 92%,
+    #A9B397 100%
   );
-  background-size: 145% 2200px;
+  background-size: 100% 2200px;
   background-repeat: repeat;
   color: var(--c-ink);
   font-family: 'Inter', sans-serif;
@@ -60,12 +65,13 @@ body {
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
+
 ::-webkit-scrollbar { display: none; }
 img { display: block; max-width: 100%; }
 
 /* ---------- Type roles ---------- */
 .script     { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em; }
-.headline   { font-family: var(--font-display); font-style: normal; font-weight: 400; letter-spacing: -0.005em; }
+.headline   { font-family: var(--font-display); font-style: normal; font-weight: 400; letter-spacing: -0.012em; }
 .eyebrow    { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.04em; font-size: 18px; color: var(--c-sage); }
 .label      { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
 .body-copy  { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 16px; line-height: 1.85; color: var(--c-ink-soft); }
@@ -75,15 +81,15 @@ img { display: block; max-width: 100%; }
    tuned for. Too tight and multi-line headlines overlap themselves,
    or the split-line reveal's overflow:hidden clips a descender clean
    off the bottom of the line, exactly what was happening before. */
-h1.headline { font-size: clamp(40px, 6vw, 78px); line-height: 1.14; }
-h2.headline { font-size: clamp(30px, 4vw, 48px); line-height: 1.22; }
-h3.headline { font-size: clamp(22px, 2.4vw, 28px); line-height: 1.25; }
+h1.headline { font-size: clamp(42px, 6.4vw, 84px); line-height: 1.13; }
+h2.headline { font-size: clamp(32px, 4.2vw, 52px); line-height: 1.2; }
+h3.headline { font-size: clamp(23px, 2.5vw, 30px); line-height: 1.24; }
 
 /* ---------- Layout ---------- */
-.wrap { max-width: 1360px; margin: 0 auto; padding: 0 28px; }
+.wrap { max-width: 1440px; margin: 0 auto; padding: 0 28px; }
 @media (min-width: 1024px) { .wrap { padding: 0 64px; } }
-section { padding: 128px 0; }
-.section-tight { padding: 88px 0; }
+section { padding: 160px 0; }
+.section-tight { padding: 108px 0; }
 hr.line { border: none; border-top: 1px solid var(--c-line); margin: 0; }
 
 /* ---------- Nav ----------
@@ -92,10 +98,11 @@ hr.line { border: none; border-top: 1px solid var(--c-line); margin: 0; }
    top of the viewport, or are still near the top of the page. Keeps the
    photography full-bleed instead of a bar sitting over it permanently.
 
-   Always a translucent glass panel, never a solid bar: a soft blur
-   plus a light tint carries just enough separation to read as its own
-   interface element while the imagery underneath stays visible through
-   it. Two readable variants rather than one compromise colour:
+   A translucent glass panel on every page (not a plain solid colour):
+   a soft blur plus a light tint carries just enough separation to read
+   as its own interface element while whatever sits behind it (a hero
+   photo, or the page's own scrolled content) stays visible, blurred,
+   through it. Two readable variants rather than one compromise colour:
      - base (every interior page, and the homepage once scrolled past
        the hero): a pale glass over light content, dark text.
      - .site-nav--hero:not(.scrolled) (homepage, still on the hero
@@ -155,7 +162,7 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 
 /* Philosophy split section */
 .philosophy-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; }
-@media (min-width: 900px) { .philosophy-grid { grid-template-columns: 1fr 1fr; gap: 80px; } }
+@media (min-width: 900px) { .philosophy-grid { grid-template-columns: 1fr 1fr; gap: 96px; } }
 
 /* Selected works masonry offset */
 .tile-offset { margin-top: 28px; }
@@ -413,8 +420,8 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    uniform sizing and alignment, generous gaps both between rows and
    between columns, structured rather than masonry. Hover treatment
    (frosted glass + name) is shared with .curated-item. */
-.port-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 28px; }
-.port-grid-4 .curated-item { aspect-ratio: 4/3; }
+.port-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px 32px; }
+.port-grid-4 .curated-item { aspect-ratio: 5/4; }
 @media (max-width: 900px) { .port-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; } }
 @media (max-width: 560px) { .port-grid-4 { grid-template-columns: 1fr; gap: 40px; } }
 /* A project fades and settles down slightly before it's pulled from
@@ -661,7 +668,9 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    outside .wrap so the strip can run edge to edge. */
 .press-carousel { width: 100%; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .press-track { display: flex; align-items: flex-start; gap: 40px; width: max-content; animation: press-scroll 36s linear infinite; }
-.press-carousel:hover .press-track { animation-play-state: paused; }
+/* Runs continuously, deliberately never pausing on hover (or for any
+   other reason short of prefers-reduced-motion below) — an infinite
+   strip that just keeps moving. */
 .press-card { flex: 0 0 auto; width: clamp(160px, 15vw, 216px); display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .press-card-frame {
   display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 1/2;
@@ -772,19 +781,33 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    page can be pushed under or behind it. A rule + generous padding
    separates it clearly from the gallery below.
 
-   Gallery (.project-gallery): 6 rectangular thumbnails (wide, not
-   square) in a 2x3 block on the left, one wide, dominant stage image
-   on the right, cycling through the same 6 photos. The whole block is
-   given a fixed pixel height (deliberately NOT a viewport-height unit,
-   which was the root of the earlier overlap bug: vh is only reliable
-   once you know the actual viewport height, and percentage-height
-   children chained under it are fragile). A flat px height plus
-   overflow:hidden on the container itself makes the thumbnail block
-   and the stage image's heights identical and guaranteed to never
-   spill into whatever comes after, regardless of viewport size. Below
+   Gallery (.project-gallery): the full set of a project's photos runs
+   vertically down a thumbnail column on the left; one wide, dominant
+   stage image cycles through the same photos on the right. The whole
+   block is given a fixed pixel height (deliberately NOT a
+   viewport-height unit, which was the root of the earlier overlap bug:
+   vh is only reliable once you know the actual viewport height, and
+   percentage-height children chained under it are fragile). Below
    ~960px it drops to a simple stacked flow instead. The stage cycles
    on its own via a slow crossfade (see js/site.js); clicking a
-   thumbnail jumps straight to that image and resets the timer. */
+   thumbnail jumps straight to that image and resets the timer.
+
+   The thumbnail column itself is a plain natively-scrollable grid
+   (overflow-y:auto + overscroll-behavior:contain) of 2 columns,
+   multiple rows: hovering it and using the wheel/trackpad scrolls only
+   through the project photos, nothing to click or focus first, and
+   overscroll-behavior:contain stops that scroll from ever "chaining"
+   into the page once the grid hits its top/bottom edge, so the rest of
+   the page stays put while the column is being scrolled. Move the
+   mouse off it and the page scrolls normally again — this needs no JS
+   at all, it's what overflow:auto + overscroll-behavior:contain do by
+   default.
+
+   The main stage image uses object-fit:contain rather than cover: a
+   full-bleed crop was cutting off the edges of the room on anything
+   that wasn't already a 16:9 shot, so the frame instead always shows
+   the complete, uncropped photograph (letterboxed on whichever axis
+   doesn't match) against the stage's own background fill. */
 .project-header { max-width: 620px; margin-left: 0; }
 /* Project name sits well below the site's default h1 size (tuned for
    full-bleed hero headlines, not a compact detail-page title), both so
@@ -795,7 +818,7 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 @media (min-width: 960px) {
   .project-gallery {
     display: grid;
-    grid-template-columns: minmax(380px, 460px) 1fr;
+    grid-template-columns: minmax(360px, 460px) 1fr;
     /* An explicit single-row track (rather than leaving grid-template-rows
        on its default 'auto') is what actually makes the height below
        definite for the children's height:100% to resolve against; auto
@@ -803,27 +826,35 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
        thumbnails' own aspect-ratio content instead of the reverse. */
     grid-template-rows: 460px;
     gap: 16px; align-items: stretch;
-    max-width: 1100px;
+    max-width: 1200px;
     height: 460px;
     overflow: hidden;
   }
 }
-.project-thumbs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-@media (min-width: 960px) { .project-thumbs { grid-template-rows: repeat(3, 1fr); height: 100%; } }
+/* The scroll container: fixed height, hidden scrollbar (site-wide
+   ::-webkit-scrollbar rule + scrollbar-width:none here for Firefox),
+   overscroll-behavior:contain so scrolling it never bleeds into the
+   page behind it. The 2-column grid of thumbnails lives directly
+   inside it so the whole grid scrolls as one block. */
+.project-thumbs {
+  overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+@media (min-width: 960px) { .project-thumbs { height: 100%; } }
+.project-thumbs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; align-content: start; }
 .project-thumb {
-  position: relative; width: 100%; height: 100%; min-height: 0; padding: 0; margin: 0;
+  position: relative; width: 100%; padding: 0; margin: 0;
   border: 1px solid transparent; background: none; overflow: hidden; cursor: pointer;
   aspect-ratio: 16/9;
   opacity: 0.5; transition: opacity 0.35s ease, border-color 0.35s ease;
 }
-@media (min-width: 960px) { .project-thumb { aspect-ratio: auto; } }
 .project-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; filter: none !important; transform: none !important; }
 .project-thumb:hover, .project-thumb:focus-visible { opacity: 0.8; }
 .project-thumb.is-active { opacity: 1; border-color: var(--c-sage); }
 .project-stage { position: relative; overflow: hidden; background: var(--c-bg-alt); aspect-ratio: 16/9; }
 @media (min-width: 960px) { .project-stage { height: 100%; aspect-ratio: auto; } }
 .project-stage-img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
   opacity: 0; transition: opacity 1.3s ease;
 }
 .project-stage-img.is-active { opacity: 1; z-index: 1; }

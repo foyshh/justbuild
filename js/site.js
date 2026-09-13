@@ -1,4 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Ambient background: a calm colour wash on <body> that drifts on
+  // its own, slowly, all the time. Actively scrolling adds a small
+  // burst of extra speed proportional to scroll speed, which decays
+  // away quickly once the visitor stops, settling back to the idle
+  // drift rather than snapping still. (A glitter/star overlay used to
+  // sit on top of this; removed, it read as messy rather than quiet.)
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const IDLE_SPEED = 0.017;   // px/ms of constant wash drift
+    const SCROLL_GAIN = 0.06;   // extra drift added per px of scroll delta
+    const SCROLL_DECAY = 0.85;  // per-frame decay of that scroll-driven burst
+    let posY = 0;
+    let scrollBurst = 0;
+    let lastScrollY = window.scrollY;
+    let lastTime = performance.now();
+
+    const tick = (now) => {
+      const dt = Math.min(now - lastTime, 100); // clamp so a tab switch doesn't jump
+      lastTime = now;
+      posY += IDLE_SPEED * dt + scrollBurst;
+      scrollBurst *= SCROLL_DECAY;
+      document.body.style.backgroundPositionY = posY + 'px';
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      scrollBurst += (y - lastScrollY) * SCROLL_GAIN;
+      lastScrollY = y;
+    }, { passive: true });
+  }
+
   // Nav: tinted background once scrolled, and hidden altogether while the
   // visitor is scrolling down through the page. It reappears the moment
   // they scroll back up, rest the cursor near the top of the window, or
@@ -229,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (i === index) s.classList.add('is-prev');
       });
       dots.forEach((d, i) => d.classList.toggle('is-active', i === newIndex));
-      if (idxCurrent) idxCurrent.textContent = String(newIndex + 1).padStart(2, '0');
+      if (idxCurrent) idxCurrent.textContent = newIndex === 0 ? 'ONE' : String(newIndex + 1).padStart(2, '0');
       if (hint) hint.classList.toggle('is-gone', newIndex > 0);
       index = newIndex;
       setTimeout(() => { animating = false; }, LOCK_MS);
@@ -242,11 +274,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Project detail pages: split-screen gallery, standardized across
-  // every project. Clicking a thumbnail jumps the large stage image to
-  // it immediately and resets the auto-rotate timer; left alone, the
-  // stage keeps slowly crossfading through every image and loops
-  // endlessly, so manual and automatic browsing share one timeline
-  // instead of running as two separate systems.
+  // every project. The thumbnail column holds every photo the project
+  // has and simply scrolls (native overflow, see css/style.css) — no
+  // duplication or auto-animation needed. Clicking a thumbnail jumps
+  // the large stage image to it immediately and resets the auto-rotate
+  // timer, and gently scrolls that thumbnail into view within its own
+  // column so keyboard/auto-advance navigation never leaves it hidden
+  // off-screen; left alone, the stage keeps slowly crossfading through
+  // every image and loops endlessly, so manual and automatic browsing
+  // share one timeline instead of running as two separate systems.
   document.querySelectorAll('.project-gallery').forEach((gallery) => {
     const thumbs = Array.from(gallery.querySelectorAll('.project-thumb'));
     const stageImgs = Array.from(gallery.querySelectorAll('.project-stage-img'));
@@ -257,10 +293,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let index = 0;
     let timer = null;
 
-    const show = (i) => {
+    const show = (i, opts) => {
       index = (i + stageImgs.length) % stageImgs.length;
       stageImgs.forEach((img, n) => img.classList.toggle('is-active', n === index));
       thumbs.forEach((t, n) => t.classList.toggle('is-active', n === index));
+      if (!(opts && opts.skipScroll)) {
+        const activeThumb = thumbs[index];
+        if (activeThumb) activeThumb.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
     };
 
     const schedule = () => {
@@ -269,11 +309,11 @@ document.addEventListener('DOMContentLoaded', () => {
       timer = setTimeout(() => { show(index + 1); schedule(); }, AUTO_ADVANCE_MS);
     };
 
-    thumbs.forEach((t, i) => {
-      t.addEventListener('click', () => { show(i); schedule(); });
+    thumbs.forEach((t, n) => {
+      t.addEventListener('click', () => { show(n); schedule(); });
     });
 
-    show(0);
+    show(0, { skipScroll: true });
     schedule();
   });
 

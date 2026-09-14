@@ -7,30 +7,22 @@
   --c-bg:         #FBFAF8;
   --c-bg-alt:     #F3F1EA;
   --c-white:      #FFFFFF;
-  /* Context-aware text: the page wash swings from dark espresso all
-     the way to white over each cycle (see body's background-image
-     below), so no single fixed text color has strong contrast at
-     every point in it — gold split the difference but read as low-
-     contrast and off-brand ("beige/gold text"). Instead, js/site.js
-     measures which part of the wash's cycle sits behind each <section>
-     (accounting for the wash's own continuous drift, not just scroll
-     position) and toggles .on-dark / .on-light on it, which is what
-     actually sets --c-ink below (see that class for why --c-sage isn't
-     included in the swap) — every rule that already reads color from
-     --c-ink/--c-ink-soft adapts automatically, with no per-rule
-     changes needed. These :root values are only the one-frame
-     fallback before that first classification runs.
-     --c-ink-invert stays fixed regardless of section context: it's
-     for the handful of spots that flip to a solid light fill and need
-     dark text on top (a button's hover background), not for reading
-     against the wash itself. --c-sage/--c-sage-deep are also fixed —
-     decorative-only accents now (a hover underline, an icon, a subtle
-     tint), never a primary text color. */
-  --c-ink:        #F5F1EA;
-  --c-ink-soft:   #C9C0B2;
-  --c-ink-invert: #18160F;
-  --c-sage:       #C7AD84;
-  --c-sage-deep:  #E0C9A6;
+  /* Permanent dark-brown text (per explicit direction after the
+     context-adaptive version — see body's background-image comment —
+     kept switching color mid-scroll and, worse, still landed wrong on
+     tall sections that spanned both a dark and a light part of the
+     wash in one go). --c-ink/--c-ink-soft are fixed from here on; the
+     wash itself is instead kept inside a light-to-white band (never
+     truly dark) so fixed dark text always has strong contrast against
+     it, everywhere, permanently. --c-ink-invert is for the couple of
+     spots that flip to a solid DARK fill and need light text on top
+     instead (a filled button's resting/hover state) — the inverse of
+     the site's normal dark-on-light. */
+  --c-ink:        #2A2015;
+  --c-ink-soft:   #403524;
+  --c-ink-invert: #FBF8F4;
+  --c-sage:       #8A6F4E;
+  --c-sage-deep:  #6B5642;
   --c-sage-glow:  #F0DFC0; /* brighter, warmer brown, for accent type on dark photography */
   --c-line:       #E1DED2;
   --nav-h: 96px;
@@ -47,45 +39,47 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   /* A continuous, gently-moving wash for the whole page rather than
-     each section painting its own flat patch. Espresso brown (~7%
-     lighter than the raw #423320 accent, per feedback that the darkest
-     point read as too heavy) dominates, white passes through briefly
-     at the midpoint of each cycle. 25 stops rather than 13 sampling
-     the same raised-cosine/Hann-window curve: with only 13, each gap
-     between stops was large enough (up to ~9% of the 2200px cycle,
-     ~200px) that the browser's linear interpolation between them
-     visibly deviated from the true curve — a slight kink at every
-     stop, reading as faint "chunks" of flatter color while scrolling
-     rather than a continuous blend. Twice the stops halves that gap,
-     so the piecewise-linear render tracks the smooth curve much more
-     closely, at zero runtime cost (it's still one static gradient, not
-     something recomputed per frame). */
+     each section painting its own flat patch. Kept inside a light
+     tan-to-white band — never a genuinely dark brown — specifically
+     because text color on top of it is now fixed dark brown
+     permanently (see --c-ink above): a wash that swung down to a deep
+     espresso, the way earlier versions of this did, would put dark
+     text directly on a dark background for a real part of every
+     cycle. Staying light throughout is what makes "always dark text"
+     actually safe rather than just usually-safe. Warmth still comes
+     through in the tan dips; it's a much narrower swing than before,
+     not a flat color, so the wash still moves and breathes. 25 stops
+     sampling a raised-cosine/Hann-window curve (rather than a smaller
+     number) keeps the interpolation between them close to that true
+     smooth curve — widely-spaced stops were producing a visible kink
+     at each one, reading as faint "chunks" of flatter color while
+     scrolling. */
   background-image: linear-gradient(180deg,
-    #4F4130 0%,
-    #524433 4.167%,
-    #5B4D3D 8.333%,
-    #685C4D 12.5%,
-    #7A6F61 16.667%,
-    #8F8579 20.833%,
-    #A59C92 25%,
-    #BBB4AB 29.167%,
-    #D0CAC3 33.333%,
-    #E2DDD7 37.5%,
-    #EFECE7 41.667%,
-    #F8F5F1 45.833%,
+    #9E8E78 0%,
+    #A0907A 4.167%,
+    #A49580 8.333%,
+    #AC9E8A 12.5%,
+    #B5A997 16.667%,
+    #C0B5A6 20.833%,
+    #CCC3B6 25%,
+    #D9D1C6 29.167%,
+    #E4DDD5 33.333%,
+    #EDE8E2 37.5%,
+    #F5F1EC 41.667%,
+    #F9F6F2 45.833%,
     #FBF8F4 50%,
-    #F8F5F1 54.167%,
-    #EFECE7 58.333%,
-    #E2DDD7 62.5%,
-    #D0CAC3 66.667%,
-    #BBB4AB 70.833%,
-    #A59C92 75%,
-    #8F8579 79.167%,
-    #7A6F61 83.333%,
-    #685C4D 87.5%,
-    #5B4D3D 91.667%,
-    #524433 95.833%,
-    #4F4130 100%
+    #F9F6F2 54.167%,
+    #F5F1EC 58.333%,
+    #EDE8E2 62.5%,
+    #E4DDD5 66.667%,
+    #D9D1C6 70.833%,
+    #CCC3B6 75%,
+    #C0B5A6 79.167%,
+    #B5A997 83.333%,
+    #AC9E8A 87.5%,
+    #A49580 91.667%,
+    #A0907A 95.833%,
+    #9E8E78 100%
   );
   background-size: 100% 2200px;
   background-repeat: repeat;
@@ -99,39 +93,6 @@ body {
 ::-webkit-scrollbar { display: none; }
 img { display: block; max-width: 100%; }
 
-/* ---------- Context-aware text (see the long note on :root above) ----------
-   Scoped to whichever <section> js/site.js has classified: every
-   descendant reading var(--c-ink)/var(--c-ink-soft)/var(--c-sage)/
-   var(--c-sage-deep) — headings, body copy, nav, labels, buttons,
-   captions, breadcrumbs — picks up the right one for free via normal
-   CSS custom-property inheritance, no per-component overrides needed.
-   Neither color is a pure extreme (not #000, not #FFF): a soft cream
-   on dark backgrounds, a warm near-black brown on light ones, so text
-   never looks like a stark cutout against the wash. */
-/* color is set directly on the classified element itself, not just
-   the custom properties: color inherits down the tree as an
-   already-resolved value, so a descendant that doesn't explicitly
-   read var(--c-ink) (a plain heading with no color rule of its own,
-   say) would otherwise keep inheriting whatever body's top-level
-   fallback color was, never seeing this section's local override. */
-section.on-dark, footer.on-dark {
-  --c-ink: #F5F1EA;
-  --c-ink-soft: #C9C0B2;
-  color: var(--c-ink);
-}
-section.on-light, footer.on-light {
-  --c-ink: #241B10;
-  --c-ink-soft: #5C5040;
-  color: var(--c-ink);
-}
-/* --c-sage/--c-sage-deep deliberately stay fixed (not section-scoped):
-   a couple of rules pair one of them with the always-dark
-   --c-ink-invert as a fill+text combo (.btn-fill:hover), which needs
-   --c-sage-deep to reliably stay light — letting it flip dark on an
-   .on-light section would put dark text on a dark fill. Decorative-only
-   uses (a hover underline, a subtle background tint) read fine at a
-   fixed value regardless of section, unlike the primary text colors
-   above. */
 
 /* ---------- Type roles ---------- */
 .script     { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em; }
@@ -172,23 +133,24 @@ hr.line { border: none; border-top: 1px solid var(--c-line); margin: 0; }
      - .site-nav--hero:not(.scrolled) (homepage, still on the hero
        photo): a dark glass instead, so light text stays legible over
        whatever the photograph is doing underneath. */
-/* Dark glass everywhere in this theme, not just over the hero: the
-   nav's own text (wordmark, links) is a light gold in this palette
-   now (see --c-ink), so it needs a dark backdrop to read against on
-   every page, not only while parked on a photo. */
+/* Light glass again (not the dark-glass variant tried mid-experiment):
+   nav text (wordmark, links) is permanently dark brown now (--c-ink),
+   which needs a light backdrop to read against — the hero-only dark
+   variant just below is unaffected, since it sets its own light TEXT
+   colors directly and isn't reading --c-ink at all. */
 header.site-nav {
   position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
   height: var(--nav-h);
   display: flex; align-items: center;
-  background: rgba(24, 19, 12, 0.55);
+  background: rgba(251, 250, 248, 0.58);
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  border-bottom: 1px solid rgba(224, 201, 166, 0.18);
+  border-bottom: 1px solid rgba(225,222,210,0.55);
   transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease, transform 0.6s cubic-bezier(0.22,0.61,0.36,1);
 }
 header.site-nav.scrolled {
-  background: rgba(24, 19, 12, 0.72);
-  border-bottom-color: rgba(224, 201, 166, 0.24);
+  background: rgba(251, 250, 248, 0.66);
+  border-bottom-color: rgba(225,222,210,0.7);
 }
 header.site-nav.nav-hidden { transform: translateY(-100%); }
 
@@ -271,7 +233,7 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
   letter-spacing: 0.2em; text-transform: uppercase; color: #fff;
   border: 1px solid rgba(255,255,255,0.7); padding: 12px 28px; margin-top: 8px;
 }
-.mobile-menu a.mobile-menu-login:hover { background: #fff; color: var(--c-ink-invert); border-color: #fff; }
+.mobile-menu a.mobile-menu-login:hover { background: #fff; color: var(--c-ink); border-color: #fff; }
 
 /* ---------- Nav: Log In ----------
    A small outlined pill rather than a plain text link, so it reads as
@@ -286,7 +248,7 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 }
 .nav-login:hover { background: var(--c-ink); color: var(--c-ink-invert); }
 header.site-nav.site-nav--hero:not(.scrolled) .nav-login { color: rgba(255,255,255,0.92); border-color: rgba(255,255,255,0.6); }
-header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #fff; color: var(--c-ink-invert); border-color: #fff; }
+header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #fff; color: var(--c-ink); border-color: #fff; }
 @media (max-width: 480px) { .nav-login { padding: 8px 12px; font-size: 9px; } }
 
 /* ---------- Forms (Contact, Log In) ----------
@@ -329,7 +291,7 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #ff
 .btn-fill { background: var(--c-ink); color: var(--c-ink-invert); }
 .btn-fill:hover { background: var(--c-sage-deep); border-color: var(--c-sage-deep); color: var(--c-ink-invert); }
 .btn-ghost-light { border-color: rgba(255,255,255,0.5); color: var(--c-white); }
-.btn-ghost-light:hover { background: var(--c-white); color: var(--c-ink-invert); }
+.btn-ghost-light:hover { background: var(--c-white); color: var(--c-ink); }
 .btn-glass {
   display: inline-block; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
   letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;

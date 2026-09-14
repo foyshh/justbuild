@@ -7,23 +7,12 @@
   --c-bg:         #FBFAF8;
   --c-bg-alt:     #F3F1EA;
   --c-white:      #FFFFFF;
-  /* Permanent dark-brown text (per explicit direction after the
-     context-adaptive version — see body's background-image comment —
-     kept switching color mid-scroll and, worse, still landed wrong on
-     tall sections that spanned both a dark and a light part of the
-     wash in one go). --c-ink/--c-ink-soft are fixed from here on; the
-     wash itself is instead kept inside a light-to-white band (never
-     truly dark) so fixed dark text always has strong contrast against
-     it, everywhere, permanently. --c-ink-invert is for the couple of
-     spots that flip to a solid DARK fill and need light text on top
-     instead (a filled button's resting/hover state) — the inverse of
-     the site's normal dark-on-light. */
-  --c-ink:        #2A2015;
-  --c-ink-soft:   #403524;
-  --c-ink-invert: #FBF8F4;
-  --c-sage:       #8A6F4E;
-  --c-sage-deep:  #6B5642;
-  --c-sage-glow:  #F0DFC0; /* brighter, warmer brown, for accent type on dark photography */
+  --c-ink:        #17180F;
+  --c-ink-soft:   #56594C;
+  --c-sage:       #5C6B4F;
+  --c-sage-deep:  #3F4A37;
+  --c-sage-pale:  #AEB89C;
+  --c-sage-glow:  #CBD6AE; /* brighter, warmer sage, for accent type on dark photography */
   --c-line:       #E1DED2;
   --nav-h: 96px;
   /* Marcellus, a quiet, refined display serif, used two ways: full-case
@@ -39,47 +28,34 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   /* A continuous, gently-moving wash for the whole page rather than
-     each section painting its own flat patch. Kept inside a light
-     tan-to-white band — never a genuinely dark brown — specifically
-     because text color on top of it is now fixed dark brown
-     permanently (see --c-ink above): a wash that swung down to a deep
-     espresso, the way earlier versions of this did, would put dark
-     text directly on a dark background for a real part of every
-     cycle. Staying light throughout is what makes "always dark text"
-     actually safe rather than just usually-safe. Warmth still comes
-     through in the tan dips; it's a much narrower swing than before,
-     not a flat color, so the wash still moves and breathes. 25 stops
-     sampling a raised-cosine/Hann-window curve (rather than a smaller
-     number) keeps the interpolation between them close to that true
-     smooth curve — widely-spaced stops were producing a visible kink
-     at each one, reading as faint "chunks" of flatter color while
-     scrolling. */
+     each section painting its own flat patch. Green dominates, white
+     passes through briefly at the midpoint of each cycle. A true
+     raised-cosine (Hann window) curve, sampled at 13 points, so the
+     slope is continuous everywhere (no Mach-band seam from an abrupt
+     change of slope). Straight vertical (180deg) rather than diagonal
+     now, and sized 100% wide (not a percentage over 100%): a diagonal
+     gradient re-renders fresh, from its own 0% to its own 100%, inside
+     every tile background-size repeats, so unless the tile's width is
+     an exact multiple of the diagonal's horizontal period, tiles don't
+     line up sideways and a seam shows on any viewport wide enough to
+     repeat horizontally, which is exactly what kept happening. A
+     vertical gradient has no horizontal component at all, so there's
+     nothing to misalign no matter how wide the screen is. js/site.js
+     drives this wash's own continuous vertical position drift. */
   background-image: linear-gradient(180deg,
-    #9E8E78 0%,
-    #A0907A 4.167%,
-    #A49580 8.333%,
-    #AC9E8A 12.5%,
-    #B5A997 16.667%,
-    #C0B5A6 20.833%,
-    #CCC3B6 25%,
-    #D9D1C6 29.167%,
-    #E4DDD5 33.333%,
-    #EDE8E2 37.5%,
-    #F5F1EC 41.667%,
-    #F9F6F2 45.833%,
-    #FBF8F4 50%,
-    #F9F6F2 54.167%,
-    #F5F1EC 58.333%,
-    #EDE8E2 62.5%,
-    #E4DDD5 66.667%,
-    #D9D1C6 70.833%,
-    #CCC3B6 75%,
-    #C0B5A6 79.167%,
-    #B5A997 83.333%,
-    #AC9E8A 87.5%,
-    #A49580 91.667%,
-    #A0907A 95.833%,
-    #9E8E78 100%
+    #A9B397 0%,
+    #AEB79D 8%,
+    #BEC5B0 17%,
+    #D2D7C8 25%,
+    #E6E8DF 33%,
+    #F6F6F2 42%,
+    #FBFAF8 50%,
+    #F6F6F2 58%,
+    #E6E8DF 67%,
+    #D2D7C8 75%,
+    #BEC5B0 83%,
+    #AEB79D 92%,
+    #A9B397 100%
   );
   background-size: 100% 2200px;
   background-repeat: repeat;
@@ -93,11 +69,10 @@ body {
 ::-webkit-scrollbar { display: none; }
 img { display: block; max-width: 100%; }
 
-
 /* ---------- Type roles ---------- */
 .script     { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em; }
 .headline   { font-family: var(--font-display); font-style: normal; font-weight: 400; letter-spacing: -0.012em; }
-.eyebrow    { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.04em; font-size: 18px; color: var(--c-ink-soft); }
+.eyebrow    { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.04em; font-size: 18px; color: var(--c-sage); }
 .label      { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
 .body-copy  { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 16px; line-height: 1.85; color: var(--c-ink-soft); }
 
@@ -133,11 +108,6 @@ hr.line { border: none; border-top: 1px solid var(--c-line); margin: 0; }
      - .site-nav--hero:not(.scrolled) (homepage, still on the hero
        photo): a dark glass instead, so light text stays legible over
        whatever the photograph is doing underneath. */
-/* Light glass again (not the dark-glass variant tried mid-experiment):
-   nav text (wordmark, links) is permanently dark brown now (--c-ink),
-   which needs a light backdrop to read against — the hero-only dark
-   variant just below is unaffected, since it sets its own light TEXT
-   colors directly and isn't reading --c-ink at all. */
 header.site-nav {
   position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
   height: var(--nav-h);
@@ -164,7 +134,7 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-mark,
 header.site-nav.site-nav--hero:not(.scrolled) .nav-links a {
   color: rgba(255,255,255,0.92);
 }
-header.site-nav.site-nav--hero:not(.scrolled) .nav-mark .sub { color: rgba(255,255,255,0.85); }
+header.site-nav.site-nav--hero:not(.scrolled) .nav-mark .sub { color: var(--c-sage-glow); }
 header.site-nav.site-nav--hero:not(.scrolled) .nav-links a:hover,
 header.site-nav.site-nav--hero:not(.scrolled) .nav-links a[aria-current="page"] {
   color: #fff; border-bottom-color: rgba(255,255,255,0.85);
@@ -173,7 +143,7 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-burger span { background: #ff
 header.site-nav .wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 .nav-mark { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
 .nav-mark .name { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.02em; font-size: 24px; }
-.nav-mark .sub { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--c-ink-soft); margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 500; text-shadow: 0 1px 10px rgba(0,0,0,0.18); transition: text-shadow 0.5s ease; }
+.nav-mark .sub { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--c-sage); margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 500; text-shadow: 0 1px 10px rgba(0,0,0,0.18); transition: text-shadow 0.5s ease; }
 header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 /* Grouped toward the right, close to the mobile-menu burger, rather
    than floating in the middle of the bar: the auto margin absorbs the
@@ -227,7 +197,7 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 .mobile-menu .close, .mobile-menu a { position: relative; z-index: 1; }
 .mobile-menu .close { color: rgba(255,255,255,0.85); }
 .mobile-menu a { font-family: var(--font-display); font-size: 32px; font-style: normal; color: #fff; text-decoration: none; text-shadow: 0 2px 24px rgba(0,0,0,0.3); }
-.mobile-menu a:hover, .mobile-menu a[aria-current="page"] { color: rgba(255,255,255,0.65); }
+.mobile-menu a:hover, .mobile-menu a[aria-current="page"] { color: var(--c-sage-glow); }
 .mobile-menu a.mobile-menu-login {
   font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500;
   letter-spacing: 0.2em; text-transform: uppercase; color: #fff;
@@ -246,7 +216,7 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
   transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   white-space: nowrap;
 }
-.nav-login:hover { background: var(--c-ink); color: var(--c-ink-invert); }
+.nav-login:hover { background: var(--c-ink); color: var(--c-white); }
 header.site-nav.site-nav--hero:not(.scrolled) .nav-login { color: rgba(255,255,255,0.92); border-color: rgba(255,255,255,0.6); }
 header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #fff; color: var(--c-ink); border-color: #fff; }
 @media (max-width: 480px) { .nav-login { padding: 8px 12px; font-size: 9px; } }
@@ -283,13 +253,9 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #ff
   padding: 17px 38px; border: 1px solid var(--c-ink); color: var(--c-ink);
   transition: all 0.4s ease; background: transparent; cursor: pointer;
 }
-/* .btn's border/text is --c-ink, which is a light color in this
-   theme; the moment that same color becomes a solid fill (hover, or
-   .btn-fill's resting state) the text on top of it has to flip to
-   --c-ink-invert instead of --c-white, or it's light-on-light. */
-.btn:hover { background: var(--c-ink); color: var(--c-ink-invert); }
-.btn-fill { background: var(--c-ink); color: var(--c-ink-invert); }
-.btn-fill:hover { background: var(--c-sage-deep); border-color: var(--c-sage-deep); color: var(--c-ink-invert); }
+.btn:hover { background: var(--c-ink); color: var(--c-white); }
+.btn-fill { background: var(--c-ink); color: var(--c-white); }
+.btn-fill:hover { background: var(--c-sage-deep); border-color: var(--c-sage-deep); }
 .btn-ghost-light { border-color: rgba(255,255,255,0.5); color: var(--c-white); }
 .btn-ghost-light:hover { background: var(--c-white); color: var(--c-ink); }
 .btn-glass {
@@ -371,12 +337,12 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #ff
 
 /* Plain inline link (used in contact details wherever they appear) */
 a.plain { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-height: 1.8; color: var(--c-ink-soft); text-decoration: none; }
-a.plain:hover { color: var(--c-ink); }
+a.plain:hover { color: var(--c-sage-deep); }
 
 /* ---------- Footer ---------- */
 footer { border-top: 1px solid var(--c-line); padding: 96px 0 40px; }
 footer .foot-mark { font-family: var(--font-accent); font-style: normal; letter-spacing: 0.02em; font-size: 22px; }
-footer .label { color: var(--c-ink-soft); margin-bottom: 14px; display: block; }
+footer .label { color: var(--c-sage); margin-bottom: 14px; display: block; }
 footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-height: 1.8; color: var(--c-ink-soft); font-style: normal; }
 @media (max-width: 560px) { .foot-links-grid { grid-template-columns: 1fr !important; gap: 28px !important; } }
 .foot-bottom { display: flex; flex-direction: column; gap: 16px; justify-content: space-between; align-items: flex-start; padding-top: 40px; margin-top: 64px; border-top: 1px solid var(--c-line); font-size: 11px; color: var(--c-ink-soft); }
@@ -508,11 +474,6 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    Plain text tabs, matching the site's other quiet navigation
    elements rather than a boxed pill/segmented control. */
 .portfolio-filters { display: flex; flex-wrap: wrap; gap: 12px 32px; margin-top: 36px; }
-/* Portfolio page's own hero: bumped up a size beyond the site's
-   default eyebrow/h1, since this page's heading is the whole point of
-   the page rather than a small intro above a hero image. */
-.port-hero-eyebrow { font-size: 24px; }
-h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
 .filter-btn {
   background: none; border: none; padding: 0 0 6px; margin: 0; cursor: pointer;
   font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
@@ -583,7 +544,7 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
 .hero-title-quiet { display: block; font-size: 0.9em; letter-spacing: 0.01em; opacity: 0.94; }
 .hero-title-accent {
   display: block; margin-top: 10px; font-size: 1.55em; letter-spacing: -0.01em;
-  color: rgba(255,255,255,0.94); /* always on a dark photo, not the wash — a fixed light, not context-adaptive */
+  color: var(--c-sage-glow);
   opacity: 0; transform: translateY(28px) scale(0.96);
   animation: heroAccentIn 2.2s cubic-bezier(0.16,1,0.3,1) 1.05s forwards;
 }
@@ -681,13 +642,13 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
    Used for the "Imagining something similar" section on individual
    project pages instead of .tone-sage: that class's fixed 32%/68%
    fade band is tuned for tall sections, so in a compact CTA it reads
-   as a flat, fairly present block rather than a blend. A quiet radial
-   wash centered behind the text, fading out on every side instead, so
-   it feels like a soft tint bleeding into the page rather than a
-   banner sitting on it. */
+   as a flat, fairly present green block rather than a blend. A quiet
+   radial wash centered behind the text, fading out on every side
+   instead, so it feels like a soft tint bleeding into the page rather
+   than a banner sitting on it. */
 .project-cta {
   position: relative;
-  background: radial-gradient(70% 170% at 50% 50%, rgba(139,110,78,0.16) 0%, rgba(139,110,78,0) 72%), var(--c-bg);
+  background: radial-gradient(70% 170% at 50% 50%, rgba(120,134,94,0.16) 0%, rgba(120,134,94,0) 72%), var(--c-bg);
 }
 
 /* Mounted-print frame: photos on a sage field sit slightly lifted,
@@ -724,7 +685,7 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
    its own panel with a reserved visual half. */
 .stats-content { display: flex; gap: 56px; flex-wrap: wrap; }
 .stat-item { text-align: left; }
-.stat-num { font-size: 56px; display: block; color: var(--c-ink); }
+.stat-num { font-size: 56px; display: block; color: var(--c-sage-deep); }
 
 /* ---------- About: press mentions (auto-scrolling carousel) ----------
    A real, natively-scrollable strip (overflow-x:auto) rather than a
@@ -756,7 +717,7 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
 .press-card { flex: 0 0 auto; width: clamp(160px, 15vw, 216px); display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .press-card-frame {
   display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 3/4;
-  border: 1px solid var(--c-line); border-radius: 2px; background: rgba(168, 143, 115,0.07);
+  border: 1px solid var(--c-line); border-radius: 2px; background: rgba(174,184,156,0.07);
   text-align: center; padding: 0; overflow: hidden;
 }
 /* Frames without a real page to link to (the Straits Times clipping)
@@ -776,14 +737,14 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
    clicking its image — three separate anchors sharing one URL rather
    than nesting <a> inside <a>, which isn't valid HTML. */
 .press-card-name-link { text-decoration: none; }
-.press-card-name-link:hover .press-card-name, .press-card-name-link:focus-visible .press-card-name { color: var(--c-ink-soft); }
+.press-card-name-link:hover .press-card-name, .press-card-name-link:focus-visible .press-card-name { color: var(--c-sage-deep); }
 .press-link {
   font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500;
   letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
-  color: var(--c-ink-soft); border-bottom: 1px solid transparent;
+  color: var(--c-sage); border-bottom: 1px solid transparent;
   transition: border-color 0.3s ease, color 0.3s ease;
 }
-.press-link:hover { color: var(--c-ink); border-color: var(--c-ink); }
+.press-link:hover { color: var(--c-sage-deep); border-color: var(--c-sage-deep); }
 @media (max-width: 700px) {
   .press-carousel { -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
   .press-track { gap: 28px; }
@@ -816,7 +777,7 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
 .journey-icon { flex: 0 0 auto; width: 32px; height: 32px; color: var(--c-sage-deep); }
 .journey-icon svg { width: 100%; height: 100%; }
 .journey-text { display: flex; flex-direction: column; gap: 6px; }
-.journey-num { font-family: var(--font-accent); font-style: normal; font-weight: 400; font-size: 20px; color: var(--c-ink); }
+.journey-num { font-family: var(--font-accent); font-style: normal; font-weight: 400; font-size: 20px; color: var(--c-sage-deep); }
 .journey-title { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; color: var(--c-ink); line-height: 1.5; }
 .journey-desc { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 13px; letter-spacing: 0.01em; color: var(--c-ink-soft); line-height: 1.6; }
 @media (max-width: 860px) {
@@ -830,7 +791,7 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
    image), and a quiet CTA beneath, mirroring the project detail pages. */
 .press-artifact-slot {
   min-height: 360px; border: 1px dashed var(--c-line); border-radius: 2px;
-  background: rgba(168, 143, 115,0.07);
+  background: rgba(174,184,156,0.07);
   display: flex; align-items: center; justify-content: center; text-align: center;
 }
 .press-artifact-hint { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--c-ink-soft); opacity: 0.55; padding: 0 24px; }
@@ -856,8 +817,8 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
 
 /* ---------- Footer credit line ---------- */
 .foot-credit { color: var(--c-ink-soft); letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px; }
-.foot-credit a { color: var(--c-ink-soft); text-decoration: none; border-bottom: 1px solid var(--c-line); transition: border-color 0.3s ease, color 0.3s ease; }
-.foot-credit a:hover { color: var(--c-ink); border-color: var(--c-ink); }
+.foot-credit a { color: var(--c-sage-deep); text-decoration: none; border-bottom: 1px solid var(--c-line); transition: border-color 0.3s ease, color 0.3s ease; }
+.foot-credit a:hover { color: var(--c-sage-deep); border-color: var(--c-sage-deep); }
 
 
 /* ---------- Project detail: header + gallery ----------

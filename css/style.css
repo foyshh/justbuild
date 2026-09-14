@@ -7,12 +7,12 @@
   --c-bg:         #FBFAF8;
   --c-bg-alt:     #F3F1EA;
   --c-white:      #FFFFFF;
-  --c-ink:        #17180F;
-  --c-ink-soft:   #56594C;
-  --c-sage:       #5C6B4F;
-  --c-sage-deep:  #3F4A37;
-  --c-sage-pale:  #AEB89C;
-  --c-sage-glow:  #CBD6AE; /* brighter, warmer sage, for accent type on dark photography */
+  --c-ink:        #18160F;
+  --c-ink-soft:   #59524A;
+  --c-sage:       #423320;
+  --c-sage-deep:  #2B2015;
+  --c-sage-pale:  #A08B6E;
+  --c-sage-glow:  #C7AD84; /* brighter, warmer brown, for accent type on dark photography */
   --c-line:       #E1DED2;
   --nav-h: 96px;
   /* Marcellus, a quiet, refined display serif, used two ways: full-case
@@ -28,34 +28,35 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   /* A continuous, gently-moving wash for the whole page rather than
-     each section painting its own flat patch. Green dominates, white
-     passes through briefly at the midpoint of each cycle. A true
-     raised-cosine (Hann window) curve, sampled at 13 points, so the
-     slope is continuous everywhere (no Mach-band seam from an abrupt
-     change of slope). Straight vertical (180deg) rather than diagonal
-     now, and sized 100% wide (not a percentage over 100%): a diagonal
-     gradient re-renders fresh, from its own 0% to its own 100%, inside
-     every tile background-size repeats, so unless the tile's width is
-     an exact multiple of the diagonal's horizontal period, tiles don't
-     line up sideways and a seam shows on any viewport wide enough to
-     repeat horizontally, which is exactly what kept happening. A
-     vertical gradient has no horizontal component at all, so there's
-     nothing to misalign no matter how wide the screen is. js/site.js
-     drives this wash's own continuous vertical position drift. */
+     each section painting its own flat patch. Warm brown dominates,
+     white passes through briefly at the midpoint of each cycle (was a
+     green wash — same 13-point raised-cosine/Hann-window curve, same
+     lightness steps, just re-hued to a warm taupe/brown so the slope
+     stays continuous everywhere with no Mach-band seam). Straight
+     vertical (180deg) rather than diagonal, and sized 100% wide (not a
+     percentage over 100%): a diagonal gradient re-renders fresh, from
+     its own 0% to its own 100%, inside every tile background-size
+     repeats, so unless the tile's width is an exact multiple of the
+     diagonal's horizontal period, tiles don't line up sideways and a
+     seam shows on any viewport wide enough to repeat horizontally,
+     which is exactly what kept happening. A vertical gradient has no
+     horizontal component at all, so there's nothing to misalign no
+     matter how wide the screen is. js/site.js drives this wash's own
+     continuous vertical position drift. */
   background-image: linear-gradient(180deg,
-    #A9B397 0%,
-    #AEB79D 8%,
-    #BEC5B0 17%,
-    #D2D7C8 25%,
-    #E6E8DF 33%,
-    #F6F6F2 42%,
-    #FBFAF8 50%,
-    #F6F6F2 58%,
-    #E6E8DF 67%,
-    #D2D7C8 75%,
-    #BEC5B0 83%,
-    #AEB79D 92%,
-    #A9B397 100%
+    #A6937E 0%,
+    #AC9987 8%,
+    #BFAC9B 17%,
+    #D6C7B7 25%,
+    #E9DFD3 33%,
+    #F7F2EC 42%,
+    #FBF8F4 50%,
+    #F7F2EC 58%,
+    #E9DFD3 67%,
+    #D6C7B7 75%,
+    #BFAC9B 83%,
+    #AC9987 92%,
+    #A6937E 100%
   );
   background-size: 100% 2200px;
   background-repeat: repeat;
@@ -474,6 +475,11 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    Plain text tabs, matching the site's other quiet navigation
    elements rather than a boxed pill/segmented control. */
 .portfolio-filters { display: flex; flex-wrap: wrap; gap: 12px 32px; margin-top: 36px; }
+/* Portfolio page's own hero: bumped up a size beyond the site's
+   default eyebrow/h1, since this page's heading is the whole point of
+   the page rather than a small intro above a hero image. */
+.port-hero-eyebrow { font-size: 24px; }
+h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
 .filter-btn {
   background: none; border: none; padding: 0 0 6px; margin: 0; cursor: pointer;
   font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
@@ -642,13 +648,13 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    Used for the "Imagining something similar" section on individual
    project pages instead of .tone-sage: that class's fixed 32%/68%
    fade band is tuned for tall sections, so in a compact CTA it reads
-   as a flat, fairly present green block rather than a blend. A quiet
-   radial wash centered behind the text, fading out on every side
-   instead, so it feels like a soft tint bleeding into the page rather
-   than a banner sitting on it. */
+   as a flat, fairly present block rather than a blend. A quiet radial
+   wash centered behind the text, fading out on every side instead, so
+   it feels like a soft tint bleeding into the page rather than a
+   banner sitting on it. */
 .project-cta {
   position: relative;
-  background: radial-gradient(70% 170% at 50% 50%, rgba(120,134,94,0.16) 0%, rgba(120,134,94,0) 72%), var(--c-bg);
+  background: radial-gradient(70% 170% at 50% 50%, rgba(139,110,78,0.16) 0%, rgba(139,110,78,0) 72%), var(--c-bg);
 }
 
 /* Mounted-print frame: photos on a sage field sit slightly lifted,
@@ -717,7 +723,7 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .press-card { flex: 0 0 auto; width: clamp(160px, 15vw, 216px); display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .press-card-frame {
   display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 3/4;
-  border: 1px solid var(--c-line); border-radius: 2px; background: rgba(174,184,156,0.07);
+  border: 1px solid var(--c-line); border-radius: 2px; background: rgba(168, 143, 115,0.07);
   text-align: center; padding: 0; overflow: hidden;
 }
 /* Frames without a real page to link to (the Straits Times clipping)
@@ -791,7 +797,7 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    image), and a quiet CTA beneath, mirroring the project detail pages. */
 .press-artifact-slot {
   min-height: 360px; border: 1px dashed var(--c-line); border-radius: 2px;
-  background: rgba(174,184,156,0.07);
+  background: rgba(168, 143, 115,0.07);
   display: flex; align-items: center; justify-content: center; text-align: center;
 }
 .press-artifact-hint { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--c-ink-soft); opacity: 0.55; padding: 0 24px; }

@@ -7,12 +7,23 @@
   --c-bg:         #FBFAF8;
   --c-bg-alt:     #F3F1EA;
   --c-white:      #FFFFFF;
-  --c-ink:        #18160F;
-  --c-ink-soft:   #59524A;
-  --c-sage:       #423320;
-  --c-sage-deep:  #2B2015;
-  --c-sage-pale:  #A08B6E;
-  --c-sage-glow:  #C7AD84; /* brighter, warmer brown, for accent type on dark photography */
+  /* Dark-brown theme: the page wash swings from dark espresso all the
+     way to white over each cycle (see body's background-image below),
+     so no fixed text color has strong contrast at every point in it.
+     A warm light gold reads clearly against the dark majority of the
+     wash and stays visible, if quieter, during its brief white
+     passage — pure white text would vanish there instead.
+     --c-ink-invert is the one dark color kept around for the handful
+     of spots that still need dark text on top of a light fill (a
+     button's solid hover background, for instance) rather than
+     light-on-light. */
+  --c-ink:        #E0C9A6;
+  --c-ink-soft:   #B39B78;
+  --c-ink-invert: #18160F;
+  --c-sage:       #C7AD84;
+  --c-sage-deep:  #E0C9A6;
+  --c-sage-pale:  #8C7154;
+  --c-sage-glow:  #F0DFC0; /* brighter, warmer brown, for accent type on dark photography */
   --c-line:       #E1DED2;
   --nav-h: 96px;
   /* Marcellus, a quiet, refined display serif, used two ways: full-case
@@ -28,35 +39,30 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   /* A continuous, gently-moving wash for the whole page rather than
-     each section painting its own flat patch. Warm brown dominates,
-     white passes through briefly at the midpoint of each cycle (was a
-     green wash — same 13-point raised-cosine/Hann-window curve, same
-     lightness steps, just re-hued to a warm taupe/brown so the slope
-     stays continuous everywhere with no Mach-band seam). Straight
-     vertical (180deg) rather than diagonal, and sized 100% wide (not a
-     percentage over 100%): a diagonal gradient re-renders fresh, from
-     its own 0% to its own 100%, inside every tile background-size
-     repeats, so unless the tile's width is an exact multiple of the
-     diagonal's horizontal period, tiles don't line up sideways and a
-     seam shows on any viewport wide enough to repeat horizontally,
-     which is exactly what kept happening. A vertical gradient has no
-     horizontal component at all, so there's nothing to misalign no
-     matter how wide the screen is. js/site.js drives this wash's own
-     continuous vertical position drift. */
+     each section painting its own flat patch. Deep espresso brown
+     (#423320) dominates, white passes through briefly at the midpoint
+     of each cycle — same 13-point raised-cosine/Hann-window curve as
+     the site's original green version, just re-anchored to the real
+     accent color at the dark end. Because this wash swings all the
+     way from dark brown to white over each cycle, no single text
+     color has strong contrast against every point in it — --c-ink is
+     a warm light gold rather than pure white specifically because
+     gold stays legible (if a little quiet) even during the brief
+     white passage, where pure white text would vanish entirely. */
   background-image: linear-gradient(180deg,
-    #A6937E 0%,
-    #AC9987 8%,
-    #BFAC9B 17%,
-    #D6C7B7 25%,
-    #E9DFD3 33%,
-    #F7F2EC 42%,
+    #423320 0%,
+    #4D3F2D 8%,
+    #726657 17%,
+    #9E968A 25%,
+    #CBC5BD 33%,
+    #F0ECE7 42%,
     #FBF8F4 50%,
-    #F7F2EC 58%,
-    #E9DFD3 67%,
-    #D6C7B7 75%,
-    #BFAC9B 83%,
-    #AC9987 92%,
-    #A6937E 100%
+    #F0ECE7 58%,
+    #CBC5BD 67%,
+    #9E968A 75%,
+    #726657 83%,
+    #4D3F2D 92%,
+    #423320 100%
   );
   background-size: 100% 2200px;
   background-repeat: repeat;
@@ -109,19 +115,23 @@ hr.line { border: none; border-top: 1px solid var(--c-line); margin: 0; }
      - .site-nav--hero:not(.scrolled) (homepage, still on the hero
        photo): a dark glass instead, so light text stays legible over
        whatever the photograph is doing underneath. */
+/* Dark glass everywhere in this theme, not just over the hero: the
+   nav's own text (wordmark, links) is a light gold in this palette
+   now (see --c-ink), so it needs a dark backdrop to read against on
+   every page, not only while parked on a photo. */
 header.site-nav {
   position: fixed; top: 0; left: 0; width: 100%; z-index: 50;
   height: var(--nav-h);
   display: flex; align-items: center;
-  background: rgba(251, 250, 248, 0.58);
+  background: rgba(24, 19, 12, 0.55);
   backdrop-filter: blur(16px) saturate(1.4);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  border-bottom: 1px solid rgba(225,222,210,0.55);
+  border-bottom: 1px solid rgba(224, 201, 166, 0.18);
   transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease, transform 0.6s cubic-bezier(0.22,0.61,0.36,1);
 }
 header.site-nav.scrolled {
-  background: rgba(251, 250, 248, 0.66);
-  border-bottom-color: rgba(225,222,210,0.7);
+  background: rgba(24, 19, 12, 0.72);
+  border-bottom-color: rgba(224, 201, 166, 0.24);
 }
 header.site-nav.nav-hidden { transform: translateY(-100%); }
 
@@ -204,7 +214,7 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
   letter-spacing: 0.2em; text-transform: uppercase; color: #fff;
   border: 1px solid rgba(255,255,255,0.7); padding: 12px 28px; margin-top: 8px;
 }
-.mobile-menu a.mobile-menu-login:hover { background: #fff; color: var(--c-ink); border-color: #fff; }
+.mobile-menu a.mobile-menu-login:hover { background: #fff; color: var(--c-ink-invert); border-color: #fff; }
 
 /* ---------- Nav: Log In ----------
    A small outlined pill rather than a plain text link, so it reads as
@@ -217,9 +227,9 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
   transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   white-space: nowrap;
 }
-.nav-login:hover { background: var(--c-ink); color: var(--c-white); }
+.nav-login:hover { background: var(--c-ink); color: var(--c-ink-invert); }
 header.site-nav.site-nav--hero:not(.scrolled) .nav-login { color: rgba(255,255,255,0.92); border-color: rgba(255,255,255,0.6); }
-header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #fff; color: var(--c-ink); border-color: #fff; }
+header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #fff; color: var(--c-ink-invert); border-color: #fff; }
 @media (max-width: 480px) { .nav-login { padding: 8px 12px; font-size: 9px; } }
 
 /* ---------- Forms (Contact, Log In) ----------
@@ -254,11 +264,15 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #ff
   padding: 17px 38px; border: 1px solid var(--c-ink); color: var(--c-ink);
   transition: all 0.4s ease; background: transparent; cursor: pointer;
 }
-.btn:hover { background: var(--c-ink); color: var(--c-white); }
-.btn-fill { background: var(--c-ink); color: var(--c-white); }
-.btn-fill:hover { background: var(--c-sage-deep); border-color: var(--c-sage-deep); }
+/* .btn's border/text is --c-ink, which is a light color in this
+   theme; the moment that same color becomes a solid fill (hover, or
+   .btn-fill's resting state) the text on top of it has to flip to
+   --c-ink-invert instead of --c-white, or it's light-on-light. */
+.btn:hover { background: var(--c-ink); color: var(--c-ink-invert); }
+.btn-fill { background: var(--c-ink); color: var(--c-ink-invert); }
+.btn-fill:hover { background: var(--c-sage-deep); border-color: var(--c-sage-deep); color: var(--c-ink-invert); }
 .btn-ghost-light { border-color: rgba(255,255,255,0.5); color: var(--c-white); }
-.btn-ghost-light:hover { background: var(--c-white); color: var(--c-ink); }
+.btn-ghost-light:hover { background: var(--c-white); color: var(--c-ink-invert); }
 .btn-glass {
   display: inline-block; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
   letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;

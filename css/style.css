@@ -174,17 +174,36 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 .nav-burger { display: flex; width: 22px; height: 16px; flex-direction: column; justify-content: space-between; cursor: pointer; }
 @media (min-width: 900px) { .nav-burger { display: none; } }
 .nav-burger span { display: block; height: 1px; background: var(--c-ink); }
+/* A real photograph behind frosted glass rather than a flat page: the
+   Obsidian Residence photo sits full-bleed and blurred, a dark tint
+   over it for contrast, and the menu links in white on top — so Home,
+   Portfolio, About and Contact are still faintly visible through the
+   blur instead of vanishing behind a plain white panel. */
 .mobile-menu {
-  position: fixed; inset: 0; background: var(--c-bg); z-index: 60;
+  position: fixed; inset: 0; background: var(--c-ink); z-index: 60;
   display: none; flex-direction: column; justify-content: center; align-items: center; gap: 36px;
+  overflow: hidden;
 }
 .mobile-menu.open { display: flex; }
-.mobile-menu a { font-family: var(--font-display); font-size: 32px; font-style: normal; color: var(--c-ink); text-decoration: none; }
+.mobile-menu-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: blur(28px) saturate(1.1) brightness(0.7);
+  transform: scale(1.15); /* hides the blur's own soft edge from ever peeking in at the viewport border */
+}
+.mobile-menu::before {
+  content: ''; position: absolute; inset: 0; background: rgba(23,24,15,0.42);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.mobile-menu .close, .mobile-menu a { position: relative; z-index: 1; }
+.mobile-menu .close { color: rgba(255,255,255,0.85); }
+.mobile-menu a { font-family: var(--font-display); font-size: 32px; font-style: normal; color: #fff; text-decoration: none; text-shadow: 0 2px 24px rgba(0,0,0,0.3); }
+.mobile-menu a:hover, .mobile-menu a[aria-current="page"] { color: var(--c-sage-glow); }
 .mobile-menu a.mobile-menu-login {
   font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500;
-  letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-ink-soft);
-  border: 1px solid var(--c-ink); padding: 12px 28px; margin-top: 8px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #fff;
+  border: 1px solid rgba(255,255,255,0.7); padding: 12px 28px; margin-top: 8px;
 }
+.mobile-menu a.mobile-menu-login:hover { background: #fff; color: var(--c-ink); border-color: #fff; }
 
 /* ---------- Nav: Log In ----------
    A small outlined pill rather than a plain text link, so it reads as
@@ -248,6 +267,18 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #ff
   transition: background 0.35s ease, border-color 0.35s ease;
 }
 .btn-glass:hover { background: rgba(23,24,15,0.45); border-color: rgba(255,255,255,0.7); }
+
+/* A slow, continuous float + glow, reserved for a single standout CTA
+   (the "Start a Conversation" button on About's closing section) so it
+   quietly draws the eye without anyone having to hover first. Loops
+   forever, never resting, unlike every other hover-only transition on
+   the site. */
+.btn-glow { animation: btn-glow-float 3.6s ease-in-out infinite; }
+@keyframes btn-glow-float {
+  0%, 100% { transform: translateY(0); box-shadow: 0 0 0 rgba(224,201,166,0); }
+  50% { transform: translateY(-6px); box-shadow: 0 14px 32px -6px rgba(224,201,166,0.55); }
+}
+@media (prefers-reduced-motion: reduce) { .btn-glow { animation: none; } }
 .text-link {
   font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
   letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none;
@@ -657,14 +688,19 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
 .stat-num { font-size: 56px; display: block; color: var(--c-sage-deep); }
 
 /* ---------- About: press mentions (auto-scrolling carousel) ----------
-   A continuous, infinitely-looping strip rather than a static row, kept
-   deliberately quiet: real tearsheet/cover screenshots sit inside a
-   fixed, uniform frame, name and "Click Here to View the Page" sitting
-   underneath, never on top of the frame, so it stays minimal and the
-   frame itself remains the visual focus. The track holds the six cards
-   twice back to back (see about.html) and animates exactly -50% of its
-   own width, so the loop has no visible seam or stutter. Full-bleed:
-   deliberately left outside .wrap so the strip can run edge to edge.
+   A real, natively-scrollable strip (overflow-x:auto) rather than a
+   pure CSS keyframe animation: js/site.js drives a slow, continuous
+   auto-scroll via requestAnimationFrame, but the moment the visitor
+   touches it (wheel, touch-drag, or a trackpad swipe in either
+   direction) that auto-scroll steps aside completely and native
+   scrolling takes over; once they stop, auto-scroll picks back up
+   from wherever they left it rather than resetting anywhere. The set
+   of cards is tripled (see about.html) rather than doubled, so there's
+   always a full run of real cards to scroll into on either side —
+   scrolling left never runs out of content the way a doubled strip
+   would. Scrollbar hidden (site-wide ::-webkit-scrollbar rule +
+   scrollbar-width:none here for Firefox); the edge mask fades the
+   first/last cards rather than cutting them off sharply.
 
    Every card frame is the same fixed aspect ratio regardless of the
    source image's own shape (a magazine scan, a mobile screenshot, a
@@ -672,11 +708,12 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
    object-fit:contain against the frame's own soft background fill, so
    it's scaled down to fit whole rather than cropped, with the fill
    showing as quiet letterboxing on whichever axis doesn't match. */
-.press-carousel { width: 100%; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
-.press-track { display: flex; align-items: flex-start; gap: 40px; width: max-content; animation: press-scroll 36s linear infinite; }
-/* Runs continuously, deliberately never pausing on hover (or for any
-   other reason short of prefers-reduced-motion below) — an infinite
-   strip that just keeps moving. */
+.press-carousel {
+  width: 100%; overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.press-track { display: flex; align-items: flex-start; gap: 40px; width: max-content; }
 .press-card { flex: 0 0 auto; width: clamp(160px, 15vw, 216px); display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .press-card-frame {
   display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 3/4;
@@ -708,16 +745,13 @@ footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-h
   transition: border-color 0.3s ease, color 0.3s ease;
 }
 .press-link:hover { color: var(--c-sage-deep); border-color: var(--c-sage-deep); }
-@keyframes press-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (max-width: 700px) {
   .press-carousel { -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
-  .press-track { gap: 28px; animation-duration: 26s; }
+  .press-track { gap: 28px; }
   .press-card { width: 132px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .press-carousel { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
-  .press-track { animation: none; }
-  .press-card[aria-hidden="true"] { display: none; }
+  .press-carousel { -webkit-mask-image: none; mask-image: none; }
 }
 
 /* ---------- About: Our Studio ----------

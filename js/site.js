@@ -190,6 +190,79 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTransform();
   });
 
+  // About: "As Featured In" press strip. Real native horizontal scroll
+  // (overflow-x:auto in CSS) rather than a fixed CSS keyframe animation,
+  // so a visitor can grab it with a trackpad swipe, a touch drag, or the
+  // mouse wheel in either direction at any time. A slow, continuous
+  // auto-scroll runs via requestAnimationFrame when nobody's touching
+  // it; the instant a wheel/touch/pointer interaction is seen, that
+  // auto-scroll steps aside, and it only resumes once the visitor has
+  // been idle for a moment — always continuing from the exact scroll
+  // position they left it at, never snapping back to the start. The
+  // card set is tripled in the DOM (see about.html) so there's always a
+  // full run of real cards to scroll into on either side; once the
+  // visible window drifts into the first or third copy, it's silently
+  // shifted by exactly one set's width, invisible since the copies are
+  // pixel-identical — the same trick as the Curated Collection carousel
+  // above, just via scrollLeft instead of a transform.
+  document.querySelectorAll('.press-carousel').forEach((carousel) => {
+    const track = carousel.querySelector('.press-track');
+    const items = track ? Array.from(track.children) : [];
+    if (!track || !items.length) return;
+
+    const setCount = items.length / 3; // the real set, repeated three times over
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const SPEED_PX_S = 16;   // slow and steady — noticeably slower than the old fixed animation
+    const RESUME_DELAY_MS = 1000;
+
+    let lastInteraction = 0;
+    let lastFrame = null;
+
+    const setWidth = () => items[0].getBoundingClientRect().width * setCount
+      + parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0') * setCount;
+
+    // Start in the middle copy so there's a full set to scroll into
+    // whichever direction the visitor goes first.
+    carousel.scrollLeft = setWidth();
+
+    const wrap = () => {
+      const w = setWidth();
+      if (carousel.scrollLeft <= 0) carousel.scrollLeft += w;
+      else if (carousel.scrollLeft >= w * 2) carousel.scrollLeft -= w;
+    };
+
+    const markInteraction = () => { lastInteraction = performance.now(); };
+    carousel.addEventListener('touchstart', markInteraction, { passive: true });
+    carousel.addEventListener('touchmove', markInteraction, { passive: true });
+    carousel.addEventListener('pointerdown', markInteraction);
+    // Wheel: redirect vertical wheel/trackpad motion into horizontal
+    // scroll too, so "scroll down" over the strip pans it sideways
+    // rather than scrolling the page — whichever axis the visitor's
+    // mouse or trackpad actually sends.
+    carousel.addEventListener('wheel', (e) => {
+      markInteraction();
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      carousel.scrollLeft += delta;
+      wrap();
+      e.preventDefault();
+    }, { passive: false });
+    carousel.addEventListener('scroll', () => { wrap(); }, { passive: true });
+
+    if (reduceMotion) return; // manual scrolling above still works; no auto-advance
+
+    const tick = (now) => {
+      if (lastFrame === null) lastFrame = now;
+      const dt = (now - lastFrame) / 1000;
+      lastFrame = now;
+      if (now - lastInteraction > RESUME_DELAY_MS) {
+        carousel.scrollLeft += SPEED_PX_S * dt;
+        wrap();
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+
   // Home Final CTA, background auto-cycles through a small set of
   // images via a slow crossfade rather than sitting on one static
   // frame. The dark overlay is a separate, constant layer above it

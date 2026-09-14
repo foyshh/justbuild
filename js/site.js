@@ -5,11 +5,55 @@ document.addEventListener('DOMContentLoaded', () => {
   // away quickly once the visitor stops, settling back to the idle
   // drift rather than snapping still. (A glitter/star overlay used to
   // sit on top of this; removed, it read as messy rather than quiet.)
+  //
+  // Context-aware text: the wash swings from dark espresso to white
+  // and back every WASH_CYCLE_PX (must match css/style.css's
+  // background-size), so no fixed text color reads well against every
+  // point in it. Every <section> gets classified .on-dark or .on-light
+  // by sampling the same raised-cosine curve the CSS gradient uses, at
+  // that section's own position — accounting for the wash's current
+  // drift offset, not just scroll position, since the wash keeps
+  // moving even at rest. Section text/labels/buttons/etc. all read
+  // color from --c-ink/--c-ink-soft, which .on-dark/.on-light in CSS
+  // override locally, so this one classification is all it takes for
+  // every descendant to adapt — no per-element logic needed.
+  const WASH_CYCLE_PX = 2200;
+  // <footer> sits on the same body wash as every <section> but isn't
+  // one itself — it needs the same classification or its text is
+  // stuck on the :root fallback color regardless of what's actually
+  // behind it there.
+  const sections = Array.from(document.querySelectorAll('section, footer'));
+  let posY = 0;
+
+  const classifySections = () => {
+    const scrollY = window.scrollY;
+    sections.forEach((section) => {
+      const docY = section.getBoundingClientRect().top + scrollY;
+      const phase = (((docY - posY) % WASH_CYCLE_PX) + WASH_CYCLE_PX) % WASH_CYCLE_PX / WASH_CYCLE_PX;
+      const lightness = 0.5 - 0.5 * Math.cos(2 * Math.PI * phase); // 0 = darkest, 1 = white, matches the CSS curve
+      // Hysteresis (switch points at 0.45/0.55 rather than a single
+      // 0.5) so a section sitting right at the boundary doesn't
+      // flicker between the two classes as the wash drifts through it.
+      // Outside that band, whichever side wins is set outright; inside
+      // it, an already-classified section just holds what it has, and
+      // only a first-ever run (neither class present) picks one.
+      let next = null;
+      if (lightness > 0.55) next = 'on-light';
+      else if (lightness < 0.45) next = 'on-dark';
+      else if (!section.classList.contains('on-dark') && !section.classList.contains('on-light')) {
+        next = lightness > 0.5 ? 'on-light' : 'on-dark';
+      }
+      if (next) {
+        section.classList.remove('on-dark', 'on-light');
+        section.classList.add(next);
+      }
+    });
+  };
+
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const IDLE_SPEED = 0.017;   // px/ms of constant wash drift
     const SCROLL_GAIN = 0.06;   // extra drift added per px of scroll delta
     const SCROLL_DECAY = 0.85;  // per-frame decay of that scroll-driven burst
-    let posY = 0;
     let scrollBurst = 0;
     let lastScrollY = window.scrollY;
     let lastTime = performance.now();
@@ -20,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       posY += IDLE_SPEED * dt + scrollBurst;
       scrollBurst *= SCROLL_DECAY;
       document.body.style.backgroundPositionY = posY + 'px';
+      classifySections();
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -29,7 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollBurst += (y - lastScrollY) * SCROLL_GAIN;
       lastScrollY = y;
     }, { passive: true });
+  } else {
+    // Wash is static (posY stays 0) when motion is reduced, so a
+    // section's classification never changes on its own — only a
+    // resize (which can shift section positions) needs to re-trigger it.
+    classifySections();
   }
+  window.addEventListener('resize', classifySections);
 
   // Nav: tinted background once scrolled, and hidden altogether while the
   // visitor is scrolling down through the page. It reappears the moment

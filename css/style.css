@@ -7,18 +7,24 @@
   --c-bg:         #FBFAF8;
   --c-bg-alt:     #F3F1EA;
   --c-white:      #FFFFFF;
-  /* Dark-brown theme: the page wash swings from dark espresso all the
-     way to white over each cycle (see body's background-image below),
-     so no fixed text color has strong contrast at every point in it.
-     A warm light gold reads clearly against the dark majority of the
-     wash and stays visible, if quieter, during its brief white
-     passage — pure white text would vanish there instead.
-     --c-ink-invert is the one dark color kept around for the handful
-     of spots that still need dark text on top of a light fill (a
-     button's solid hover background, for instance) rather than
-     light-on-light. */
-  --c-ink:        #E0C9A6;
-  --c-ink-soft:   #B39B78;
+  /* Context-aware text: the page wash swings from dark espresso all
+     the way to white over each cycle (see body's background-image
+     below), so no single fixed text color has strong contrast at
+     every point in it — gold split the difference but read as low-
+     contrast and off-brand ("beige/gold text"). Instead, js/site.js
+     measures which part of the wash's cycle sits behind each <section>
+     (accounting for the wash's own continuous drift, not just scroll
+     position) and toggles .on-dark / .on-light on it, which is what
+     actually sets --c-ink/--c-sage below — every rule that already
+     reads color from those two variables adapts automatically, with
+     no per-rule changes needed. These :root values are only the
+     one-frame fallback before that first classification runs.
+     --c-ink-invert stays fixed regardless of section context: it's
+     for the handful of spots that flip to a solid light fill and need
+     dark text on top (a button's hover background), not for reading
+     against the wash itself. */
+  --c-ink:        #F5F1EA;
+  --c-ink-soft:   #C9C0B2;
   --c-ink-invert: #18160F;
   --c-sage:       #C7AD84;
   --c-sage-deep:  #E0C9A6;
@@ -76,10 +82,44 @@ body {
 ::-webkit-scrollbar { display: none; }
 img { display: block; max-width: 100%; }
 
+/* ---------- Context-aware text (see the long note on :root above) ----------
+   Scoped to whichever <section> js/site.js has classified: every
+   descendant reading var(--c-ink)/var(--c-ink-soft)/var(--c-sage)/
+   var(--c-sage-deep) — headings, body copy, nav, labels, buttons,
+   captions, breadcrumbs — picks up the right one for free via normal
+   CSS custom-property inheritance, no per-component overrides needed.
+   Neither color is a pure extreme (not #000, not #FFF): a soft cream
+   on dark backgrounds, a warm near-black brown on light ones, so text
+   never looks like a stark cutout against the wash. */
+/* color is set directly on the classified element itself, not just
+   the custom properties: color inherits down the tree as an
+   already-resolved value, so a descendant that doesn't explicitly
+   read var(--c-ink) (a plain heading with no color rule of its own,
+   say) would otherwise keep inheriting whatever body's top-level
+   fallback color was, never seeing this section's local override. */
+section.on-dark, footer.on-dark {
+  --c-ink: #F5F1EA;
+  --c-ink-soft: #C9C0B2;
+  color: var(--c-ink);
+}
+section.on-light, footer.on-light {
+  --c-ink: #241B10;
+  --c-ink-soft: #5C5040;
+  color: var(--c-ink);
+}
+/* --c-sage/--c-sage-deep deliberately stay fixed (not section-scoped):
+   a couple of rules pair one of them with the always-dark
+   --c-ink-invert as a fill+text combo (.btn-fill:hover), which needs
+   --c-sage-deep to reliably stay light — letting it flip dark on an
+   .on-light section would put dark text on a dark fill. Decorative-only
+   uses (a hover underline, a subtle background tint) read fine at a
+   fixed value regardless of section, unlike the primary text colors
+   above. */
+
 /* ---------- Type roles ---------- */
 .script     { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.03em; }
 .headline   { font-family: var(--font-display); font-style: normal; font-weight: 400; letter-spacing: -0.012em; }
-.eyebrow    { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.04em; font-size: 18px; color: var(--c-sage); }
+.eyebrow    { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.04em; font-size: 18px; color: var(--c-ink-soft); }
 .label      { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
 .body-copy  { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 16px; line-height: 1.85; color: var(--c-ink-soft); }
 
@@ -145,7 +185,7 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-mark,
 header.site-nav.site-nav--hero:not(.scrolled) .nav-links a {
   color: rgba(255,255,255,0.92);
 }
-header.site-nav.site-nav--hero:not(.scrolled) .nav-mark .sub { color: var(--c-sage-glow); }
+header.site-nav.site-nav--hero:not(.scrolled) .nav-mark .sub { color: rgba(255,255,255,0.85); }
 header.site-nav.site-nav--hero:not(.scrolled) .nav-links a:hover,
 header.site-nav.site-nav--hero:not(.scrolled) .nav-links a[aria-current="page"] {
   color: #fff; border-bottom-color: rgba(255,255,255,0.85);
@@ -154,7 +194,7 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-burger span { background: #ff
 header.site-nav .wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; }
 .nav-mark { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
 .nav-mark .name { font-family: var(--font-accent); font-style: normal; font-weight: 400; letter-spacing: 0.02em; font-size: 24px; }
-.nav-mark .sub { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--c-sage); margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 500; text-shadow: 0 1px 10px rgba(0,0,0,0.18); transition: text-shadow 0.5s ease; }
+.nav-mark .sub { font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--c-ink-soft); margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 500; text-shadow: 0 1px 10px rgba(0,0,0,0.18); transition: text-shadow 0.5s ease; }
 header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 /* Grouped toward the right, close to the mobile-menu burger, rather
    than floating in the middle of the bar: the auto margin absorbs the
@@ -208,7 +248,7 @@ header.site-nav.scrolled .nav-mark .sub { text-shadow: none; }
 .mobile-menu .close, .mobile-menu a { position: relative; z-index: 1; }
 .mobile-menu .close { color: rgba(255,255,255,0.85); }
 .mobile-menu a { font-family: var(--font-display); font-size: 32px; font-style: normal; color: #fff; text-decoration: none; text-shadow: 0 2px 24px rgba(0,0,0,0.3); }
-.mobile-menu a:hover, .mobile-menu a[aria-current="page"] { color: var(--c-sage-glow); }
+.mobile-menu a:hover, .mobile-menu a[aria-current="page"] { color: rgba(255,255,255,0.65); }
 .mobile-menu a.mobile-menu-login {
   font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500;
   letter-spacing: 0.2em; text-transform: uppercase; color: #fff;
@@ -352,12 +392,12 @@ header.site-nav.site-nav--hero:not(.scrolled) .nav-login:hover { background: #ff
 
 /* Plain inline link (used in contact details wherever they appear) */
 a.plain { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-height: 1.8; color: var(--c-ink-soft); text-decoration: none; }
-a.plain:hover { color: var(--c-sage-deep); }
+a.plain:hover { color: var(--c-ink); }
 
 /* ---------- Footer ---------- */
 footer { border-top: 1px solid var(--c-line); padding: 96px 0 40px; }
 footer .foot-mark { font-family: var(--font-accent); font-style: normal; letter-spacing: 0.02em; font-size: 22px; }
-footer .label { color: var(--c-sage); margin-bottom: 14px; display: block; }
+footer .label { color: var(--c-ink-soft); margin-bottom: 14px; display: block; }
 footer address { font-family: 'Inter'; font-weight: 300; font-size: 14px; line-height: 1.8; color: var(--c-ink-soft); font-style: normal; }
 @media (max-width: 560px) { .foot-links-grid { grid-template-columns: 1fr !important; gap: 28px !important; } }
 .foot-bottom { display: flex; flex-direction: column; gap: 16px; justify-content: space-between; align-items: flex-start; padding-top: 40px; margin-top: 64px; border-top: 1px solid var(--c-line); font-size: 11px; color: var(--c-ink-soft); }
@@ -564,7 +604,7 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
 .hero-title-quiet { display: block; font-size: 0.9em; letter-spacing: 0.01em; opacity: 0.94; }
 .hero-title-accent {
   display: block; margin-top: 10px; font-size: 1.55em; letter-spacing: -0.01em;
-  color: var(--c-sage-glow);
+  color: rgba(255,255,255,0.94); /* always on a dark photo, not the wash — a fixed light, not context-adaptive */
   opacity: 0; transform: translateY(28px) scale(0.96);
   animation: heroAccentIn 2.2s cubic-bezier(0.16,1,0.3,1) 1.05s forwards;
 }
@@ -705,7 +745,7 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
    its own panel with a reserved visual half. */
 .stats-content { display: flex; gap: 56px; flex-wrap: wrap; }
 .stat-item { text-align: left; }
-.stat-num { font-size: 56px; display: block; color: var(--c-sage-deep); }
+.stat-num { font-size: 56px; display: block; color: var(--c-ink); }
 
 /* ---------- About: press mentions (auto-scrolling carousel) ----------
    A real, natively-scrollable strip (overflow-x:auto) rather than a
@@ -757,14 +797,14 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
    clicking its image — three separate anchors sharing one URL rather
    than nesting <a> inside <a>, which isn't valid HTML. */
 .press-card-name-link { text-decoration: none; }
-.press-card-name-link:hover .press-card-name, .press-card-name-link:focus-visible .press-card-name { color: var(--c-sage-deep); }
+.press-card-name-link:hover .press-card-name, .press-card-name-link:focus-visible .press-card-name { color: var(--c-ink-soft); }
 .press-link {
   font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500;
   letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;
-  color: var(--c-sage); border-bottom: 1px solid transparent;
+  color: var(--c-ink-soft); border-bottom: 1px solid transparent;
   transition: border-color 0.3s ease, color 0.3s ease;
 }
-.press-link:hover { color: var(--c-sage-deep); border-color: var(--c-sage-deep); }
+.press-link:hover { color: var(--c-ink); border-color: var(--c-ink); }
 @media (max-width: 700px) {
   .press-carousel { -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
   .press-track { gap: 28px; }
@@ -797,7 +837,7 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
 .journey-icon { flex: 0 0 auto; width: 32px; height: 32px; color: var(--c-sage-deep); }
 .journey-icon svg { width: 100%; height: 100%; }
 .journey-text { display: flex; flex-direction: column; gap: 6px; }
-.journey-num { font-family: var(--font-accent); font-style: normal; font-weight: 400; font-size: 20px; color: var(--c-sage-deep); }
+.journey-num { font-family: var(--font-accent); font-style: normal; font-weight: 400; font-size: 20px; color: var(--c-ink); }
 .journey-title { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; color: var(--c-ink); line-height: 1.5; }
 .journey-desc { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 13px; letter-spacing: 0.01em; color: var(--c-ink-soft); line-height: 1.6; }
 @media (max-width: 860px) {
@@ -837,8 +877,8 @@ h1.port-hero-title { font-size: clamp(56px, 9vw, 120px); }
 
 /* ---------- Footer credit line ---------- */
 .foot-credit { color: var(--c-ink-soft); letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px; }
-.foot-credit a { color: var(--c-sage-deep); text-decoration: none; border-bottom: 1px solid var(--c-line); transition: border-color 0.3s ease, color 0.3s ease; }
-.foot-credit a:hover { color: var(--c-sage-deep); border-color: var(--c-sage-deep); }
+.foot-credit a { color: var(--c-ink-soft); text-decoration: none; border-bottom: 1px solid var(--c-line); transition: border-color 0.3s ease, color 0.3s ease; }
+.foot-credit a:hover { color: var(--c-ink); border-color: var(--c-ink); }
 
 
 /* ---------- Project detail: header + gallery ----------

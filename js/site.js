@@ -4,12 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // burst of extra speed proportional to scroll speed, which decays
   // away quickly once the visitor stops, settling back to the idle
   // drift rather than snapping still. (A glitter/star overlay used to
-  // sit on top of this; removed, it read as messy rather than quiet.)
+  // sit on top of this; removed, it read as messy rather than quiet.
+  // A per-section dark/light text classifier lived here too, for a
+  // version of the wash that swung all the way to a dark espresso —
+  // removed along with that darker wash: text is permanent dark brown
+  // now, see css/style.css's :root comment, so there's nothing left to
+  // classify and one less script running on every frame.)
+  let posY = 0;
+
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const IDLE_SPEED = 0.017;   // px/ms of constant wash drift
     const SCROLL_GAIN = 0.06;   // extra drift added per px of scroll delta
     const SCROLL_DECAY = 0.85;  // per-frame decay of that scroll-driven burst
-    let posY = 0;
     let scrollBurst = 0;
     let lastScrollY = window.scrollY;
     let lastTime = performance.now();

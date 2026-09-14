@@ -54,9 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const IDLE_SPEED = 0.017;   // px/ms of constant wash drift
     const SCROLL_GAIN = 0.06;   // extra drift added per px of scroll delta
     const SCROLL_DECAY = 0.85;  // per-frame decay of that scroll-driven burst
+    const CLASSIFY_INTERVAL_MS = 150; // how often section colors re-check, not every frame
     let scrollBurst = 0;
     let lastScrollY = window.scrollY;
     let lastTime = performance.now();
+    let lastClassifyTime = 0;
 
     const tick = (now) => {
       const dt = Math.min(now - lastTime, 100); // clamp so a tab switch doesn't jump
@@ -64,7 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
       posY += IDLE_SPEED * dt + scrollBurst;
       scrollBurst *= SCROLL_DECAY;
       document.body.style.backgroundPositionY = posY + 'px';
-      classifySections();
+      // The wash drifts slowly enough that re-reading every section's
+      // position and re-testing its phase 60x/sec is wasted layout
+      // work — a few times a second is already more than the eye (or
+      // the wash) needs, and cuts most of this loop's cost.
+      if (now - lastClassifyTime > CLASSIFY_INTERVAL_MS) {
+        lastClassifyTime = now;
+        classifySections();
+      }
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);

@@ -15,20 +15,22 @@
      measures which part of the wash's cycle sits behind each <section>
      (accounting for the wash's own continuous drift, not just scroll
      position) and toggles .on-dark / .on-light on it, which is what
-     actually sets --c-ink/--c-sage below — every rule that already
-     reads color from those two variables adapts automatically, with
-     no per-rule changes needed. These :root values are only the
-     one-frame fallback before that first classification runs.
+     actually sets --c-ink below (see that class for why --c-sage isn't
+     included in the swap) — every rule that already reads color from
+     --c-ink/--c-ink-soft adapts automatically, with no per-rule
+     changes needed. These :root values are only the one-frame
+     fallback before that first classification runs.
      --c-ink-invert stays fixed regardless of section context: it's
      for the handful of spots that flip to a solid light fill and need
      dark text on top (a button's hover background), not for reading
-     against the wash itself. */
+     against the wash itself. --c-sage/--c-sage-deep are also fixed —
+     decorative-only accents now (a hover underline, an icon, a subtle
+     tint), never a primary text color. */
   --c-ink:        #F5F1EA;
   --c-ink-soft:   #C9C0B2;
   --c-ink-invert: #18160F;
   --c-sage:       #C7AD84;
   --c-sage-deep:  #E0C9A6;
-  --c-sage-pale:  #8C7154;
   --c-sage-glow:  #F0DFC0; /* brighter, warmer brown, for accent type on dark photography */
   --c-line:       #E1DED2;
   --nav-h: 96px;
@@ -45,30 +47,45 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   /* A continuous, gently-moving wash for the whole page rather than
-     each section painting its own flat patch. Deep espresso brown
-     (#423320) dominates, white passes through briefly at the midpoint
-     of each cycle — same 13-point raised-cosine/Hann-window curve as
-     the site's original green version, just re-anchored to the real
-     accent color at the dark end. Because this wash swings all the
-     way from dark brown to white over each cycle, no single text
-     color has strong contrast against every point in it — --c-ink is
-     a warm light gold rather than pure white specifically because
-     gold stays legible (if a little quiet) even during the brief
-     white passage, where pure white text would vanish entirely. */
+     each section painting its own flat patch. Espresso brown (~7%
+     lighter than the raw #423320 accent, per feedback that the darkest
+     point read as too heavy) dominates, white passes through briefly
+     at the midpoint of each cycle. 25 stops rather than 13 sampling
+     the same raised-cosine/Hann-window curve: with only 13, each gap
+     between stops was large enough (up to ~9% of the 2200px cycle,
+     ~200px) that the browser's linear interpolation between them
+     visibly deviated from the true curve — a slight kink at every
+     stop, reading as faint "chunks" of flatter color while scrolling
+     rather than a continuous blend. Twice the stops halves that gap,
+     so the piecewise-linear render tracks the smooth curve much more
+     closely, at zero runtime cost (it's still one static gradient, not
+     something recomputed per frame). */
   background-image: linear-gradient(180deg,
-    #423320 0%,
-    #4D3F2D 8%,
-    #726657 17%,
-    #9E968A 25%,
-    #CBC5BD 33%,
-    #F0ECE7 42%,
+    #4F4130 0%,
+    #524433 4.167%,
+    #5B4D3D 8.333%,
+    #685C4D 12.5%,
+    #7A6F61 16.667%,
+    #8F8579 20.833%,
+    #A59C92 25%,
+    #BBB4AB 29.167%,
+    #D0CAC3 33.333%,
+    #E2DDD7 37.5%,
+    #EFECE7 41.667%,
+    #F8F5F1 45.833%,
     #FBF8F4 50%,
-    #F0ECE7 58%,
-    #CBC5BD 67%,
-    #9E968A 75%,
-    #726657 83%,
-    #4D3F2D 92%,
-    #423320 100%
+    #F8F5F1 54.167%,
+    #EFECE7 58.333%,
+    #E2DDD7 62.5%,
+    #D0CAC3 66.667%,
+    #BBB4AB 70.833%,
+    #A59C92 75%,
+    #8F8579 79.167%,
+    #7A6F61 83.333%,
+    #685C4D 87.5%,
+    #5B4D3D 91.667%,
+    #524433 95.833%,
+    #4F4130 100%
   );
   background-size: 100% 2200px;
   background-repeat: repeat;
